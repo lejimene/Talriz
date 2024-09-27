@@ -8,6 +8,10 @@ from .import logic
 
 # Views is basically like Router but not with POST , GET , DELETE
 
+def test_page(request):
+    response = logic.test_logic(request)
+    return response
+
 def login_page(request):
     response = logic.login_logic(request)
     return response
