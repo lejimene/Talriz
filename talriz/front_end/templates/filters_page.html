@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang= "en">
+<head>
+    <meta charset= "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talriz</title>
+
+    <link rel="stylesheet" href="{% static 'css/filters_page.css' %}">
+    <script src="{% static 'js/filters_page.js' %}" defer> </script>
+</head>
+<body>
+    <nav > <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
+        <a class="nav_item" id="sell">Sell</a>
+        <a class="nav_item">Contact</a>
+        <a class="nav_item">Help</a>
+        <a class="nav_item" id="FAQ">FAQ</a>
+        
+    </nav>
+    <div>
+        <h1>Click on which categories you wish to search</h1>
+        <div class="finish_sec">
+            <button class="btn_reset">Reset</button>
+            <button class="btn_finish">Completed</button>
+        </div>
+
+        <div class="Cate_btn">
+            <button class="button" id="selectAll">Select All</button>
+            <button class="button" id="Button1">Button 1</button>
+            <button class="button" id="Button2">Button 2</button>
+            <button class="button" id="Button3">Button 3</button>
+            <button class="button" id="Button4">Button 4</button>
+            <button class="button" id="Button5">Button 5</button>
+            <button class="button" id="Button2">Button 2</button>
+            <button class="button" id="Button3">Button 3</button>
+            <button class="button" id="Button4">Button 4</button>
+            <button class="button" id="Button5">Button 5</button>
+    </div> 
+</body>
+</html>

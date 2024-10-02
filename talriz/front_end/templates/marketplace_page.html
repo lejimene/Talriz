@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang= "en">
+<head>
+    <meta charset= "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talriz</title>
+
+    <link rel="stylesheet" href="{% static 'css/marketplace.css' %}">
+    <script src="{% static 'js/register.js' %}" defer> </script>
+</head>
+<body>
+    <nav > <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
+        <a class="nav_item" id="sell">Sell</a>
+        <a class="nav_item">Contact</a>
+        <a class="nav_item">Help</a>
+        <a class="nav_item" id="FAQ">FAQ</a>
+        
+    </nav>
+    
+    <div class="Item_container">
+        <a href="#"class="Close">Go back</a>
+        <div class="Arrow_and_picutre">
+                <div class="Images_section">
+                    <div class="Left_Arrow"></div>
+                    <div class="Image"></div>
+                    <div class="Right_Arrow"></div>
+                </div>
+        </div>
+        <!-- NAME PLACEMENT MUST BE ADDED FROM DATABASE AND PICTURES AND OTHER STUFF -->
+        <h1>Name Placement</h1>
+        <div  class="Bottom_Section">
+            <div class="Right_Side">
+
+            </div>
+            <div class="Left_Side">
+                
+            </div>
+        </div>
+        <h2>Description</h2>
+        <div>Testing if this is placed below left and right</div>
+    </div>
+    <div class="HUD">
+        <div class="Cate_btn">
+            <div class="Option_section">
+                <button class="filter" id="button1">Prevoius</button>
+                <button class="filter" id="active">Button1</button>
+                <button class="filter" id="button1">Button2</button>
+                <button class="filter" id="button1">Button3</button>
+                <button class="filter" id="button1">Button4</button>
+                <button class="filter" id="button1">Button5</button>
+                <button class="filter" id="button1">Next</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
