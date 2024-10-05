@@ -1,12 +1,19 @@
+# myapp/views.py
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
-from .import logic
+from . import logic
+from django.http import HttpResponse
+from . import logic
 
+def my_view(request):
+    method = request.method         
+    path = request.path            
+    headers = request.headers       
+    body = request.body            
+    cookies = request.COOKIES       
 
-# Views is basically like Router but not with POST , GET , DELETE
+    # Process the request as needed
+    return HttpResponse("Request.")
 
 def test_page(request):
     response = logic.test_logic(request)
@@ -17,13 +24,14 @@ def login_page(request):
     return response
 
 def register_page(request):
-    response = logic.login_logic(request)
+    response = logic.register_logic(request)
     return response
 
 def filters_page(request):
-    response = logic.login_logic(request)
+    response = logic.filters_logic(request)
     return response
 
 def marketplace_page(request):
-    response = logic.login_logic(request)
+    response = logic.marketplace_logic(request)
     return response
+
