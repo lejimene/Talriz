@@ -1,29 +1,45 @@
+# myapp/views.py
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
-from .import logic
+from . import logic
+from django.http import HttpResponse
+from . import logic
 
+def my_view(request):
+    method = request.method         
+    path = request.path            
+    headers = request.headers       
+    body = request.body            
+    cookies = request.COOKIES       
 
-# Views is basically like Router but not with POST , GET , DELETE
+    # Process the request as needed
+    return HttpResponse("Request.")
 
 def test_page(request):
     response = logic.test_logic(request)
     return response
 
 def login_page(request):
-    response = logic.login_logic(request)
-    return response
+    if request.method == 'POST':
+        response = logic.login_logic(request)
+        return response
+    return render(request, 'talriz/login_page.html')
+
 
 def register_page(request):
-    response = logic.login_logic(request)
-    return response
+    if request.method == 'POST':
+        response = logic.create_logic(request)
+        return response
+    return render(request, 'talriz/register_page.html')
 
+## is this catagory logic
 def filters_page(request):
-    response = logic.login_logic(request)
+    response = logic.filters_logic(request)
     return response
 
 def marketplace_page(request):
-    response = logic.login_logic(request)
-    return response
+    if request.method == 'POST':
+        response = logic.Market_logic(request)
+        return response
+    return render(request, 'talriz/marketplace_page.html')
+
