@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    background-color: #8AC9F6;
+    overflow-x: hidden;
+    
+}
+
+.Register_container
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    min-height: 500px;
+
+}
+
+
+.Register_box
+{
+    background-color: #d4d1d1;
+    display: flex;
+    text-align: center;
+    max-width: 900px;
+    width:  calc(70%);
+    min-width: 300px;
+    height: auto;
+    min-height: 400px;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 35px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.Title_Start
+{
+    padding-top: 40px;
+}
+
+h1
+{
+    width:  calc(100%);
+    line-height: normal;
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+h1 .TITLE_END
+{
+    margin-top: 0;
+}
+
+.form
+{
+    width: auto;
+    height: auto;
+    
+}
+
+.input_box
+{
+
+    max-width: 650px;
+    width: 35vw;
+    min-width: 250px;
+    height: 70px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 20%;
+}
+
+
+
+input
+{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    background-color: #F6EEEE;
+    border-radius: 35px;
+    border-style: hidden;
+    box-shadow: 0 12px 18px rgba(0, 0, 0, 0.1);
+}
+
+#password_input
+{
+    margin-bottom: 10px;
+    
+}
+
+.nested_btns
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    
+}
+
+.Create_acc_text
+{
+    font-size: 18px;
+    margin-bottom: 30px;
+
+}
+
+
+.create_here
+{
+    color: #5288af;
+    transition: background-color .2s ease;
+}
+
+.create_here:hover
+{
+    color:#5271af;
+}
+
+.btn_lg
+{
+    width: 200px;
+    height: 80px;
+    background-color: #F9EFD9;
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    background-color: #F9EFD9;
+    font-weight: 400;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border-radius: 35px;
+    border-style: hidden;
+    box-shadow: 0 12px 18px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.btn_lg:hover
+{
+    background-color: #f9e8c2;
+    transform: scale(1.1);
+
+}
+
+
+
+
+
