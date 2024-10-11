@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from . import logic
 from django.http import HttpResponse
 from . import logic
+from django.contrib.auth.decorators import login_required
 
 def my_view(request):
     method = request.method         
@@ -23,23 +24,24 @@ def login_page(request):
     if request.method == 'POST':
         response = logic.login_logic(request)
         return response
-    return render(request, 'talriz/login_page.html')
+    return render(request, 'login_page.html')
 
 
 def register_page(request):
     if request.method == 'POST':
         response = logic.create_logic(request)
         return response
-    return render(request, 'talriz/register_page.html')
+    return render(request, 'register_page.html')
 
 ## is this catagory logic
 def filters_page(request):
-    response = logic.filters_logic(request)
-    return response
+    if request.method == "POST":
+        response = logic.filters_logic(request)
+        return response
+    return render(request, 'filters_page.html')
 
 def marketplace_page(request):
     if request.method == 'POST':
         response = logic.Market_logic(request)
         return response
-    return render(request, 'talriz/marketplace_page.html')
-
+    return render(request, 'marketplace_page.html')

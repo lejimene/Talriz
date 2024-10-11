@@ -84,9 +84,17 @@ WSGI_APPLICATION = 'talriz.wsgi.application'
 #Mysql or we could get away with sqlite
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   'ENGINE': 'django.db.backends.mysql',
+   'NAME': 'talriz_db',       # Name of the database
+   'USER': 'rmurray5',        # MySQL username
+   'PASSWORD': '50447880',    # MySQL password
+   'HOST': 'localhost',       # Or the host where your MySQL is running
+   'PORT': '3306',            # MySQL port, 3306 is the default
+   'OPTIONS': {
+       'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+   },
+}
+
 }
 
 
