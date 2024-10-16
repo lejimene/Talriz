@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 #Testing page, For html and css and how it may look
 #replace the test.html with actual html page
 def test_logic(request):
-    return render(request, 'marketplace_page.html')
+    return render(request, 'sell_page.html')
 
 
 

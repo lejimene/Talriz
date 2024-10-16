@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(1xf2ux1lau@z+bp(!)(k_6uj3ox_f2ngv-pjd%dm_wkpkj&+=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -79,22 +79,26 @@ WSGI_APPLICATION = 'talriz.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# place you user and pass in this section to load your database and comment out rest
+MYSQL_USER = 'lejimene'  
+MYSQL_PASSWORD = 'Chestnut9121'
 
+print(f'MYSQL_USER: {MYSQL_USER}')
+print(f'MYSQL_PASSWORD: {MYSQL_PASSWORD}') 
 #Change below to attach database
 #Mysql or we could get away with sqlite
 DATABASES = {
     'default': {
-   'ENGINE': 'django.db.backends.mysql',
-   'NAME': 'talriz_db',       # Name of the database
-   'USER': 'rmurray5',        # MySQL username
-   'PASSWORD': '50447880',    # MySQL password
-   'HOST': 'localhost',       # Or the host where your MySQL is running
-   'PORT': '3306',            # MySQL port, 3306 is the default
-   'OPTIONS': {
-       'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-   },
-}
-
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'talriz_db',  # Name of the database
+        'USER': MYSQL_USER,    # Fallback to your actual MySQL user
+        'PASSWORD': MYSQL_PASSWORD,
+        'HOST': 'db',          # The service name in docker-compose
+        'PORT': '3306',        # MySQL port, 3306 is the default
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+    }
 }
 
 
