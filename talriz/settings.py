@@ -84,16 +84,16 @@ WSGI_APPLICATION = 'talriz.wsgi.application'
 #Mysql or we could get away with sqlite
 DATABASES = {
     'default': {
-   'ENGINE': 'django.db.backends.mysql',
-   'NAME': 'talriz_db',       # Name of the database
-   'USER': 'rmurray5',        # MySQL username
-   'PASSWORD': '50447880',    # MySQL password
-   'HOST': 'localhost',       # Or the host where your MySQL is running
-   'PORT': '3306',            # MySQL port, 3306 is the default
-   'OPTIONS': {
-       'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-   },
-}
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DATABASE_NAME', 'talriz_db'),
+        'USER': os.getenv('DATABASE_USER', 'rmurray5'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', '50447880'),
+        'HOST': os.getenv('DATABASE_HOST', 'localhost'),  # 'mysql' matches the service name in docker-compose
+        'PORT': os.getenv('DATABASE_PORT', '3306'),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+    }
 
 }
 
