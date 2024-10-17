@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from .models import Item, Category, ItemImage
 from django.contrib.auth.models import User
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 #Testing page, For html and css and how it may look
 #replace the test.html with actual html page
@@ -47,7 +47,19 @@ def category_logic(request):
 def Market_logic(request):
     items = Item.objects.prefetch_related('images', 'likes').all()  # Fetch items with related images and likes,
     #This items fetches everything we should be worried about it a litle
-    return render(request, 'marketplace_page.html', {'items': items})
+    paginator = Paginator(items, 15)
+    page_number = request.GET.get('page',1)
+
+    #handling paginator which is what keeps page laoding for more\
+    #This means if we create a filters so the user can't
+    try:
+        page_items = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        page_items = paginator.get_page(1)
+    except EmptyPage:
+        page_items = paginator.get_page(paginator.num_pages)
+
+    return render(request, 'marketplace_page.html', {'items': page_items})
 
 def Market__focused_item_logic(request,  item_id):
     item = get_object_or_404(Item, id=item_id)

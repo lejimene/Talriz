@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from . import logic
 from django.contrib.auth.decorators import login_required
 
+
 def my_view(request):
     method = request.method         
     path = request.path            

@@ -164,12 +164,13 @@ h1 {
   font-size: 1rem;
   font-weight: 500;
   width: 115px;
-  height: 55px;
+  margin: 5px;
+  height: 45px;
   padding: 10px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
   border-radius: 35px;
   border: none;
-  box-shadow: 0 12px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
