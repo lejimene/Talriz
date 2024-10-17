@@ -27,15 +27,9 @@
 <!-- This should be populated by database by selection choices each item should have at least one choice-->
         <div class="Cate_btn">
             <button class="button" id="selectAll">Select All</button>
-            <button class="button" id="Button1">Button 1</button>
-            <button class="button" id="Button2">Button 2</button>
-            <button class="button" id="Button3">Button 3</button>
-            <button class="button" id="Button4">Button 4</button>
-            <button class="button" id="Button5">Button 5</button>
-            <button class="button" id="Button2">Button 2</button>
-            <button class="button" id="Button3">Button 3</button>
-            <button class="button" id="Button4">Button 4</button>
-            <button class="button" id="Button5">Button 5</button>
-    </div> 
+            {% for category in categories %}
+                <button class="button" id="category_{{ category.id }}">{{ category.name }}</button>
+            {% endfor %}
+        </div>
 </body>
 </html>

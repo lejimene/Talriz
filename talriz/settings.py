@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,19 +81,16 @@ WSGI_APPLICATION = 'talriz.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 # place you user and pass in this section to load your database and comment out rest
-MYSQL_USER = 'lejimene'  
-MYSQL_PASSWORD = 'Chestnut9121'
 
-print(f'MYSQL_USER: {MYSQL_USER}')
-print(f'MYSQL_PASSWORD: {MYSQL_PASSWORD}') 
+
 #Change below to attach database
 #Mysql or we could get away with sqlite
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'talriz_db',  # Name of the database
-        'USER': MYSQL_USER,    # Fallback to your actual MySQL user
-        'PASSWORD': MYSQL_PASSWORD,
+        'USER': config('MYSQL_USER'),    # Fallback to your actual MySQL user
+        'PASSWORD': config('MYSQL_PASSWORD'),
         'HOST': 'db',          # The service name in docker-compose
         'PORT': '3306',        # MySQL port, 3306 is the default
         'OPTIONS': {

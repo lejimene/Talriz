@@ -2,3 +2,5 @@ bcrypt
 Django>=3.2,<4.0
 mysqlclient
 mysql
+python-decouple
+Pillow

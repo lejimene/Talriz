@@ -32,87 +32,68 @@
     <div class="Item_container">
       <!-- Items and item info should be dynamically added from the database -->
       <div class="Item">
-        <div class="Images_section">
-          <!-- Image -->
+        <form action="/submit_item" method="POST" enctype="multipart/form-data">
+          <!-- CSRF Token if using Django -->
+          {% csrf_token %}
+        
+          <!-- Image Upload Section -->
+          <div class="Images_section">
+            <label for="item_images">Upload Images (max 8):</label>
+            <input type="file" id="item_images" name="item_images" accept="image/*" multiple required>
+            <p id="image_count_message">0/8 images uploaded</p>
+          </div>
+        
+          <!-- Item Details Section -->
+          <div class="Bottom_Section">
+            <div class="Right_Side">
+              <label for="item_name">Name:</label>
+              <input type="text" id="item_name" name="item_name" placeholder="Enter item name" required>
+        
+              <label for="item_description">Description:</label>
+              <textarea id="item_description" name="item_description" placeholder="Enter item description" rows="4" required></textarea>
+            </div>
+        
+            <div class="Left_Side">
+              <label for="item_price" id="price_label">Price (in USD):</label>
+              <input type="number" id="item_price" name="item_price" min="0" placeholder="Enter price" required>
+          
+              <label for="item_category">Category:</label>
+              <select id="item_category" name="item_category">
+                  <option value="general">General</option>
+                  <option value="category_1">Category 1</option>
+                  <option value="category_2">Category 2</option>
+              </select>
+          
+
+              <!-- Auction Section -->
+              <label for="is_auction" class="auction-label">Is this an auction?</label>
+              <label class="auction-checkbox">
+                  <input type="checkbox" id="is_auction" name="is_auction" onchange="toggleAuctionFields()">
+                  <span class="custom-checkbox"></span>
+              </label>
+
+              
+              <div id="auction_fields" style="display: none;">
+                  <label for="starting_bid">Starting Bid (in USD):</label>
+                  <input type="number" id="starting_bid" name="starting_bid" min="0" placeholder="Enter starting bid">
+          
+                  <label for="buy_out">Buy Out Price (optional):</label>
+                  <input type="number" id="buy_out" name="buy_out" min="0" placeholder="Enter buy out price" optional>
+          
+                  <label for="auction_end_date">Auction End Date:</label>
+                  <input type="date" id="auction_end_date" name="auction_end_date">
+          
+                  <label for="auction_end_time">Auction End Time:</label>
+                  <input type="time" id="auction_end_time" name="auction_end_time">
+              </div>
+          </div>
+          </div>
+        <div class="submit-container">
+            <button type="submit" class="filter" id="submit_button">Submit Item</button>
         </div>
-        <h1>Name Placement</h1>
-        <div class="Bottom_Section">
-          <div class="Right_Side"></div>
-          <div class="Left_Side"></div>
-        </div>
-        <h2>Description</h2>
-        <div>Testing if this is placed below left and right</div>
-        <button class="filter" id="button1">Contact</button>
+        </form>
       </div>
 
-      <div class="Item">
-        <div class="Images_section">
-          <!-- Image -->
-        </div>
-        <h1>Name Placement</h1>
-        <div class="Bottom_Section">
-          <div class="Right_Side"></div>
-          <div class="Left_Side"></div>
-        </div>
-        <h2>Description</h2>
-        <div>Testing if this is placed below left and right</div>
-        <button class="filter" id="button1">Contact</button>
-      </div>
-
-      <div class="Item">
-        <div class="Images_section">
-          <!-- Image -->
-        </div>
-        <h1>Name Placement</h1>
-        <div class="Bottom_Section">
-          <div class="Right_Side"></div>
-          <div class="Left_Side"></div>
-        </div>
-        <h2>Description</h2>
-        <div>Testing if this is placed below left and right</div>
-        <button class="filter" id="button1">Contact</button>
-      </div>
-
-      <div class="Item">
-        <div class="Images_section">
-          <!-- Image -->
-        </div>
-        <h1>Name Placement</h1>
-        <div class="Bottom_Section">
-          <div class="Right_Side"></div>
-          <div class="Left_Side"></div>
-        </div>
-        <h2>Description</h2>
-        <div>Testing if this is placed below left and right</div>
-        <button class="filter" id="button1">Contact</button>
-      </div>
-
-      <div class="Item">
-        <div class="Images_section">
-          <!-- Image -->
-        </div>
-        <h1>Name Placement</h1>
-        <div class="Bottom_Section">
-          <div class="Right_Side"></div>
-          <div class="Left_Side"></div>
-        </div>
-        <h2>Description</h2>
-        <div>Testing if this is placed below left and right</div>
-        <button class="filter" id="button1">Contact</button>
-      </div>
-
-      <div class="Item">
-        <div class="Images_section"></div>
-        <h1>Name Placement</h1>
-        <div class="Bottom_Section">
-          <div class="Right_Side"></div>
-          <div class="Left_Side"></div>
-        </div>
-        <h2>Description</h2>
-        <div>Testing if this is placed below left and right</div>
-        <button class="filter" id="button1">Contact</button>
-      </div>
-    </div>
     <!-- Item_container Ends here -->
 
     <div class="HUD">
