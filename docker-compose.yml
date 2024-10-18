@@ -24,3 +24,13 @@ services:
 
 volumes:
   db_data:
+
+# Below was prevoius Docker if this doesnt work make this the working part
+    #  environment:
+    #   - DATABASE_HOST=mysql
+    #   - DATABASE_NAME=talriz_db
+    #   - DATABASE_USER=rmurray5
+    #   - DATABASE_PASSWORD=50447880
+    #   - DATABASE_PORT=3306
+    # depends_on:
+    #   - mysql

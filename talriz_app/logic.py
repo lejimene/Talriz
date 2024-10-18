@@ -53,6 +53,21 @@ def login_logic(request):
     return render(request, 'login_page.html')
 
 
+# Logout logic
+# Invalidates tokens and delete cookies
+def logout_logic(request):
+    if 'auth_token' in request.COOKIES:
+        token = request.COOKIES['auth_token']
+        try:
+            user = User.objects.get(auth_token=hashlib.sha256(token.encode('utf-8')).hexdigest())
+            user.auth_token = None
+            user.save()
+        except User.DoesNotExist:
+            pass
+
+    response = redirect('login_page')
+    response.delete_cookie('auth_token')
+    return response
 
 #Register page
 #Should check if infomration exist
