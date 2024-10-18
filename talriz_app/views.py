@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from . import logic
 from django.contrib.auth.decorators import login_required
 
+
 def my_view(request):
     method = request.method         
     path = request.path            
@@ -34,14 +35,34 @@ def register_page(request):
     return render(request, 'register_page.html')
 
 ## is this catagory logic
-def filters_page(request):
+def category_page(request):
     if request.method == "POST":
-        response = logic.filters_logic(request)
+        response = logic.category_logic(request)
         return response
-    return render(request, 'filters_page.html')
+    response = logic.category_logic(request)
+    return response
 
+
+#This is the page that will load all items with no specific look into it
 def marketplace_page(request):
     if request.method == 'POST':
         response = logic.Market_logic(request)
         return response
+    response = logic.Market_logic(request)
+    return response
+
+
+#This is the page tht will handle loading a specific item and getting the details of it
+def marketplace_searched_item(request, item_id):
+    if request.method == 'POST':
+        response = logic.Market__focused_item_logic(request, item_id)
+        return response
     return render(request, 'marketplace_page.html')
+
+
+# Handle listing a new item to the database that user posted
+def item_listing(request):
+    if request.method == 'POST':
+        response = logic.submit_item(request)
+        return response 
+    

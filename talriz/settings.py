@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-(1xf2ux1lau@z+bp(!)(k_6uj3ox_f2ngv-pjd%dm_wkpkj&+=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -79,24 +80,35 @@ WSGI_APPLICATION = 'talriz.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# place you user and pass in this section to load your database and comment out rest
+
 
 #Change below to attach database
 #Mysql or we could get away with sqlite
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAME', 'talriz_db'),
-        'USER': os.getenv('DATABASE_USER', 'rmurray5'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', '50447880'),
-        'HOST': os.getenv('DATABASE_HOST', 'localhost'),  # 'mysql' matches the service name in docker-compose
-        'PORT': os.getenv('DATABASE_PORT', '3306'),
+        'NAME': 'talriz_db',  # Name of the database
+        'USER': config('MYSQL_USER'),    # Fallback to your actual MySQL user
+        'PASSWORD': config('MYSQL_PASSWORD'),
+        'HOST': 'db',          # The service name in docker-compose
+        'PORT': '3306',        # MySQL port, 3306 is the default
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
-
 }
 
+# Was used for database part but the os.getenv 
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': os.getenv('DATABASE_NAME', 'talriz_db'),
+        # 'USER': os.getenv('DATABASE_USER', 'rmurray5'),
+        # 'PASSWORD': os.getenv('DATABASE_PASSWORD', '50447880'),
+        # 'HOST': os.getenv('DATABASE_HOST', 'localhost'),  # 'mysql' matches the service name in docker-compose
+        # 'PORT': os.getenv('DATABASE_PORT', '3306'),
+        # 'OPTIONS': {
+        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        # },
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

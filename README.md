@@ -21,5 +21,9 @@ ex. Go to dev then (git pull origin dev, git merge <YOUR BRANCH> , Fix any confl
 It will let you know if there are any issues with merging or pulling. You have to find where the issue is
 
 
-To start the server locally go to the talriz directory,
-then run command , python manage.py runserver
+To start the server using the database assuming you created 
+a database on mysql
+docker-compose up -d
+To update any database stuff like migrating stuff do that command and
+python manage.py makemigrations
+python manage.py migrate
