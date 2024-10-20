@@ -1,12 +1,13 @@
 services:
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     environment:
+      MYSQL_ROOT_PASSWORD: Chestnut9121
       MYSQL_DATABASE: talriz_db
       MYSQL_USER: lejimene
       MYSQL_PASSWORD: Chestnut9121
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
 
@@ -24,13 +25,12 @@ services:
 
 volumes:
   db_data:
-
 # Below was prevoius Docker if this doesnt work make this the working part
-    #  environment:
-    #   - DATABASE_HOST=mysql
-    #   - DATABASE_NAME=talriz_db
-    #   - DATABASE_USER=rmurray5
-    #   - DATABASE_PASSWORD=50447880
-    #   - DATABASE_PORT=3306
-    # depends_on:
-    #   - mysql
+#  environment:
+#   - DATABASE_HOST=mysql
+#   - DATABASE_NAME=talriz_db
+#   - DATABASE_USER=rmurray5
+#   - DATABASE_PASSWORD=50447880
+#   - DATABASE_PORT=3306
+# depends_on:
+#   - mysql
