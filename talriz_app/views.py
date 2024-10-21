@@ -1,6 +1,6 @@
 # myapp/views.py
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 from . import logic
 from django.http import HttpResponse
 from . import logic
@@ -34,9 +34,11 @@ def sell_page(request):
 def submit_item(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
-        if form.is_valid():
+        if not request.user.is_authenticated:
+            return redirect('login/')
+        elif form.is_valid():
             form.save()
-            return HttpResponseRedirect('/items/')
+            return redirect('/items/')
         else:
             print(form.errors)
             return HttpResponse("Form is not valid")
