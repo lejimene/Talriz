@@ -1,4 +1,5 @@
 # myapp/views.py
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from . import logic
@@ -32,13 +33,20 @@ def sell_page(request):
     return render(request, 'sell_page.html')
 
 def submit_item(request):
+    if not request.user.is_authenticated:
+        return redirect('login/')
+
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
-        if not request.user.is_authenticated:
-            return redirect('login/')
-        elif form.is_valid():
-            form.save()
-            return redirect('/items/')
+        print(request.user.id)
+        print(request.user)
+        form.instance.seller = request.user
+        print(form.instance.seller)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.save()
+            print("Item saved successfully")
+            return HttpResponseRedirect('/marketplace/')
         else:
             print(form.errors)
             return HttpResponse("Form is not valid")
