@@ -5,6 +5,7 @@ from . import logic
 from django.http import HttpResponse
 from . import logic
 from django.contrib.auth.decorators import login_required
+from .forms import ItemForm
 
 
 def my_view(request):
@@ -26,6 +27,22 @@ def login_page(request):
         response = logic.login_logic(request)
         return response
     return render(request, 'login_page.html')
+
+def sell_page(request):
+    return render(request, 'sell_page.html')
+
+def submit_item(request):
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/items/')
+        else:
+            print(form.errors)
+            return HttpResponse("Form is not valid")
+    else:
+        form = ItemForm()
+    return render(request, 'submit_item.html', {'form': form})
 
 
 def register_page(request):

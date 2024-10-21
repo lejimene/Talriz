@@ -32,7 +32,7 @@
     <div class="Item_container">
       <!-- Items and item info should be dynamically added from the database -->
       <div class="Item">
-        <form action="/submit_item" method="POST" enctype="multipart/form-data">
+        <form action="/submit_item/" method="POST" enctype="multipart/form-data">
           <!-- CSRF Token if using Django -->
           {% csrf_token %}
         
@@ -47,18 +47,18 @@
           <div class="Bottom_Section">
             <div class="Right_Side">
               <label for="item_name">Name:</label>
-              <input type="text" id="item_name" name="item_name" placeholder="Enter item name" required>
+              <input type="text" id="item_name" name="name" placeholder="Enter item name" required>
         
               <label for="item_description">Description:</label>
-              <textarea id="item_description" name="item_description" placeholder="Enter item description" rows="4" required></textarea>
+              <textarea id="item_description" name="description" placeholder="Enter item description" rows="4" required></textarea>
             </div>
         
             <div class="Left_Side">
               <label for="item_price" id="price_label">Price (in USD):</label>
-              <input type="number" id="item_price" name="item_price" min="0" placeholder="Enter price" required>
+              <input type="number" id="item_price" name="price" min="0" placeholder="Enter price" required>
           
               <label for="item_category">Category:</label>
-              <select id="item_category" name="item_category">
+              <select id="item_category" name="categories">
                   <option value="general">General</option>
                   <option value="category_1">Category 1</option>
                   <option value="category_2">Category 2</option>

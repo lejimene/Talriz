@@ -16,7 +16,8 @@ urlpatterns = [
     path('marketplace/', views.marketplace_page, name="marketplace_page"), 
     path('marketplace/item/<int:item_id>/', views.marketplace_searched_item, name="item_detail"),
     path('items/', views.item_listing,name='item_listing'),
-
+    path('sell_page/', views.sell_page, name="sell_page"),
+    path('submit_item/', views.submit_item, name="submit_item"),
 ]
 
 

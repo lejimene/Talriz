@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Talriz</title>
 
-    <link rel="stylesheet" href="{% static 'css/marketplace.css' %}">
-    <script src="{% static 'js/marketplace.js' %}" defer> </script>
-</head>
-<body>
-    <nav > <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
-        <a class="nav_item" id="sell">Sell</a>
-        <a class="nav_item">Contact</a>
-        <a class="nav_item">Help</a>
-        <a class="nav_item" id="FAQ">FAQ</a>
-        
+    <link rel="stylesheet" href="{% static 'css/marketplace.css' %}" />
+    <script src="{% static 'js/marketplace.js' %}" defer></script>
+  </head>
+  <body>
+    <nav>
+      <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
+      <a class="nav_item" id="sell">Sell</a>
+      <a class="nav_item">Contact</a>
+      <a class="nav_item">Help</a>
+      <a class="nav_item" id="FAQ">FAQ</a>
     </nav>
 
     <div class="Search_bar">
@@ -45,60 +45,62 @@
       <!-- Loop through items and dynamically populate item info -->
       {% for item in items %}
       <div class="Item">
-          <div class="Images_section">
-              <!-- Display the first image of the item -->
-              {% if item.images.exists %}
-                  <img src="{{ item.images.first.image.url }}" alt="{{ item.name }} Image">
-              {% else %}
-                  <img src="{% static 'img/default_image.jpg' %}" alt="Default Image">
-              {% endif %}
-          </div>
+        <div class="Images_section">
+          <!-- Display the first image of the item -->
+          {% if item.images.exists %}
+          <img
+            src="{{ item.images.first.image.url }}"
+            alt="{{ item.name }} Image"
+          />
+          {% else %}
+          <img src="{% static 'img/default_image.jpg' %}" alt="Default Image" />
+          {% endif %}
+        </div>
 
-          <!-- Display the item's name -->
-          <h1>{{ item.name }}</h1>
+        <!-- Display the item's name -->
+        <h1>{{ item.name }}</h1>
 
-          <div class="Bottom_Section">
-              <div class="Left_Side">
-                  <!-- Display seller and likes -->
-                  <p>Seller: {{ item.seller.username }}</p>
-                  <p>Likes: {{ item.likes.count }}</p>
-              </div>
-              <div class="Right_Side">
-                  <!-- Display either price or auction details -->
-                  {% if item.price %}
-                      <p>Price: ${{ item.price }}</p>
-                  {% elif item.bid_amount %}
-                      <p>Current Bid: ${{ item.bid_amount }}</p>
-                      <p>Time Left: {{ item.auction_end_date|timeuntil }}</p>
-                  {% endif %}
-              </div>
+        <div class="Bottom_Section">
+          <div class="Left_Side">
+            <!-- Display seller and likes -->
+            <p>Seller: {{ item.seller.username }}</p>
+            <p>Likes: {{ item.likes.count }}</p>
           </div>
-          <div class="Button_section">
-            <button class="Filter_button" id="contactButton">Contact</button>
-            <button class="buy_button" id="buyButton">Buy</button> <!-- Buy Button to the right -->
+          <div class="Right_Side">
+            <!-- Display either price or auction details -->
+            {% if item.price %}
+            <p>Price: ${{ item.price }}</p>
+            {% elif item.bid_amount %}
+            <p>Current Bid: ${{ item.bid_amount }}</p>
+            <p>Time Left: {{ item.auction_end_date|timeuntil }}</p>
+            {% endif %}
           </div>
+        </div>
+        <div class="Button_section">
+          <button class="Filter_button" id="contactButton">Contact</button>
+          <button class="buy_button" id="buyButton">Buy</button>
+          <!-- Buy Button to the right -->
+        </div>
       </div>
       {% endfor %}
     </div>
     <!-- Item_container Ends here -->
-     <div class="pagination">
+    <div class="pagination">
       <span class="step-links">
         {% if items.has_previous %}
-          <a href="?page=1">&laquo; first</a>
-          <a href="?page={{ items.previous_page_number }}"> previous</a>
-          {% endif %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ items.previous_page_number }}"> previous</a>
+        {% endif %}
 
-          <span class="current">
-            Page {{ items.number }} of {{ items.paginator.num_pages }}.
-          </span>
+        <span class="current">
+          Page {{ items.number }} of {{ items.paginator.num_pages }}.
+        </span>
 
-          {% if items.has_next %}
-            <a href="?page={{ items.next_page_number}}">next</a>
-            <a href="?page={{ items.paginator.num_pages}}">last &raquo;</a>
-          {% endif %}
+        {% if items.has_next %}
+        <a href="?page={{ items.next_page_number}}">next</a>
+        <a href="?page={{ items.paginator.num_pages}}">last &raquo;</a>
+        {% endif %}
       </span>
-     </div>
-
-    
+    </div>
   </body>
 </html>
