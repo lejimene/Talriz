@@ -13,6 +13,7 @@ from .models import Item, Category, ItemImage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.timezone import now
 from django.views.decorators.http import require_POST
+from rest_framework.authtoken.models import Token
 from datetime import timedelta
 
 #Testing page, For html and css and how it may look
@@ -43,11 +44,13 @@ def login_logic(request):
             user = authenticate(request, username=user.username, password=password)
             if user is not None:
                 login(request, user)
-                token = generate_token()
-                user.auth_token = hashlib.sha256(token.encode('utf-8')).hexdigest()
-                user.save()
+                
+                # Get or create the token for the user
+                token, created = Token.objects.get_or_create(user=user)
+
+                # Set the token in the response cookie
                 response = redirect('marketplace_page')  # Redirect to the marketplace page
-                response.set_cookie('auth_token', token, max_age=3600, httponly=True)
+                response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
                 return response
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
@@ -61,15 +64,15 @@ def login_logic(request):
 def logout_logic(request):
     auth_logout(request)
 
-    # Delete= auth token cookie if it exists
-    # Delete  auth token cookie if it exists
-    if 'auth_token' in request.COOKIES:
-        response = redirect('login_page')
-        response.delete_cookie('auth_token')
-        return response
+    # Delete the user's token
+    if request.user.is_authenticated:
+        token = Token.objects.get(user=request.user)
+        token.delete()
 
-    # If no cookie redirect to login page
-    return redirect('login_page')
+    # Delete auth token cookie if it exists
+    response = redirect('login_page')
+    response.delete_cookie('auth_token')
+    return response
 
 #Register page
 #Should check if infomration exist
@@ -89,17 +92,17 @@ def create_logic(request):
             return render(request, 'register_page.html', {'error': 'Username already exists'})
         
         if User.objects.filter(email=email).exists():
-                    return render(request, 'register_page.html', {'error': 'email already exists'})
+            return render(request, 'register_page.html', {'error': 'Email already exists'})
 
-        user = User.objects.create_user(username=username, password=password,email=email)
+        user = User.objects.create_user(username=username, password=password, email=email)
         
         login(request, user)
-        token = generate_token()
-        user.auth_token = hashlib.sha256(token.encode('utf-8')).hexdigest()
-        user.save()
-        
+
+        # Get or create the token for the user
+        token, created = Token.objects.get_or_create(user=user)
+
         response = redirect('marketplace_page')  # Adjust as necessary
-        response.set_cookie('auth_token', token, max_age=3600, httponly=True)
+        response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
         return response
 
     return render(request, 'register_page.html')

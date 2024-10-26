@@ -4,3 +4,4 @@ mysqlclient
 mysql
 python-decouple
 Pillow
+djangorestframework
