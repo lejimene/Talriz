@@ -12,22 +12,17 @@
 </head>
 <body>
     <nav > <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
-        <a class="nav_item" id="sell">Sell</a>
+        <a class="nav_item" id="sell" href= {% url 'marketplace_page' %}>Marketplace</a>
         <a class="nav_item">Contact</a>
         <a class="nav_item">Help</a>
-        <a class="nav_item" id="FAQ">FAQ</a>
+        <form action="{% url 'logout_logic' %}" method="POST" class="nav_item">
+          {% csrf_token %}
+          <button type="submit" class="nav_item" id="FAQ">Sign out</button>
+        </form>
         
     </nav>
 
-    <div class="Search_bar">
-      <button class="filter" id="filters">Filters</button>
-      <select class="filter" id="all">
-        <option value="All">All</option>
-        <option value="For Sale">For Sale</option>
-        <option value="Sold">Sold</option>
-      </select>
-      <input type="text" placeholder="Search" />
-    </div>
+
 
     <div class="Item_container">
       <!-- Items and item info should be dynamically added from the database -->
@@ -57,16 +52,10 @@
               <label for="item_price" id="price_label">Price (in USD):</label>
               <input type="number" id="item_price" name="price" min="0" placeholder="Enter price" required>
           
-              <label for="item_category">Category:</label>
-              <select id="item_category" name="categories">
-                  <option value="general">General</option>
-                  <option value="category_1">Category 1</option>
-                  <option value="category_2">Category 2</option>
-              </select>
           
 
               <!-- Auction Section -->
-              <label for="is_auction" class="auction-label">Is this an auction?</label>
+              <label for="is_auction" class="auction-label">Do you wish to auction? Press box.</label>
               <label class="auction-checkbox">
                   <input type="checkbox" id="is_auction" name="is_auction" onchange="toggleAuctionFields()">
                   <span class="custom-checkbox"></span>
@@ -96,18 +85,6 @@
 
     <!-- Item_container Ends here -->
 
-    <div class="HUD">
-      <div class="Cate_btn">
-        <div class="Option_section">
-          <button class="filter" id="button1">Prevoius</button>
-          <button class="filter" id="active">Button1</button>
-          <button class="filter" id="button1">Button2</button>
-          <button class="filter" id="button1">Button3</button>
-          <button class="filter" id="button1">Button4</button>
-          <button class="filter" id="button1">Button5</button>
-          <button class="filter" id="button1">Next</button>
-        </div>
-      </div>
-    </div>
+    
   </body>
 </html>

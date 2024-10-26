@@ -13,40 +13,22 @@
   <body>
     <nav>
       <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
-      <a class="nav_item" id="sell">Sell</a>
+      <a class="nav_item" id="sell" href= {% url 'sell_page' %}>Sell</a>
       <a class="nav_item">Contact</a>
       <a class="nav_item">Help</a>
-      <a class="nav_item" id="FAQ">FAQ</a>
+      <form action="{% url 'logout_logic' %}" method="POST" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="nav_item" id="FAQ">Sign out</button>
+      </form>
     </nav>
 
-    <div class="Search_bar">
-      <button class="filter" id="filters">Filters</button>
-      <select class="filter" id="all">
-        <option value="All">All</option>
-        <option value="For Sale">For Sale</option>
-        <option value="Sold">Sold</option>
-      </select>
-      <input type="text" placeholder="Search" />
-    </div>
-    <div class="HUD">
-      <div class="Cate_btn">
-        <div class="Option_section">
-          <button class="filter" id="button1">Prevoius</button>
-          <button class="filter" id="active">Button1</button>
-          <button class="filter" id="button1">Button2</button>
-          <button class="filter" id="button1">Button3</button>
-          <button class="filter" id="button1">Button4</button>
-          <button class="filter" id="button1">Button5</button>
-          <button class="filter" id="button1">Next</button>
-        </div>
-      </div>
-    </div>
+
     <div class="Item_container">
       <!-- Loop through items and dynamically populate item info -->
       {% for item in items %}
       <div class="Item">
         <div class="Images_section">
-          <!-- Display the first image of the item -->
+          <!-- Display first image of the item -->
           {% if item.images.exists %}
           <img
             src="{{ item.images.first.image.url }}"
@@ -57,25 +39,24 @@
           {% endif %}
         </div>
 
-        <!-- Display the item's name -->
+        <!-- Display item's name -->
         <h1>{{ item.name }}</h1>
-
         <div class="Bottom_Section">
           <div class="Left_Side">
-            <!-- Display seller and likes -->
             <p>Seller: {{ item.seller.username }}</p>
-            <p>Likes: {{ item.likes.count }}</p>
-          </div>
-          <div class="Right_Side">
-            <!-- Display either price or auction details -->
-            {% if item.price %}
-            <p>Price: ${{ item.price }}</p>
-            {% elif item.bid_amount %}
-            <p>Current Bid: ${{ item.bid_amount }}</p>
-            <p>Time Left: {{ item.auction_end_date|timeuntil }}</p>
+            <p id="like-count-{{ item.id }}">Likes: {{ item.likes.count }}</p>
+            {% if request.user.is_authenticated and request.user != item.seller %}
+              <button class="like_button" data-item-id="{{ item.id }}">
+                {% if request.user in item.likes.all %}
+                  Unlike
+                {% else %}
+                  Like
+                {% endif %}
+              </button>
             {% endif %}
           </div>
         </div>
+
         <div class="Button_section">
           <button class="Filter_button" id="contactButton">Contact</button>
           <button class="buy_button" id="buyButton">Buy</button>
@@ -85,6 +66,8 @@
       {% endfor %}
     </div>
     <!-- Item_container Ends here -->
+
+    <!-- Pagination , Only loads 15 I belive and then must press next or last also has previous-->
     <div class="pagination">
       <span class="step-links">
         {% if items.has_previous %}

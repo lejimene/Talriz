@@ -3,14 +3,16 @@ import hashlib
 import os
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from .models import Item, Category, ItemImage
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.timezone import now
+from django.views.decorators.http import require_POST
 from datetime import timedelta
 
 #Testing page, For html and css and how it may look
@@ -33,41 +35,41 @@ def generate_token():
 
 def login_logic(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
-
+        
         try:
-            user = User.objects.get(username=username)
-            if user.check_password(password.encode('utf-8'), user.password.encode('utf-8')):
+            user = User.objects.get(email=email)
+            user = authenticate(request, username=user.username, password=password)
+            if user is not None:
+                login(request, user)
                 token = generate_token()
                 user.auth_token = hashlib.sha256(token.encode('utf-8')).hexdigest()
                 user.save()
-
-                response = JsonResponse({'message': 'Login successful'})
+                response = redirect('marketplace_page')  # Redirect to the marketplace page
                 response.set_cookie('auth_token', token, max_age=3600, httponly=True)
                 return response
             else:
-                return JsonResponse({'error': 'Invalid password'}, status=400)
+                return JsonResponse({'error': 'Invalid credentials'}, status=400)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'User not found'}, status=400)
+            return JsonResponse({'error': 'User does not exist'}, status=400)
     return render(request, 'login_page.html')
 
 
 # Logout logic
 # Invalidates tokens and delete cookies
 def logout_logic(request):
-    if 'auth_token' in request.COOKIES:
-        token = request.COOKIES['auth_token']
-        try:
-            user = User.objects.get(auth_token=hashlib.sha256(token.encode('utf-8')).hexdigest())
-            user.auth_token = None
-            user.save()
-        except User.DoesNotExist:
-            pass
+    auth_logout(request)
 
-    response = redirect('login_page')
-    response.delete_cookie('auth_token')
-    return response
+    # Delete= auth token cookie if it exists
+    # Delete  auth token cookie if it exists
+    if 'auth_token' in request.COOKIES:
+        response = redirect('login_page')
+        response.delete_cookie('auth_token')
+        return response
+
+    # If no cookie redirect to login page
+    return redirect('login_page')
 
 #Register page
 #Should check if infomration exist
@@ -76,15 +78,29 @@ def logout_logic(request):
 def create_logic(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
+        retyped_password = request.POST.get('retyped-password')
+
+        if password != retyped_password:
+            return render(request, 'register_page.html', {'error': 'Passwords do not match'})
 
         if User.objects.filter(username=username).exists():
-            return JsonResponse({'error': 'Username already exists'}, status=400)
+            return render(request, 'register_page.html', {'error': 'Username already exists'})
+        
+        if User.objects.filter(email=email).exists():
+                    return render(request, 'register_page.html', {'error': 'email already exists'})
 
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        User.objects.create(username=username, password=hashed_password.decode('utf-8'))
-
-        return JsonResponse({'message': 'User registered successfully'}, status=200)
+        user = User.objects.create_user(username=username, password=password,email=email)
+        
+        login(request, user)
+        token = generate_token()
+        user.auth_token = hashlib.sha256(token.encode('utf-8')).hexdigest()
+        user.save()
+        
+        response = redirect('marketplace_page')  # Adjust as necessary
+        response.set_cookie('auth_token', token, max_age=3600, httponly=True)
+        return response
 
     return render(request, 'register_page.html')
 
@@ -94,6 +110,17 @@ def create_logic(request):
 def category_logic(request):
     categories = Category.objects.all()  # Get all categories
     return render(request, 'filters_page.html', {'categories': categories})
+
+
+def like_item(request,item_id):
+    print("testing now")
+    return
+#     item = get_object_or_404(Item,id=item_id)
+#     #If request.user != item.seller:
+#         item.likes.add(request.user);
+#     item.save()
+#     return
+    
 
 # Market page logic 
 # Should be able to dynamically load stuff (Perhaps JS stuff)
@@ -133,7 +160,6 @@ def submit_item(request):
         name = request.POST.get('item_name')
         description = request.POST.get('item_description')
         price = request.POST.get('item_price')
-        category = request.POST.get('item_category')
         
         # Handle auction-specific fields
         is_auction = request.POST.get('is_auction', False)

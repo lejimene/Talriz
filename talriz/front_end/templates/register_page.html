@@ -13,12 +13,17 @@
 <body>
     <div class="Register_container">
         <div class="Register_box">
-            <form action="">
+            <form action="{% url 'create_logic' %}" method="POST">
+                {% csrf_token %}
             <h1 class="Title_Start">WELCOME TO THE</h1>
             <h1 class="TITLE_END">COMMUNITY</h1>
             <!-- Email input -->   
             <div class="input_box">
                 <input type="email" name="email" placeholder="Enter Email Here" required> 
+            </div>
+
+            <div class="input_box">
+                <input type="text" name="username" placeholder="Enter Username Here" required> 
             </div>
             
             <!-- Password input -->
@@ -28,7 +33,7 @@
             <div class="input_box" id="retyped_password_input"><input type="password" name="retyped-password" placeholder="Re-enter Password Here" required> </div>
 
             <!-- Link to create account -->
-            <p class="Create_acc_text">Have an account? Log in <a href="/" class="create_here"> here </a></p>
+            <p class="Create_acc_text">Have an account? Log in <a href={% url 'login_page' %} class="create_here"> here </a></p>
             
             <div class="nested_btns">
                 <button type="submit" class="btn_lg">Create Account</button> 

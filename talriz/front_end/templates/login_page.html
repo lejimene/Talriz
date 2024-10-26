@@ -13,7 +13,8 @@
 <body>
     <div class="Login_container">
         <div class="Login_box">
-            <form action="">
+            <form action="{% url 'login_logic' %}" method="POST">
+            {% csrf_token %}
             <h1>WELCOME BACK</h1>
             <h1 class="TITLE_END">LOGIN</h1>
             <!-- Email input -->
@@ -25,7 +26,7 @@
             <div class="input_box" id="password_input"><input type="password" name="password" placeholder="Enter Password Here" required> </div>
             
             <!-- Link to create account -->
-            <p class="Create_acc_text">Don't have an account? Create one <a href="/register" class="create_here"> here </a></p>
+            <p class="Create_acc_text">Don't have an account? Create one <a href={% url 'register_page' %} class="create_here"> here </a></p>
             
             <div class="nested_btns">
                 <button type="submit" class="btn_lg">Log in</button> 
