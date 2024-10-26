@@ -76,7 +76,7 @@ def logout_logic(request):
     return response
 
 #Register page
-#Should check if infomration exist
+#Should check if information exist
 #Provide authentication token and have them signed in
  
 def create_logic(request):
