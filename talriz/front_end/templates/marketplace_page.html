@@ -44,15 +44,22 @@
         <div class="Bottom_Section">
           <div class="Left_Side">
             <p>Seller: {{ item.seller.username }}</p>
-            <p id="like-count-{{ item.id }}">Likes: {{ item.likes.count }}</p>
+          
             {% if request.user.is_authenticated and request.user != item.seller %}
-              <button class="like_button" data-item-id="{{ item.id }}">
-                {% if request.user in item.likes.all %}
-                  Unlike
-                {% else %}
-                  Like
-                {% endif %}
-              </button>
+              <!-- Wrap count and button together for layout -->
+              <div class="like-section">
+                <p id="like-count-{{ item.id }}">Likes: {{ item.likes.count }}</p>
+                <button class="like_button" data-item-id="{{ item.id }}"> 
+                  {% if request.user in item.likes.all %}
+                    Unlike
+                  {% else %}
+                    Like
+                  {% endif %}
+                </button>
+              </div>
+            {% else %}
+              <!-- Display only the Like count for other cases -->
+              <p>Likes: {{ item.likes.count }}</p>
             {% endif %}
           </div>
         </div>

@@ -1,26 +1,23 @@
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.like_button').forEach(button => {
-      button.addEventListener('click', function (event) {
-        event.preventDefault();
-        const itemId = this.dataset.itemId;
-        fetch(`/like-item/${itemId}/`, {
-          method: 'POST',
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-            'Content-Type': 'application/json'
-          }
-        })
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".like_button").forEach(button => {
+    button.addEventListener("click", function() {
+      const itemId = this.dataset.itemId;
+      fetch(`/like-item/${itemId}/`, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({})
+      })
         .then(response => response.json())
         .then(data => {
-          if (data.error) {
-            alert(data.error);
-          } else {
-            const likeCountElem = document.querySelector(`#like-count-${itemId}`);
-            likeCountElem.textContent = data.likes_count;
-            this.textContent = data.liked ? 'Unlike' : 'Like';
+          if (!data.error) {
+            this.textContent = data.liked ? "Unlike" : "Like";
+            document.getElementById(`like-count-${itemId}`).textContent = `Likes: ${data.likes_count}`;
           }
-        });
-      });
+        })
+        .catch(error => console.error("Error:", error));
     });
   });
-  
+});

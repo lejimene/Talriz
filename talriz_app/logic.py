@@ -62,14 +62,15 @@ def login_logic(request):
 # Logout logic
 # Invalidates tokens and delete cookies
 def logout_logic(request):
-    auth_logout(request)
-
-    # Delete the user's token
+    # Delete the user's token before logging out
     if request.user.is_authenticated:
         token = Token.objects.get(user=request.user)
         token.delete()
 
-    # Delete auth token cookie if it exists
+    # Log the user out
+    auth_logout(request)
+
+    # Clear the auth token cookie
     response = redirect('login_page')
     response.delete_cookie('auth_token')
     return response
@@ -115,14 +116,18 @@ def category_logic(request):
     return render(request, 'filters_page.html', {'categories': categories})
 
 
-def like_item(request,item_id):
-    print("testing now")
-    return
-#     item = get_object_or_404(Item,id=item_id)
-#     #If request.user != item.seller:
-#         item.likes.add(request.user);
-#     item.save()
-#     return
+def like_item(request, item_id):
+    if request.method == 'POST' and request.user.is_authenticated:
+        item = get_object_or_404(Item, id=item_id)
+        if request.user in item.likes.all():
+            item.likes.remove(request.user)
+            liked = False
+        else:
+            item.likes.add(request.user)
+            liked = True
+
+        return JsonResponse({'liked': liked, 'likes_count': item.likes.count()})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
     
 
 # Market page logic 
