@@ -7,7 +7,7 @@ services:
       MYSQL_USER: lejimene
       MYSQL_PASSWORD: Chestnut9121
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
 
