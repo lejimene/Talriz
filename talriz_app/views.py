@@ -24,6 +24,9 @@ def test_page(request):
     return response
 
 def login_page(request):
+    if request.user.is_authenticated and request.method == 'GET':
+        response = redirect('marketplace_page')
+        return response
     if request.method == 'POST':
         response = logic.login_logic(request)
         return response
