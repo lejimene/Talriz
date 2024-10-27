@@ -98,7 +98,7 @@ def validation(password):
             lower = True
         elif letter in special_chars:
             special = True
-        elif num in numbers:
+        elif letter in numbers:
             num = True
 
     # Return all requirements failed
@@ -134,10 +134,10 @@ def create_logic(request):
             return JsonResponse({'error': password_test}, status=400)
         
         if User.objects.filter(username=username).exists():
-            return render(request, 'register_page.html', {'error': 'Username already exists'})
+            return JsonResponse({'error': "Username already exists"}, status=400)
         
         if User.objects.filter(email=email).exists():
-            return render(request, 'register_page.html', {'error': 'Email already exists'})
+            return JsonResponse({'error': "Email already exists"}, status=400)
 
         user = User.objects.create_user(username=username, password=password, email=email)
         
