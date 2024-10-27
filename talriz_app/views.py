@@ -31,7 +31,7 @@ def login_page(request):
 
 def sell_page(request):
     if not request.user.is_authenticated:
-        return redirect('login_page')
+        return redirect('login_page') 
     return render(request, 'sell_page.html')
 
 def submit_item(request):
