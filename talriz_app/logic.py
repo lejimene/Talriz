@@ -75,25 +75,69 @@ def logout_logic(request):
     response.delete_cookie('auth_token')
     return response
 
+ # Returns a list of reasons why password is not valid
+special_chars = ['!','@','#','$','%','^','&','*','(',')','-','+','_','=',]
+numbers = ['1','2','3,','4','5','6','7','8','9','0']
+def validation(password):
+    # Initializing requirements
+    upper = False
+    lower = False
+    special = False
+    num = False
+    length = False
+
+    # Check for all requirements
+    reasons = []
+    if len(password) >= 8:
+        length = True
+
+    for letter in password:
+        if letter.isupper():
+            upper = True
+        elif letter.islower():
+            lower = True
+        elif letter in special_chars:
+            special = True
+        elif letter in numbers:
+            num = True
+
+    # Return all requirements failed
+    if upper == False:
+        reasons.append("Password must have an uppercase character")
+    if lower == False:
+        reasons.append("Password must have a lowercase character")
+    if special == False:
+        reasons.append("Password must have a special character")
+    if num == False:
+        reasons.append("Password must have a number")
+    if length == False:
+        reasons.append("Password must be atleast 8 characters long")
+    return reasons
+
 #Register page
 #Should check if information exist
 #Provide authentication token and have them signed in
- 
 def create_logic(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
-        password = request.POST.get('password')
+        password = request.POST.get('password')            
         retyped_password = request.POST.get('retyped-password')
 
         if password != retyped_password:
             return render(request, 'register_page.html', {'error': 'Passwords do not match'})
-
+        
+        # Password is invalid, throws message error of all reasons why
+        password_test = validation(password)
+        if len(password_test) != 0:
+            print(password_test)
+            return JsonResponse({'error': password_test}, status=400)
+        
         if User.objects.filter(username=username).exists():
-            return render(request, 'register_page.html', {'error': 'Username already exists'})
+            return JsonResponse({'error': "Username already exists"}, status=400)
         
         if User.objects.filter(email=email).exists():
-            return render(request, 'register_page.html', {'error': 'Email already exists'})
+            return JsonResponse({'error': "Email already exists"}, status=400)
 
         user = User.objects.create_user(username=username, password=password, email=email)
         
