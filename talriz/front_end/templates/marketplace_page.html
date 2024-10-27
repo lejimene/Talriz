@@ -11,6 +11,8 @@
     <script src="{% static 'js/marketplace.js' %}" defer></script>
   </head>
   <body>
+    <!-- # Displays username on homepage -->
+    <h1>logged in as: {{ user.username }}</h1>
     <nav>
       <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
       <a class="nav_item" id="sell" href= {% url 'sell_page' %}>Sell</a>

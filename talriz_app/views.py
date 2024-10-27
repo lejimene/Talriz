@@ -65,6 +65,8 @@ def register_page(request):
 
 ## is this catagory logic
 def category_page(request):
+    if not request.user.is_authenticated:
+        return redirect('login_page')
     if request.method == "POST":
         response = logic.category_logic(request)
         return response
@@ -74,6 +76,8 @@ def category_page(request):
 
 #This is the page that will load all items with no specific look into it
 def marketplace_page(request):
+    if not request.user.is_authenticated:
+        return redirect('login_page')
     if request.method == 'POST':
         response = logic.Market_logic(request)
         return response
@@ -83,6 +87,8 @@ def marketplace_page(request):
 
 #This is the page tht will handle loading a specific item and getting the details of it
 def marketplace_searched_item(request, item_id):
+    if not request.user.is_authenticated:
+        return redirect('login_page')
     if request.method == 'POST':
         response = logic.Market__focused_item_logic(request, item_id)
         return response
@@ -91,6 +97,8 @@ def marketplace_searched_item(request, item_id):
 
 # Handle listing a new item to the database that user posted
 def item_listing(request):
+    if not request.user.is_authenticated:
+        return redirect('login_page')
     if request.method == 'POST':
         response = logic.submit_item(request)
         return response 
