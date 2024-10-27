@@ -15,6 +15,7 @@ from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from rest_framework.authtoken.models import Token
 from datetime import timedelta
+from django.utils.html import escape
 
 #Testing page, For html and css and how it may look
 #replace the test.html with actual html page
@@ -187,9 +188,9 @@ def Market_logic(request):
     items = Item.objects.prefetch_related('images', 'likes').all()  # Fetch items with related images and likes,
     #This items fetches everything we should be worried about it a litle
     paginator = Paginator(items, 15)
-    page_number = request.GET.get('page',1)
+    page_number = escape(request.GET.get('page',1))
 
-    #handling paginator which is what keeps page laoding for more\
+    #handling paginator which is what keeps page loading for more\
     #This means if we create a filters so the user can't
     try:
         page_items = paginator.get_page(page_number)
@@ -213,8 +214,8 @@ def Sell_logic(request):
 def submit_item(request):
     if request.method == 'POST':
         #Get data from the form
-        name = request.POST.get('item_name')
-        description = request.POST.get('item_description')
+        name = escape(request.POST.get('item_name'))
+        description = escape(request.POST.get('item_description'))
         price = request.POST.get('item_price')
         
         # Handle auction-specific fields
@@ -225,12 +226,12 @@ def submit_item(request):
         auction_end_time = request.POST.get('auction_end_time', None)
 
         #Combine auction end date and auction end time
-        if auction_end_date and auction_end_date:
-            auction_end_datetime = f"{auction_end_date} {auction_end_date}"
+        if auction_end_date and auction_end_time:
+            auction_end_datetime = f"{auction_end_date} {auction_end_time}"
         else:
             auction_end_datetime = None
 
-        seller = User.objects.get(id=1)
+        seller = request.user if request.user.is_authenticated else User.objects.get(id=1)
         new_item = Item(
             seller = seller,
             name= name,
