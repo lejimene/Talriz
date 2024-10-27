@@ -46,5 +46,6 @@ function validateForm(event) {
     return true; // If all validations pass
 }
 
+document.getElementById("Sign_Out").addEventListener("click")
 // Attach the validateForm function to the form's submit event
 document.querySelector('form').addEventListener('submit', validateForm);
