@@ -8,7 +8,7 @@ from . import logic
 from django.contrib.auth.decorators import login_required
 from .forms import ItemForm
 
-
+@login_required
 def my_view(request):
     method = request.method         
     path = request.path            
@@ -18,7 +18,7 @@ def my_view(request):
 
     # Process the request as needed
     return HttpResponse("Request.")
-
+@login_required
 def test_page(request):
     response = logic.test_logic(request)
     return response
@@ -28,12 +28,12 @@ def login_page(request):
         response = logic.login_logic(request)
         return response
     return render(request, 'login_page.html')
-
+@login_required
 def sell_page(request):
     if not request.user.is_authenticated:
         return redirect('login_page')
     return render(request, 'sell_page.html')
-
+@login_required
 def submit_item(request):
     if not request.user.is_authenticated:
         return redirect('login_page')
@@ -64,6 +64,7 @@ def register_page(request):
     return render(request, 'register_page.html')
 
 ## is this catagory logic
+@login_required
 def category_page(request):
     if not request.user.is_authenticated:
         return redirect('login_page')
@@ -75,6 +76,7 @@ def category_page(request):
 
 
 #This is the page that will load all items with no specific look into it
+@login_required
 def marketplace_page(request):
     if not request.user.is_authenticated:
         return redirect('login_page')
@@ -86,6 +88,7 @@ def marketplace_page(request):
 
 
 #This is the page tht will handle loading a specific item and getting the details of it
+@login_required
 def marketplace_searched_item(request, item_id):
     if not request.user.is_authenticated:
         return redirect('login_page')
@@ -96,6 +99,7 @@ def marketplace_searched_item(request, item_id):
 
 
 # Handle listing a new item to the database that user posted
+@login_required
 def item_listing(request):
     if not request.user.is_authenticated:
         return redirect('login_page')
