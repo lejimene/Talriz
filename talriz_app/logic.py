@@ -106,15 +106,15 @@ def validation(password):
 
     # Return all requirements failed
     if upper == False:
-        reasons.append("Password must have an uppercase character")
+        reasons.append(" must have an uppercase character")
     if lower == False:
-        reasons.append("Password must have a lowercase character")
+        reasons.append(" must have a lowercase character")
     if special == False:
-        reasons.append("Password must have a special character")
+        reasons.append(" must have a special character")
     if num == False:
-        reasons.append("Password must have a number")
+        reasons.append(" must have a number")
     if length == False:
-        reasons.append("Password must be atleast 8 characters long")
+        reasons.append(" must be atleast 8 characters long")
     return reasons
 
 #Register page
@@ -127,6 +127,15 @@ def create_logic(request):
         password = request.POST.get('password')            
         retyped_password = request.POST.get('retyped-password')
 
+        # In order of Registration Page
+        # Check if email already exists
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'error': "Email already exists"}, status=400)
+        
+        # Check if username already exists
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'error': "Username already exists"}, status=400)
+        
         # Check if passwords match
         if password != retyped_password:
             return JsonResponse({'error': 'Passwords do not match'}, status=400)
@@ -135,15 +144,8 @@ def create_logic(request):
         password_test = validation(password)
         if len(password_test) != 0:
             return JsonResponse({'error': password_test}, status=400)
-        
-        # Check if username already exists
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'error': "Username already exists"}, status=400)
-        
-        # Check if email already exists
-        if User.objects.filter(email=email).exists():
-            return JsonResponse({'error': "Email already exists"}, status=400)
 
+    
         # Create and log in user if all checks pass
         user = User.objects.create_user(username=username, password=password, email=email)
         login(request, user)
