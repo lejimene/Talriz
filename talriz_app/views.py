@@ -30,11 +30,13 @@ def login_page(request):
     return render(request, 'login_page.html')
 
 def sell_page(request):
+    if not request.user.is_authenticated:
+        return redirect('login_page')
     return render(request, 'sell_page.html')
 
 def submit_item(request):
     if not request.user.is_authenticated:
-        return redirect('login/')
+        return redirect('login_page')
 
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
