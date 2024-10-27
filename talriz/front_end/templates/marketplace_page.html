@@ -11,20 +11,19 @@
     <script src="{% static 'js/marketplace.js' %}" defer></script>
   </head>
   <body>
-    <!-- # Displays username on homepage -->
-    <h1>logged in as: {{ user.username }}</h1>
     <nav>
       <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
+      <h3 class="nav_item">Welcome {{ user.username }}</h3>
       <a class="nav_item" id="sell" href= {% url 'sell_page' %}>Sell</a>
-      <a class="nav_item">Contact</a>
-      <a class="nav_item">Help</a>
+      {% comment %} <a class="nav_item">Contact</a>
+      <a class="nav_item">Help</a> {% endcomment %}
       <form action="{% url 'logout_logic' %}" method="POST" style="display: inline;">
         {% csrf_token %}
-        <button type="submit" class="nav_item" id="FAQ">Sign out</button>
+        <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
       </form>
     </nav>
 
-
+    <div class="market_container"><img class="Marketplace_image" src="{% static '../static/images/marketplace.png' %}"/> </div>
     <div class="Item_container">
       <!-- Loop through items and dynamically populate item info -->
       {% for item in items %}

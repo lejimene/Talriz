@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -9,6 +11,8 @@
 body {
   background-color: #8ac9f6;
 }
+
+/* START OF NAVBAR */
 
 nav {
   top: 0;
@@ -27,18 +31,36 @@ nav {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 1.2rem; /* Using rem for responsive font size */
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#sell, #Sign_Out
+{
   cursor: pointer;
+  text-decoration: none;
+  
 }
 
-.nav_item:hover {
-  transform: scale(1.15);
+a:link,
+a:visited {
+  color: inherit; 
+  text-decoration: none; 
 }
 
-#FAQ {
+#sell:hover  {
+  color: rgb(110, 110, 110);
+}
+
+#Sign_Out {
   margin-right: 5vw;
+  background-color:#f0e5cc;
 }
 
+
+#Sign_Out:hover {
+  background-color:#f3cec3;
+}
+/* END OF NAVBAR */
 .HUD {
   margin: 0 5vw;
   display: flex;
@@ -157,6 +179,17 @@ h1 {
   gap: 10px; /* Add some space between the buttons */
   margin-top: 10px;
 }
+
+.market_container
+{
+  text-align: center; 
+}
+
+.Marketplace_image {
+  width: 160px;; /* Scales image if necessary to fit the container */
+  height: 160px;    /* Maintains aspect ratio */
+}
+
 
 .buy_button, #contactButton {
   background-color: #64b3ff;

@@ -47,9 +47,8 @@ def login_logic(request):
                 
                 # Get or create the token for the user
                 token, created = Token.objects.get_or_create(user=user)
-
+                response = JsonResponse({'success': True})
                 # Set the token in the response cookie
-                response = redirect('marketplace_page')  # Redirect to the marketplace page
                 response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
                 return response
             else:
@@ -64,8 +63,11 @@ def login_logic(request):
 def logout_logic(request):
     # Delete the user's token before logging out
     if request.user.is_authenticated:
-        token = Token.objects.get(user=request.user)
-        token.delete()
+        try:
+            token = Token.objects.get(user=request.user)
+            token.delete()
+        except Token.DoesNotExist:
+            pass
 
     # Log the user out
     auth_logout(request)
@@ -124,29 +126,31 @@ def create_logic(request):
         password = request.POST.get('password')            
         retyped_password = request.POST.get('retyped-password')
 
+        # Check if passwords match
         if password != retyped_password:
-            return render(request, 'register_page.html', {'error': 'Passwords do not match'})
+            return JsonResponse({'error': 'Passwords do not match'}, status=400)
         
-        # Password is invalid, throws message error of all reasons why
+        # Check for password validity
         password_test = validation(password)
         if len(password_test) != 0:
-            print(password_test)
             return JsonResponse({'error': password_test}, status=400)
         
+        # Check if username already exists
         if User.objects.filter(username=username).exists():
             return JsonResponse({'error': "Username already exists"}, status=400)
         
+        # Check if email already exists
         if User.objects.filter(email=email).exists():
             return JsonResponse({'error': "Email already exists"}, status=400)
 
+        # Create and log in user if all checks pass
         user = User.objects.create_user(username=username, password=password, email=email)
-        
         login(request, user)
 
         # Get or create the token for the user
         token, created = Token.objects.get_or_create(user=user)
 
-        response = redirect('marketplace_page')  # Adjust as necessary
+        response = JsonResponse({'success': True})
         response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
         return response
 

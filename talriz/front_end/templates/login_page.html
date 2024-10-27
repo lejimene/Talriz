@@ -13,7 +13,7 @@
 <body>
     <div class="Login_container">
         <div class="Login_box">
-            <form action="{% url 'login_logic' %}" method="POST">
+            <form action="{% url 'login_logic' %}" method="POST" data-redirect-url="{% url 'marketplace_page' %}">
             {% csrf_token %}
             <h1>WELCOME BACK</h1>
             <h1 class="TITLE_END">LOGIN</h1>

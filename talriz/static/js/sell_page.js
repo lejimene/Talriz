@@ -16,22 +16,22 @@ function validateForm(event) {
     const isAuction = document.getElementById("is_auction").checked;
 
     // Check if price inputs are valid numbers (skip if auction)
-    if (!isAuction && priceInput.value < 0) {
+    if (!isAuction && (priceInput.value < 0 || isNaN(priceInput.value))) {
         alert("Price must be a positive number.");
-        event.preventDefault();
+        event.preventDefault(); // Prevent form submission
         return false;
     }
 
-    if (startingBidInput.value < 0 && isAuction) {
+    if (isAuction && (startingBidInput.value < 0 || isNaN(startingBidInput.value))) {
         alert("Starting bid must be a positive number.");
-        event.preventDefault();
+        event.preventDefault(); // Prevent form submission
         return false;
     }
 
     // Validate Buy Out Price if provided
-    if (buyOutInput.value && (buyOutInput.value < 0 || !Number.isInteger(Number(buyOutInput.value)))) {
+    if (buyOutInput.value && (buyOutInput.value < 0 || isNaN(buyOutInput.value) || !Number.isInteger(Number(buyOutInput.value)))) {
         alert("Buy Out Price must be a positive integer.");
-        event.preventDefault();
+        event.preventDefault(); // Prevent form submission
         return false;
     }
 
@@ -39,7 +39,7 @@ function validateForm(event) {
     const auctionEndDateInput = document.getElementById("auction_end_date");
     if (isAuction && !auctionEndDateInput.value) {
         alert("Please select an auction end date.");
-        event.preventDefault();
+        event.preventDefault(); // Prevent form submission
         return false;
     }
 

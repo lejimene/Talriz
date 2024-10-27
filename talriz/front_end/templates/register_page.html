@@ -13,7 +13,7 @@
 <body>
     <div class="Register_container">
         <div class="Register_box">
-            <form action="{% url 'create_logic' %}" method="POST">
+            <form action="{% url 'create_logic' %}" method="POST" data-redirect-url="{% url 'marketplace_page' %}">
                 {% csrf_token %}
             <h1 class="Title_Start">WELCOME TO THE</h1>
             <h1 class="TITLE_END">COMMUNITY</h1>

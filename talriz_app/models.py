@@ -26,7 +26,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=650)
     #Category allow user to choose three cateogires perhaps? But as admin we can create category
-    categories = models.ManyToManyField(Category, related_name='items', choices=CATEGORY_CHOICES)
+    # categories = models.ManyToManyField(Category, related_name='items', choices=CATEGORY_CHOICES)
     #Price should be filled if the user doesnt want to auction
     price = models.DecimalField(max_digits=12,decimal_places=2,null=True,blank=True)
     #Everything below is auction stuff
