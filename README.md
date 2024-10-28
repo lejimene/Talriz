@@ -21,9 +21,11 @@ ex. Go to dev then (git pull origin dev, git merge <YOUR BRANCH> , Fix any confl
 It will let you know if there are any issues with merging or pulling. You have to find where the issue is
 
 
-To start the server using the database assuming you created 
-a database on mysql
-docker-compose up -d
-To update any database stuff like migrating stuff do that command and
-python manage.py makemigrations
-python manage.py migrate
+To start the server using the database this assumes you created a databsae called talriz_db and created a user named lejimene or just changing user
+in docker yml file to another valid user. In some cases you may need to change port in yml for db to 3307:3306 instead of 3306:3306.
+Then do
+docker-compose up --build
+After wards do CRTL C to end and uncomment the command manage.py migrate and comment rest. Then do the same for makemigrations
+After completing both do comment out everything but the python manage.py runserver
+Below is the link deployment
+http://localhost:8080/
