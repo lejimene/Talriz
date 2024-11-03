@@ -5,3 +5,4 @@ mysql
 python-decouple
 Pillow
 djangorestframework
+channels

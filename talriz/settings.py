@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'talriz_app',
+    'channels',
 ]
 
 REST_FRAMEWORK = {
