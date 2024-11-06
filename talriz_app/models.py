@@ -25,6 +25,7 @@ class Item(models.Model):
     seller= models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=650)
+    image = ItemImage(models.Model)
     #Category allow user to choose three cateogires perhaps? But as admin we can create category
     # categories = models.ManyToManyField(Category, related_name='items', choices=CATEGORY_CHOICES)
     #Price should be filled if the user doesnt want to auction

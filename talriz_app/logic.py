@@ -219,6 +219,7 @@ def submit_item(request):
         name = escape(request.POST.get('item_name'))
         description = escape(request.POST.get('item_description'))
         price = request.POST.get('item_price')
+        image = request.POST.get('item_image')
         
         # Handle auction-specific fields
         is_auction = request.POST.get('is_auction', False)
@@ -237,6 +238,7 @@ def submit_item(request):
         new_item = Item(
             seller = seller,
             name= name,
+            image= image,
             description = description,
             price=price if not is_auction else None,
             starting_bid=starting_bid if is_auction else None,
