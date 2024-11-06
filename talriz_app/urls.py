@@ -23,6 +23,7 @@ urlpatterns = [
     path('sell_page/', views.sell_page, name="sell_page"),
     path('submit_item/', views.submit_item, name="submit_item"),
     path('testing/', views.test_page, name="test_page"),  #This is to test how our pages handle frontend.
+    path('login/', views.login_page, name="login_page"),
 ]
 
 
