@@ -3,6 +3,8 @@ from django.urls import path
 from . import views
 from . import logic
 from django.http import HttpResponse
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 def not_found(request):
@@ -26,8 +28,6 @@ urlpatterns = [
     path('login/', views.login_page, name="login_page"),
 ]
 
-
-
-
-
-
+# This is for serving media files like images for development mode
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

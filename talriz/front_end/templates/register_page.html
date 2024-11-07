@@ -1,45 +1,76 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang= "en">
-<head>
-    <meta charset= "UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Talriz</title>
 
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">
-    <script src="{% static 'js/register.js' %}" defer> </script>
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+    <script src="{% static 'js/register.js' %}" defer></script>
+  </head>
+  <body>
     <div class="Register_container">
-        <div class="Register_box">
-            <form action="{% url 'create_logic' %}" method="POST" data-redirect-url="{% url 'marketplace_page' %}">
-                {% csrf_token %}
-            <h1 class="Title_Start">WELCOME TO THE</h1>
-            <h1 class="TITLE_END">COMMUNITY</h1>
-            <!-- Email input -->   
-            <div class="input_box">
-                <input type="email" name="email" placeholder="Enter Email Here" required> 
-            </div>
+      <div class="Register_box">
+        <form
+          action="{% url 'create_logic' %}"
+          method="POST"
+          data-redirect-url="{% url 'marketplace_page' %}"
+        >
+          {% csrf_token %}
+          <h1 class="Title_Start">WELCOME TO THE</h1>
+          <h1 class="TITLE_END">COMMUNITY</h1>
+          <!-- Email input -->
+          <div class="input_box">
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Email Here"
+              required
+            />
+          </div>
 
-            <div class="input_box">
-                <input type="text" name="username" placeholder="Enter Username Here" required> 
-            </div>
-            
-            <!-- Password input -->
-            <div class="input_box" id="password_input"><input type="password" name="password" placeholder="Enter Password Here" required> </div>
-            
-            <!-- RetypePassword input -->
-            <div class="input_box" id="retyped_password_input"><input type="password" name="retyped-password" placeholder="Re-enter Password Here" required> </div>
+          <div class="input_box">
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter Username Here"
+              required
+            />
+          </div>
 
-            <!-- Link to create account -->
-            <p class="Create_acc_text">Have an account? Log in <a href={% url 'login_page' %} class="create_here"> here </a></p>
-            
-            <div class="nested_btns">
-                <button type="submit" class="btn_lg">Create Account</button> 
-            </div>
-            </form>
-        </div>
+          <!-- Password input -->
+          <div class="input_box" id="password_input">
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter Password Here"
+              required
+            />
+          </div>
+
+          <!-- RetypePassword input -->
+          <div class="input_box" id="retyped_password_input">
+            <input
+              type="password"
+              name="retyped-password"
+              placeholder="Re-enter Password Here"
+              required
+            />
+          </div>
+
+          <!-- Link to create account -->
+          <p class="Create_acc_text">
+            Have an account? Log in
+            <a href="{% url 'login_page' %}" class="create_here"> here </a>
+          </p>
+
+          <div class="nested_btns">
+            <button type="submit" class="btn_lg">Create Account</button>
+          </div>
+        </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>

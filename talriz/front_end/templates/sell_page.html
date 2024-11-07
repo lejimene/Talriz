@@ -12,12 +12,12 @@
 </head>
 <body>
     <nav > <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
-        <a class="nav_item" id="sell" href= {% url 'marketplace_page' %}>Marketplace</a>
+        <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
         <form action="{% url 'logout_logic' %}" method="POST" class="nav_item">
           {% csrf_token %}
           <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
         </form>
-        
+
     </nav>
 
 
@@ -28,15 +28,19 @@
         <form action="/submit_item/" method="POST" enctype="multipart/form-data">
           <!-- CSRF Token if using Django -->
           {% csrf_token %}
-        
+
           <!-- Item Details Section -->
           <div class="Bottom_Section">
+            
             <div class="Right_Side">
               <label for="item_name">Name:</label>
               <input type="text" id="item_name" name="name" placeholder="Enter item name" required>
         
               <label for="item_description">Description:</label>
               <textarea id="item_description" name="description" placeholder="Enter item description" rows="4" required></textarea>
+              
+              <label for="item_image">Images (Max 8): </label>
+              <input type="file" id="item_image" name="image" accept="image/*" required multiple>
             </div>
         
             <div class="Left_Side">

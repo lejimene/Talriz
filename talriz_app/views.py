@@ -3,10 +3,9 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from . import logic
-from django.http import HttpResponse
-from . import logic
 from django.contrib.auth.decorators import login_required
 from .forms import ItemForm
+from .models import ItemImage
 
 @login_required
 def my_view(request):
@@ -48,6 +47,11 @@ def submit_item(request):
         if form.is_valid():
             item = form.save(commit=False)
             item.save()
+
+            images = request.FILES.getlist('image')
+            for image in images[:8]:
+                ItemImage.objects.create(item=item, image=image)
+
             print("Item saved successfully")
             return HttpResponseRedirect('/marketplace/')
         else:

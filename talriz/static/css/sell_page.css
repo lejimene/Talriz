@@ -7,13 +7,18 @@
   font-family: "Poppins", sans-serif;
 }
 
-
 body {
-  background-color: #8AC9F6;
+  background-color: #8ac9f6;
   overflow-x: hidden;
 }
 
-body, .nav_item, h1, h2, p, input, textarea {
+body,
+.nav_item,
+h1,
+h2,
+p,
+input,
+textarea {
   font-family: "Poppins", sans-serif;
 }
 
@@ -39,31 +44,29 @@ nav {
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-#sell, #Sign_Out
-{
+#sell,
+#Sign_Out {
   cursor: pointer;
   text-decoration: none;
-  
 }
 
 a:link,
 a:visited {
-  color: inherit; 
-  text-decoration: none; 
+  color: inherit;
+  text-decoration: none;
 }
 
-#sell:hover  {
+#sell:hover {
   color: rgb(110, 110, 110);
 }
 
 #Sign_Out {
   margin-right: 5vw;
-  background-color:#f0e5cc;
+  background-color: #f0e5cc;
 }
 
-
 #Sign_Out:hover {
-  background-color:#f3cec3;
+  background-color: #f3cec3;
 }
 /* END OF NAVBAR */
 .HUD {
@@ -184,7 +187,6 @@ h1 {
   min-width: 600px;
   height: auto;
   margin: 15px;
-
 }
 
 .Item_container {
@@ -205,7 +207,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-
 .Images_section {
   margin-bottom: 20px;
   padding: 10px;
@@ -220,7 +221,6 @@ h1 {
   margin-bottom: 8px;
 }
 
-
 .Images_section input[type="file"] {
   width: 100%;
   padding: 10px;
@@ -232,14 +232,17 @@ h1 {
   margin-top: 5px;
 }
 
-.Right_Side label, .Left_Side label {
+.Right_Side label,
+.Left_Side label {
   display: block;
   font-weight: bold;
   margin: 8px;
 }
 
-.Right_Side input, .Left_Side input, 
-.Right_Side textarea, .Left_Side select {
+.Right_Side input,
+.Left_Side input,
+.Right_Side textarea,
+.Left_Side select {
   width: 20vw;
   max-width: 550px;
   padding: 15px;
@@ -291,13 +294,12 @@ textarea:focus {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-
 }
 
 .submit-container {
   display: flex; /* Use flexbox for centering */
   justify-content: center; /* Center horizontally */
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .submit-container button {
@@ -321,43 +323,41 @@ textarea:focus {
 }
 
 .auction-checkbox input {
-  opacity: 0; 
+  opacity: 0;
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
   cursor: pointer;
 }
 
 .custom-checkbox {
-  width: 24px; 
+  width: 24px;
   height: 24px;
   border: 2px solid #007bff;
-  border-radius: 4px; 
+  border-radius: 4px;
   display: inline-block;
   position: relative;
-  background-color: white; 
-  transition: background-color 0.3s, border-color 0.3s; 
+  background-color: white;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .auction-checkbox input:checked + .custom-checkbox {
-  background-color: #007bff; 
-  border-color: #007bff; 
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .auction-checkbox input:checked + .custom-checkbox::after {
   content: "";
   position: absolute;
-  top: 4px; 
-  left: 8px; 
-  width: 6px; 
-  height: 12px; 
-  border: solid white; 
-  border-width: 0 2px 2px 0; 
-  transform: rotate(45deg); 
+  top: 4px;
+  left: 8px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
-
 
 @media (max-width: 1000px) {
   .Item_container {
@@ -405,8 +405,8 @@ textarea:focus {
 
 .Bottom_Section {
   display: flex;
-  justify-content: space-between; 
-  align-items: stretch; 
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 .Right_Side,

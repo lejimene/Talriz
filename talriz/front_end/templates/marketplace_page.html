@@ -14,24 +14,26 @@
     <nav>
       <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
       <h3 class="nav_item">Welcome {{ user.username }}</h3>
-      <a class="nav_item" id="sell" href= {% url 'sell_page' %}>Sell</a>
-      {% comment %} <a class="nav_item">Contact</a>
-      <a class="nav_item">Help</a> {% endcomment %}
-      <form action="{% url 'logout_logic' %}" method="POST" style="display: inline;">
+      <a class="nav_item" id="sell" href="{% url 'sell_page' %}">Sell</a>
+      {% comment %} <a class="nav_item">Contact</a> <a class="nav_item">Help</a> {% endcomment %}
+      <form action="{% url 'logout_logic' %}" method="POST" style="display: inline">
         {% csrf_token %}
         <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
       </form>
     </nav>
 
-    <div class="market_container"><img class="Marketplace_image" src="{% static '../static/images/marketplace.png' %}"/> </div>
+    <div class="market_container">
+      <img class="Marketplace_image" src="{% static '../static/images/marketplace.png' %}" />
+    </div>
     <div class="Item_container">
       <!-- Loop through items and dynamically populate item info -->
       {% for item in items %}
       <div class="Item">
         <div class="Images_section">
           <!-- Display first image of the item -->
-          {% if item.images.exists %}
+          {% if item.images.exists %} 
           <img
+            id="current-image"
             src="{{ item.images.first.image.url }}"
             alt="{{ item.name }} Image"
           />
@@ -45,22 +47,17 @@
         <div class="Bottom_Section">
           <div class="Left_Side">
             <p>Seller: {{ item.seller.username }}</p>
-          
             {% if request.user.is_authenticated and request.user != item.seller %}
-              <!-- Wrap count and button together for layout -->
-              <div class="like-section">
-                <p id="like-count-{{ item.id }}">Likes: {{ item.likes.count }}</p>
-                <button class="like_button" data-item-id="{{ item.id }}"> 
-                  {% if request.user in item.likes.all %}
-                    Unlike
-                  {% else %}
-                    Like
-                  {% endif %}
-                </button>
-              </div>
+            <!-- Wrap count and button together for layout -->
+            <div class="like-section">
+              <p id="like-count-{{ item.id }}">Likes: {{ item.likes.count }}</p>
+              <button class="like_button" data-item-id="{{ item.id }}">
+                {% if request.user in item.likes.all %} Unlike {% else %} Like {% endif %}
+              </button>
+            </div>
             {% else %}
-              <!-- Display only the Like count for other cases -->
-              <p>Likes: {{ item.likes.count }}</p>
+            <!-- Display only the Like count for other cases -->
+            <p>Likes: {{ item.likes.count }}</p>
             {% endif %}
           </div>
         </div>
@@ -83,9 +80,7 @@
         <a href="?page={{ items.previous_page_number }}"> previous</a>
         {% endif %}
 
-        <span class="current">
-          Page {{ items.number }} of {{ items.paginator.num_pages }}.
-        </span>
+        <span class="current"> Page {{ items.number }} of {{ items.paginator.num_pages }}. </span>
 
         {% if items.has_next %}
         <a href="?page={{ items.next_page_number}}">next</a>
