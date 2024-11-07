@@ -32,11 +32,18 @@
         <div class="Images_section">
           <!-- Display first image of the item -->
           {% if item.images.exists %} 
-          <img
-            id="current-image"
-            src="{{ item.images.first.image.url }}"
-            alt="{{ item.name }} Image"
-          />
+            <button class="prev-button" id="prev-{{ forloop.counter }}">&#8592</button>
+            <img
+              id="current-image-{{ forloop.counter }}"
+              src="{{ item.images.first.image.url }}"
+              alt="{{ item.name }} Image"
+            />
+            <button class="next-button" id="next-{{ forloop.counter }}">&#8594</button>
+            <p id="image-urls-{{ forloop.counter }}" style="display: none;">
+              {% for image in item.images.all %}
+                  {{ image.image.url }}{% if not forloop.last %},{% endif %}
+              {% endfor %}
+            </p>
           {% else %}
           <img src="{% static 'img/default_image.jpg' %}" alt="Default Image" />
           {% endif %}
@@ -44,6 +51,7 @@
 
         <!-- Display item's name -->
         <h1>{{ item.name }}</h1>
+        <h2>{{ item.price }}</h2>
         <div class="Bottom_Section">
           <div class="Left_Side">
             <p>Seller: {{ item.seller.username }}</p>
