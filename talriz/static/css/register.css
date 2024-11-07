@@ -25,6 +25,14 @@ body
     min-height: 500px;
 
 }
+.input_containers_box
+{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
 
 
 .Register_box
