@@ -10,20 +10,24 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     build: .
     volumes:
       - .:/root
     ports:
-      - "8080:8080"
+      - "8000:8000"
     environment:
       - DJANGO_SETTINGS_MODULE=talriz.settings
-    command: python manage.py runserver 0.0.0.0:8080 && python manage.py migrate
-    # command: python manage.py migrate
-    # command: python manage.py makemigrations
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - .env
 
