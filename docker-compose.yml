@@ -19,7 +19,7 @@ services:
       - "8080:8080"
     environment:
       - DJANGO_SETTINGS_MODULE=talriz.settings
-    command: python manage.py runserver 0.0.0.0:8080
+    command: python manage.py runserver 0.0.0.0:8080 && python manage.py migrate
     # command: python manage.py migrate
     # command: python manage.py makemigrations
     depends_on:

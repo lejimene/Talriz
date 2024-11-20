@@ -51,6 +51,7 @@ def login_logic(request):
                 response = JsonResponse({'success': True})
                 # Set the token in the response cookie
                 response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
+                response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
                 return response
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
@@ -75,6 +76,7 @@ def logout_logic(request):
 
     # Clear the auth token cookie
     response = redirect('login_page')
+    response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
     response.delete_cookie('auth_token')
     return response
 
@@ -155,6 +157,8 @@ def create_logic(request):
 
         response = JsonResponse({'success': True})
         response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
+        response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
+
         return response
 
     return render(request, 'register_page.html')
@@ -177,7 +181,9 @@ def like_item(request, item_id):
             item.likes.add(request.user)
             liked = True
 
-        return JsonResponse({'liked': liked, 'likes_count': item.likes.count()})
+        response = JsonResponse({'liked': liked, 'likes_count': item.likes.count()})
+        response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
+        return response
     return JsonResponse({'error': 'Invalid request'}, status=400)
     
 
