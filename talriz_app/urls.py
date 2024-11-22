@@ -16,7 +16,6 @@ urlpatterns = [
     path('', logic.login_logic, name="login_logic"),
     path('register/', views.register_page, name="register_page"),
     path('register/', logic.create_logic, name='create_logic'), #Logic for when user is registering new user
-    path('categories/', views.category_page, name="categories_page"), #Might be worth cutting this out since its not neccesary.
     path('marketplace/', views.marketplace_page, name="marketplace_page"),
     path('logout/', logic.logout_logic, name="logout_logic"), 
     path('like-item/<int:item_id>/', logic.like_item, name='like_item'),
