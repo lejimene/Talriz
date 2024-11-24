@@ -51,6 +51,7 @@ def login_logic(request):
                 response = JsonResponse({'success': True})
                 # Set the token in the response cookie
                 response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
+                response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
                 return response
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
@@ -75,6 +76,7 @@ def logout_logic(request):
 
     # Clear the auth token cookie
     response = redirect('login_page')
+    response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
     response.delete_cookie('auth_token')
     return response
 
@@ -155,6 +157,8 @@ def create_logic(request):
 
         response = JsonResponse({'success': True})
         response.set_cookie('auth_token', token.key, max_age=3600, httponly=True)
+        response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
+
         return response
 
     return render(request, 'register_page.html')
@@ -177,7 +181,9 @@ def like_item(request, item_id):
             item.likes.add(request.user)
             liked = True
 
-        return JsonResponse({'liked': liked, 'likes_count': item.likes.count()})
+        response = JsonResponse({'liked': liked, 'likes_count': item.likes.count()})
+        response['X-Content-Type-Options'] = 'nosniff' # fixes security issue in Part One LO1
+        return response
     return JsonResponse({'error': 'Invalid request'}, status=400)
     
 
@@ -213,7 +219,9 @@ def Market__focused_item_logic(request,  item_id):
 def Sell_logic(request):
     return render(request, 'sell_page.html')
 
-def submit_item(request):
+
+# Handle listing a new item to the database that user posted
+def list_item(request):
     if request.method == 'POST':
         #Get data from the form
         name = escape(request.POST.get('item_name'))
@@ -223,7 +231,7 @@ def submit_item(request):
         
         # Handle auction-specific fields
         is_auction = request.POST.get('is_auction', False)
-        starting_bid = request.POST.get('starting_bid', None)
+        bid_amount = request.POST.get('bid_amount', None)
         buy_out_price = request.POST.get('buy_out', None)
         auction_end_date = request.POST.get('auction_end_date', None)
         auction_end_time = request.POST.get('auction_end_time', None)
@@ -241,7 +249,7 @@ def submit_item(request):
             image= image,
             description = description,
             price=price if not is_auction else None,
-            starting_bid=starting_bid if is_auction else None,
+            starting_bid=bid_amount if is_auction else None,
             buy_out_price=buy_out_price if is_auction else None,
             auction_end_date=auction_end_datetime if is_auction else None
         )

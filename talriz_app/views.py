@@ -102,6 +102,6 @@ def marketplace_searched_item(request, item_id):
 @login_required
 def item_listing(request):
     if request.method == 'POST':
-        response = logic.submit_item(request)
+        response = logic.list_item(request)
         return response 
     

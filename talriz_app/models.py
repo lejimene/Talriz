@@ -54,15 +54,14 @@ class Item(models.Model):
     def __str__(self):
         return self.name
     
-    def save(self,*args, **kwargs ):
-        if not self.price and not self.bid_amount:
-            raise ValidationError("You must provide either a price or a bid amount.")
-        
-        # If auction end date has passed, mark as 'ended' if not sold or canceled
-        if self.auction_end_date and self.auction_end_time:
-            end_datetime = timezone.datetime.combine(self.auction_end_date, self.auction_end_time)
-            if self.status == 'active' and end_datetime <= timezone.now():
-                self.status = 'ended'
-
-        
-        super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+            # Normalize empty strings to None
+            self.price = self.price if self.price else None
+            self.bid_amount = self.bid_amount if self.bid_amount else None
+            self.buy_out_price = self.buy_out_price if self.buy_out_price else None
+            
+            # Validation: Ensure at least one value is provided
+            if not self.bid_amount and not self.price:
+                raise ValidationError("You must provide a price or bid amount. Both cannot be left blank.")
+            
+            super().save(*args, **kwargs)

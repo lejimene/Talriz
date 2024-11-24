@@ -1,51 +1,67 @@
 function toggleAuctionFields() {
     const auctionFields = document.getElementById("auction_fields");
-    const priceLabel = document.getElementById("price_label");
-    const itemPriceInput = document.getElementById("item_price");
+    const priceInput = document.getElementById("item_price");
+    const startingBidInput = document.getElementById("starting_bid");
+    const auctionEndDateInput = document.getElementById("auction_end_date");
     const isAuction = document.getElementById("is_auction").checked;
 
-    auctionFields.style.display = isAuction ? "block" : "none"; // Show/hide auction fields
-    itemPriceInput.style.display = isAuction ? "none" : "block"; // Hide price input if auction
-    priceLabel.style.display = isAuction ? "none" : "block"; // Hide price label if auction
+    // Toggle auction fields visibility
+    auctionFields.style.display = isAuction ? "block" : "none";
+
+    if (isAuction) {
+        // Auction mode: Remove "required" from price and add "required" to auction fields
+        priceInput.removeAttribute("required");
+        startingBidInput.setAttribute("required", "required");
+        auctionEndDateInput.setAttribute("required", "required");
+
+        // Clear the price input value to avoid accidental submission
+        priceInput.value = '';
+    } else {
+        // Price mode: Add "required" to price and remove "required" from auction fields
+        priceInput.setAttribute("required", "required");
+        startingBidInput.removeAttribute("required");
+        auctionEndDateInput.removeAttribute("required");
+
+        // Clear auction-specific input values to avoid accidental submission
+        startingBidInput.value = '';
+        auctionEndDateInput.value = '';
+        document.getElementById("buy_out").value = '';
+        document.getElementById("auction_end_time").value = '';
+    }
 }
 
 function validateForm(event) {
     const priceInput = document.getElementById("item_price");
     const startingBidInput = document.getElementById("starting_bid");
     const buyOutInput = document.getElementById("buy_out");
+    const auctionEndDateInput = document.getElementById("auction_end_date");
     const isAuction = document.getElementById("is_auction").checked;
 
-    // Check if price inputs are valid numbers (skip if auction)
-    if (!isAuction && (priceInput.value < 0 || isNaN(priceInput.value))) {
-        alert("Price must be a positive number.");
-        event.preventDefault(); // Prevent form submission
+    // Price validation if auction is not selected
+    if (!isAuction && (!priceInput.value || priceInput.value <= 0)) {
+        alert("Please enter a valid price.");
+        event.preventDefault();
         return false;
     }
 
-    if (isAuction && (startingBidInput.value < 0 || isNaN(startingBidInput.value))) {
-        alert("Starting bid must be a positive number.");
-        event.preventDefault(); // Prevent form submission
-        return false;
+    // Auction validation
+    if (isAuction) {
+        if (!startingBidInput.value || startingBidInput.value <= 0) {
+            alert("Please enter a valid starting bid.");
+            event.preventDefault();
+            return false;
+        }
+
+        if (!auctionEndDateInput.value) {
+            alert("Please select an auction end date.");
+            event.preventDefault();
+            return false;
+        }
     }
 
-    // Validate Buy Out Price if provided
-    if (buyOutInput.value && (buyOutInput.value < 0 || isNaN(buyOutInput.value) || !Number.isInteger(Number(buyOutInput.value)))) {
-        alert("Buy Out Price must be a positive integer.");
-        event.preventDefault(); // Prevent form submission
-        return false;
-    }
-
-    // Check if auction end date is selected
-    const auctionEndDateInput = document.getElementById("auction_end_date");
-    if (isAuction && !auctionEndDateInput.value) {
-        alert("Please select an auction end date.");
-        event.preventDefault(); // Prevent form submission
-        return false;
-    }
-
-    return true; // If all validations pass
+    return true; // Allow form submission if all validations pass
 }
 
-document.getElementById("Sign_Out").addEventListener("click")
-// Attach the validateForm function to the form's submit event
-document.querySelector('form').addEventListener('submit', validateForm);
+// Attach event listeners
+document.getElementById("is_auction").addEventListener("change", toggleAuctionFields);
+document.querySelector("form").addEventListener("submit", validateForm);

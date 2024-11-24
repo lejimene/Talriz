@@ -8,6 +8,7 @@
     <title>Talriz</title>
 
     <link rel="stylesheet" href="{% static 'css/marketplace.css' %}" />
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <script src="{% static 'js/marketplace.js' %}" defer></script>
   </head>
   <body>
@@ -51,7 +52,7 @@
 
         <!-- Display item's name -->
         <h1>{{ item.name }}</h1>
-        <h2>{{ item.price }}</h2>
+        <h2>$ {{ item.price }}</h2>
         <div class="Bottom_Section">
           <div class="Left_Side">
             <p>Seller: {{ item.seller.username }}</p>
