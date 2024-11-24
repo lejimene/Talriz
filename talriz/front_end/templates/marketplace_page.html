@@ -79,6 +79,19 @@
       {% endfor %}
     </div>
     <!-- Item_container Ends here -->
+{% comment %} OVerlay Section  {% endcomment %}
+
+    <div id="auctionOverlay" class="overlay hidden">
+      <div class="modal-content">
+        <span id="closeButton" class="close-button">&times;</span>
+        <h2>Join Auction</h2>
+        <div id="auctionDetails">
+          <p>Loading auction details...</p>
+        </div>
+        <button id="joinAuctionButton">Join Auction</button>
+      </div>
+    </div>
+{% comment %} End of overly section {% endcomment %}
 
     <!-- Pagination , Only loads 15 I belive and then must press next or last also has previous-->
     <div class="pagination">

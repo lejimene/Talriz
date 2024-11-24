@@ -46,3 +46,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+
+// Below is the Auction details stuff this NEEDS REVISING ONLY FOR TESTING 
+// DOES NOT LOAD ANYTHING USEFUL
+// This means handlin 
+
+document.addEventListener("DOMContentLoaded", () => {
+  const contactButtons = document.querySelectorAll("#contactButton");
+  const auctionOverlay = document.getElementById("auctionOverlay");
+  const closeButton = document.getElementById("closeButton");
+  const joinAuctionButton = document.getElementById("joinAuctionButton");
+
+  // Function to open the overlay
+  function openOverlay() {
+    auctionOverlay.classList.remove("hidden");
+    loadAuctionDetails();
+  }
+
+  // Function to close the overlay
+  function closeOverlay() {
+    auctionOverlay.classList.add("hidden");
+  }
+
+  // Load dynamic auction details (placeholder function for now)
+  function loadAuctionDetails() {
+    const auctionDetails = document.getElementById("auctionDetails");
+    // Replace this with actual dynamic data loading in the future
+    auctionDetails.innerHTML = `
+      <p>Auction for this item will start soon!</p>
+      <p>Starting bid: $100</p>
+      <p>Number of participants: 5</p>
+    `;
+  }
+
+  // Event listeners for buttons
+  contactButtons.forEach((button) =>
+    button.addEventListener("click", openOverlay)
+  );
+  closeButton.addEventListener("click", closeOverlay);
+  joinAuctionButton.addEventListener("click", () => {
+    alert("You have joined the auction!");
+    closeOverlay();
+  });
+
+  // Close overlay when clicking outside the modal content
+  auctionOverlay.addEventListener("click", (event) => {
+    if (event.target === auctionOverlay) {
+      closeOverlay();
+    }
+  });
+});
