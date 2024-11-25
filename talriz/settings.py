@@ -55,7 +55,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
-
+# Possible used for limitin user to not send giant ass files
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
@@ -111,17 +112,6 @@ DATABASES = {
         },
     }
 }
-
-# Was used for database part but the os.getenv 
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': os.getenv('DATABASE_NAME', 'talriz_db'),
-        # 'USER': os.getenv('DATABASE_USER', 'rmurray5'),
-        # 'PASSWORD': os.getenv('DATABASE_PASSWORD', '50447880'),
-        # 'HOST': os.getenv('DATABASE_HOST', 'localhost'),  # 'mysql' matches the service name in docker-compose
-        # 'PORT': os.getenv('DATABASE_PORT', '3306'),
-        # 'OPTIONS': {
-        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        # },
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

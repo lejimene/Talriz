@@ -52,7 +52,14 @@
 
         <!-- Display item's name -->
         <h1>{{ item.name }}</h1>
-        <h2>$ {{ item.price }}</h2>
+
+        <!-- Conditionally display price or bid amount -->
+        {% if item.is_auction %}
+          <h2>Starting Bid: ${{ item.bid_amount }}</h2>
+        {% else %}
+          <h2>Price: ${{ item.price }}</h2>
+        {% endif %}
+      
         <div class="Bottom_Section">
           <div class="Left_Side">
             <p>Seller: {{ item.seller.username }}</p>
@@ -73,13 +80,17 @@
 
         <div class="Button_section">
           <button class="Filter_button" id="contactButton">Contact</button>
-          <button class="buy_button" id="buyButton">Buy</button>
+          <button class="buy_button" id="buyButton-{{ item.id }}" data-item-id="{{ item.id }}">
+            Buy
+        </button>
           <!-- Buy Button to the right -->
         </div>
       </div>
       {% endfor %}
     </div>
     <!-- Item_container Ends here -->
+
+
 {% comment %} OVerlay Section  {% endcomment %}
 
     <div id="auctionOverlay" class="overlay hidden">
@@ -93,6 +104,8 @@
       </div>
     </div>
 {% comment %} End of overly section {% endcomment %}
+
+
 
     <!-- Pagination , Only loads 15 I belive and then must press next or last also has previous-->
     <div class="pagination">

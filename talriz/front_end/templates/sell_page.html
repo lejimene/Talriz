@@ -13,75 +13,69 @@
     
   </head>
 <body>
-    <nav > <!-- Navbar (IF possible try to figure out how to add the component instead of copying and pasting it over and over)-->
+    <nav> <!-- Navbar -->
         <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
         <form action="{% url 'logout_logic' %}" method="POST" class="nav_item">
           {% csrf_token %}
           <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
         </form>
-
     </nav>
 
-
-
     <div class="Item_container">
-      <!-- Items and item info should be dynamically added from the database -->
       <div class="Item">
         <form action="/submit_item/" method="POST" enctype="multipart/form-data">
-          <!-- CSRF Token if using Django -->
           {% csrf_token %}
-
+      
           <!-- Item Details Section -->
           <div class="Bottom_Section">
-            
-            <div class="Right_Side">
-              <label for="item_name">Name:</label>
-              <input type="text" id="item_name" name="name" placeholder="Enter item name" required>
-        
-              <label for="item_description">Description:</label>
-              <textarea id="item_description" name="description" placeholder="Enter item description" rows="4" required></textarea>
-              
-              <label for="item_image">Images (Max 8): </label>
-              <input type="file" id="item_image" name="image" accept="image/*" required multiple>
-            </div>
-        
-            <div class="Left_Side">
-              <label for="item_price" id="price_label">Price (in USD):</label>
-              <input type="number" id="item_price" name="price" min="0" placeholder="Enter price" required>
+              <div class="Right_Side">
+                  <label for="item_name">Name:</label>
+                  <input type="text" id="item_name" name="name" placeholder="Enter item name" required>
+      
+                  <label for="item_description">Description:</label>
+                  <textarea id="item_description" name="description" placeholder="Enter item description" rows="4" required></textarea>
+                  
+                  <label for="item_image">Images (Max 8): </label>
+                  <input type="file" id="item_image" name="image" accept="image/*" required multiple>
+              </div>
           
-          
-
-              <!-- Auction Section -->
-              <label for="is_auction" class="auction-label">Do you wish to auction? Press box.</label>
-              <label class="auction-checkbox">
-                  <input type="checkbox" id="is_auction" name="is_auction" onchange="toggleAuctionFields()">
-                  <span class="custom-checkbox"></span>
-              </label>
-
-              
-              <div id="auction_fields" style="display: none;">
-                  <label for="starting_bid">Starting Bid (in USD):</label>
-                  <input type="number" id="starting_bid" name="starting_bid" min="0" placeholder="Enter starting bid">
-          
-                  <label for="buy_out">Buy Out Price (optional):</label>
-                  <input type="number" id="buy_out" name="buy_out_price" min="0" placeholder="Enter buy out price" optional>
-          
-                  <label for="auction_end_date">Auction End Date:</label>
-                  <input type="date" id="auction_end_date" name="auction_end_date">
-          
-                  <label for="auction_end_time">Auction End Time:</label>
-                  <input type="time" id="auction_end_time" name="auction_end_time">
+              <div class="Left_Side">
+                  <label for="item_price" id="price_label">Price (in USD):</label>
+                  <input type="number" id="item_price" name="price" min="0" placeholder="Enter price">
+      
+                  <!-- Auction Section -->
+                  <label for="is_auction" class="auction-label">Do you wish to auction? Press box.</label>
+                  <label class="auction-checkbox">
+                      <input type="checkbox" id="is_auction" name="is_auction" onchange="toggleAuctionFields()">
+                      <span class="custom-checkbox"></span>
+                  </label>
+      
+                  <div id="auction_fields" style="display: none;">
+                      <label for="id_bid_amount">Starting Bid (in USD):</label>
+                      <input type="number" id="id_bid_amount" name="bid_amount" min="0" placeholder="Enter starting bid">
+                      
+                      <label for="buy_out">Buy Out Price (optional):</label>
+                      <input type="number" id="buy_out" name="buy_out_price" min="0" placeholder="Enter buy out price">
+                      
+                      <label for="auction_end_date">Auction End Date:</label>
+                      <input type="date" id="auction_end_date" name="auction_end_date">
+                      
+                      <label for="auction_end_time">Auction End Time:</label>
+                      <input type="time" id="auction_end_time" name="auction_end_time">
+      
+                      <input type="hidden" id="auction_end_datetime" name="auction_end_datetime">
+                  </div>
               </div>
           </div>
+      
+          <!-- Hidden status field -->
+          <input type="hidden" name="status" value="active">
+      
+          <div class="submit-container">
+              <button type="submit" class="filter" id="submit_button">Submit Item</button>
           </div>
-        <div class="submit-container">
-            <button type="submit" class="filter" id="submit_button">Submit Item</button>
-        </div>
-        </form>
+      </form>
       </div>
-
-    <!-- Item_container Ends here -->
-
-    
+    </div>
   </body>
 </html>

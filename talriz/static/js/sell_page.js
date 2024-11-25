@@ -1,52 +1,46 @@
 function toggleAuctionFields() {
     const auctionFields = document.getElementById("auction_fields");
     const priceInput = document.getElementById("item_price");
-    const startingBidInput = document.getElementById("starting_bid");
+    const bidAmountInput = document.getElementById("id_bid_amount");
     const auctionEndDateInput = document.getElementById("auction_end_date");
+    const auctionEndTimeInput = document.getElementById("auction_end_time");
     const isAuction = document.getElementById("is_auction").checked;
 
     // Toggle auction fields visibility
     auctionFields.style.display = isAuction ? "block" : "none";
 
     if (isAuction) {
-        // Auction mode: Remove "required" from price and add "required" to auction fields
+        // Auction mode: Require auction fields, clear price field
         priceInput.removeAttribute("required");
-        startingBidInput.setAttribute("required", "required");
+        priceInput.value = ''; // Clear the price input
+        bidAmountInput.setAttribute("required", "required");
         auctionEndDateInput.setAttribute("required", "required");
-
-        // Clear the price input value to avoid accidental submission
-        priceInput.value = '';
     } else {
-        // Price mode: Add "required" to price and remove "required" from auction fields
+        // Price mode: Require price, clear auction fields
         priceInput.setAttribute("required", "required");
-        startingBidInput.removeAttribute("required");
+        bidAmountInput.removeAttribute("required");
         auctionEndDateInput.removeAttribute("required");
-
-        // Clear auction-specific input values to avoid accidental submission
-        startingBidInput.value = '';
-        auctionEndDateInput.value = '';
-        document.getElementById("buy_out").value = '';
-        document.getElementById("auction_end_time").value = '';
+        auctionEndTimeInput.value = ''; // Clear optional fields
+        bidAmountInput.value = '';
     }
 }
 
 function validateForm(event) {
     const priceInput = document.getElementById("item_price");
-    const startingBidInput = document.getElementById("starting_bid");
-    const buyOutInput = document.getElementById("buy_out");
+    const bidAmountInput = document.getElementById("id_bid_amount");
     const auctionEndDateInput = document.getElementById("auction_end_date");
     const isAuction = document.getElementById("is_auction").checked;
 
-    // Price validation if auction is not selected
-    if (!isAuction && (!priceInput.value || priceInput.value <= 0)) {
+    // Validate price input
+    if (!isAuction && (!priceInput.value || parseFloat(priceInput.value) <= 0)) {
         alert("Please enter a valid price.");
         event.preventDefault();
         return false;
     }
 
-    // Auction validation
+    // Validate auction fields if auction is selected
     if (isAuction) {
-        if (!startingBidInput.value || startingBidInput.value <= 0) {
+        if (!bidAmountInput.value || parseFloat(bidAmountInput.value) <= 0) {
             alert("Please enter a valid starting bid.");
             event.preventDefault();
             return false;
@@ -59,9 +53,25 @@ function validateForm(event) {
         }
     }
 
-    return true; // Allow form submission if all validations pass
+    return true; // Allow form submission
 }
 
-// Attach event listeners
+function combineAuctionDateTime() {
+    var auctionDate = document.getElementById("auction_end_date").value;
+    var auctionTime = document.getElementById("auction_end_time").value;
+
+    // Combine date and time into ISO format for backend processing
+    if (auctionDate && auctionTime) {
+      var auctionDateTime = new Date(auctionDate + "T" + auctionTime); // Combine date and time
+
+      // Set the combined datetime value to the hidden input field
+      document.getElementById("auction_end_datetime").value = auctionDateTime.toISOString();
+    }
+}
+
+// Trigger the combine function when the form is submitted
+document.querySelector("form").addEventListener("submit", combineAuctionDateTime);
+
+// Attach event listeners for auction fields visibility and form validation
 document.getElementById("is_auction").addEventListener("change", toggleAuctionFields);
 document.querySelector("form").addEventListener("submit", validateForm);

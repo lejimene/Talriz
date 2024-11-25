@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 COPY . .
 RUN pip install -r requirements.txt
 
-EXPOSE 8000
+EXPOSE 8080
 
 
 # There's no point in waitng since db isn't set up yet
@@ -25,4 +25,4 @@ EXPOSE 8000
 RUN apt-get update && apt-get install -y default-mysql-client
 
 
-CMD python -u manage.py runserver 0.0.0.0:8000
+CMD python -u manage.py runserver

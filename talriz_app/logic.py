@@ -9,13 +9,14 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from .models import Item, Category, ItemImage
+from .models import Item, ItemImage, Bidder
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from rest_framework.authtoken.models import Token
 from datetime import timedelta
 from django.utils.html import escape
+from django.db.models import Prefetch
 
 #Testing page, For html and css and how it may look
 #replace the test.html with actual html page
@@ -163,14 +164,6 @@ def create_logic(request):
 
     return render(request, 'register_page.html')
 
-
-#category Page
-#Given set categories could be from user or from us ADMINS
-def category_logic(request):
-    categories = Category.objects.all()  # Get all categories
-    return render(request, 'filters_page.html', {'categories': categories})
-
-
 def like_item(request, item_id):
     if request.method == 'POST' and request.user.is_authenticated:
         item = get_object_or_404(Item, id=item_id)
@@ -193,13 +186,20 @@ def like_item(request, item_id):
 # We might need to handle How much of it loads cuz imagine
 # we load everything with a full database not cool.
 def Market_logic(request):
-    items = Item.objects.prefetch_related('images', 'likes').all()  # Fetch items with related images and likes,
-    #This items fetches everything we should be worried about it a litle
+    # Fetch only items with status 'active', along with their related images and likes
+    items = (
+        Item.objects.prefetch_related(
+            Prefetch('images'), 
+            Prefetch('likes')
+        )
+        .filter(status='active')  # Only fetch active items
+        .all()
+    )
+    
+    # Paginate the filtered items
     paginator = Paginator(items, 15)
-    page_number = escape(request.GET.get('page',1))
+    page_number = escape(request.GET.get('page', 1))
 
-    #handling paginator which is what keeps page loading for more\
-    #This means if we create a filters so the user can't
     try:
         page_items = paginator.get_page(page_number)
     except PageNotAnInteger:
@@ -207,6 +207,7 @@ def Market_logic(request):
     except EmptyPage:
         page_items = paginator.get_page(paginator.num_pages)
 
+    # Render the template with only active items
     return render(request, 'marketplace_page.html', {'items': page_items})
 
 def Market__focused_item_logic(request,  item_id):
@@ -219,46 +220,64 @@ def Market__focused_item_logic(request,  item_id):
 def Sell_logic(request):
     return render(request, 'sell_page.html')
 
-
-# Handle listing a new item to the database that user posted
-def list_item(request):
-    if request.method == 'POST':
-        #Get data from the form
-        name = escape(request.POST.get('item_name'))
-        description = escape(request.POST.get('item_description'))
-        price = request.POST.get('item_price')
-        image = request.POST.get('item_image')
-        
-        # Handle auction-specific fields
-        is_auction = request.POST.get('is_auction', False)
-        bid_amount = request.POST.get('bid_amount', None)
-        buy_out_price = request.POST.get('buy_out', None)
-        auction_end_date = request.POST.get('auction_end_date', None)
-        auction_end_time = request.POST.get('auction_end_time', None)
-
-        #Combine auction end date and auction end time
-        if auction_end_date and auction_end_time:
-            auction_end_datetime = f"{auction_end_date} {auction_end_time}"
-        else:
-            auction_end_datetime = None
-
-        seller = request.user if request.user.is_authenticated else User.objects.get(id=1)
-        new_item = Item(
-            seller = seller,
-            name= name,
-            image= image,
-            description = description,
-            price=price if not is_auction else None,
-            starting_bid=bid_amount if is_auction else None,
-            buy_out_price=buy_out_price if is_auction else None,
-            auction_end_date=auction_end_datetime if is_auction else None
-        )
-        new_item.save()
-
-        #Save category BUT CATEGORY DOESNT WORK AS OF NOW
-        # category_instance
-
-        #redirect page if item is submitted
-        return redirect() 
+def buy_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
     
-    return render(request, 'sell_page.html')
+    # Ensure the buyer is not the seller
+    if request.user == item.seller:
+        return JsonResponse({'error': 'You cannot buy your own item.'}, status=403)
+
+    # Update the item's status to 'sold'
+    if item.status == 'active':
+        item.status = 'sold'
+        item.save()
+        return JsonResponse({'message': 'Item purchased successfully!'})
+    else:
+        return JsonResponse({'error': 'Item is not available for purchase.'}, status=400)
+
+
+
+#Whats the point of this code actually literally doesnt effect anything if
+#user wants to seel an item
+# # Handle listing a new item to the database that user posted
+# def list_item(request):
+#     if request.method == 'POST':
+#         #Get data from the form
+#         name = escape(request.POST.get('item_name'))
+#         description = escape(request.POST.get('item_description'))
+#         price = request.POST.get('item_price')
+#         image = request.POST.get('item_image')
+        
+#         # Handle auction-specific fields
+#         is_auction = request.POST.get('is_auction', False)
+#         bid_amount = request.POST.get('bid_amount', None)
+#         buy_out_price = request.POST.get('buy_out', None)
+#         auction_end_date = request.POST.get('auction_end_date', None)
+#         auction_end_time = request.POST.get('auction_end_time', None)
+
+#         #Combine auction end date and auction end time
+#         if auction_end_date and auction_end_time:
+#             auction_end_datetime = f"{auction_end_date} {auction_end_time}"
+#         else:
+#             auction_end_datetime = None
+
+#         seller = request.user if request.user.is_authenticated else User.objects.get(id=1)
+#         new_item = Item(
+#             seller = seller,
+#             name= name,
+#             image= image,
+#             description = description,
+#             price=price if not is_auction else None,
+#             starting_bid=bid_amount if is_auction else None,
+#             buy_out_price=buy_out_price if is_auction else None,
+#             auction_end_date=auction_end_datetime if is_auction else None
+#         )
+#         new_item.save()
+
+#         #Save category BUT CATEGORY DOESNT WORK AS OF NOW
+#         # category_instance
+
+#         #redirect page if item is submitted
+#         return redirect() 
+    
+#     return render(request, 'sell_page.html')

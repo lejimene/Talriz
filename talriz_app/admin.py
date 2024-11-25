@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import Category, Item, ItemImage
+from .models import  Item, ItemImage
 
-admin.site.register(Category)
 
 #Testing like feature need admin not have like on its own device
 

@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from . import logic
 from django.contrib.auth.decorators import login_required
-from .forms import ItemForm
+from .forms import ItemForm, ItemImageForm
 from .models import ItemImage
+from django.contrib import messages
+from datetime import datetime
 
 @login_required
 def my_view(request):
@@ -40,14 +42,24 @@ def sell_page(request):
 def submit_item(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
-        print(request.user.id)
-        print(request.user)
         form.instance.seller = request.user
-        print(form.instance.seller)
+        
         if form.is_valid():
             item = form.save(commit=False)
+            
+            # Combine auction_end_date and auction_end_time in the view
+            if item.is_auction:
+                auction_end_date = request.POST.get('auction_end_date')
+                auction_end_time = request.POST.get('auction_end_time')
+                
+                if auction_end_date and auction_end_time:
+                    # Combine the date and time into a datetime object
+                    auction_end_str = f"{auction_end_date} {auction_end_time}"
+                    item.auction_end_datetime = datetime.strptime(auction_end_str, "%Y-%m-%d %H:%M")
+                
             item.save()
 
+            # Handle images
             images = request.FILES.getlist('image')
             for image in images[:8]:
                 ItemImage.objects.create(item=item, image=image)
@@ -55,10 +67,11 @@ def submit_item(request):
             print("Item saved successfully")
             return HttpResponseRedirect('/marketplace/')
         else:
-            print(form.errors)
+            print("Form errors:", form.errors)
             return HttpResponse("Form is not valid")
     else:
         form = ItemForm()
+
     return render(request, 'submit_item.html', {'form': form})
 
 
@@ -67,15 +80,6 @@ def register_page(request):
         response = logic.create_logic(request)
         return response
     return render(request, 'register_page.html')
-
-## is this catagory logic
-@login_required
-def category_page(request):
-    if request.method == "POST":
-        response = logic.category_logic(request)
-        return response
-    response = logic.category_logic(request)
-    return response
 
 
 #This is the page that will load all items with no specific look into it
@@ -88,6 +92,11 @@ def marketplace_page(request):
     response = logic.Market_logic(request)
     return response
 
+@login_required
+def buy_button_item(request,item_id):
+    response = logic.buy_item(request,item_id)
+    return response
+    
 
 #This is the page tht will handle loading a specific item and getting the details of it
 @login_required
