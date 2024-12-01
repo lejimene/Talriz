@@ -6,3 +6,4 @@ python-decouple
 Pillow
 djangorestframework
 channels
+channels-redis

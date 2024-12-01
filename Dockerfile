@@ -10,6 +10,7 @@ WORKDIR /root
 RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     gcc \
+    redis-server \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
@@ -25,4 +26,4 @@ EXPOSE 8080
 RUN apt-get update && apt-get install -y default-mysql-client
 
 
-CMD python -u manage.py runserver
+CMD service redis-server start && python -u manage.py runserver
