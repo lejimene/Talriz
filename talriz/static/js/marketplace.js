@@ -91,6 +91,34 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Number of participants: 5</p>
     `;
   }
+  // Function to toggle dark mode
+  function toggleDarkMode() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');  // Toggle the dark mode class
+
+    // Save the user's theme preference in localStorage
+    if (body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  // Check if the user has a saved theme preference in localStorage
+  window.onload = function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  };
+
+  // Add the event listener to the button
+  document.getElementById('theme-toggle-button').addEventListener('click', () => {
+    console.log('Button clicked');
+    toggleDarkMode();
+  });
+
+
 
   // Event listeners for buttons
   contactButtons.forEach((button) => button.addEventListener("click", openOverlay));

@@ -8,9 +8,105 @@
   font-family: "Poppins", sans-serif;
 }
 
-body {
-  background-color: #8ac9f6;
+/* Define custom properties for light mode */
+:root {
+  --background-color-light: #8ac9f6;
+  --background-color-dark: #1e1e1e;
+  --text-color-light: #000;
+  --text-color-dark: #fff;
+  --button-background-light: #64b3ff;
+  --button-background-dark: #444;
+  --button-hover-light: #4287f5;
+  --button-hover-dark: #555;
+  --card-background-light: #fff;
+  --card-background-dark: #333;
 }
+
+/* Default light mode styles */
+body {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+button {
+  background-color: var(--button-background-light);
+  color: var(--text-color-light);
+}
+
+button:hover {
+  background-color: var(--button-hover-light);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+button.dark-mode {
+  background-color: var(--button-background-dark);
+  color: var(--text-color-dark);
+}
+
+button.dark-mode:hover {
+  background-color: var(--button-hover-dark);
+}
+
+/* General dark mode styles */
+
+/* Apply dark mode to item containers */
+body.dark-mode .Item_container {
+  background-color: #222; /* Dark background for item container */
+  color: white; /* White text color for items */
+}
+
+body.dark-mode .Item {
+  background-color: #333; /* Dark background for individual items */
+  border: 1px solid #444; /* Dark border for items */
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px; /* Rounded corners for items */
+}
+
+/* Ensure item headings and paragraphs have correct colors */
+body.dark-mode .Item h1,
+body.dark-mode .Item h2,
+body.dark-mode .Item p {
+  color: white; /* White text for headings and paragraphs */
+}
+
+/* Buttons should also change in dark mode */
+body.dark-mode .Item .Button_section button {
+  background-color: #555; /* Dark background for buttons */
+  color: white; /* White text for buttons */
+  border: 1px solid #444; /* Dark border */
+}
+
+/* Dark mode styling for like and contact buttons */
+body.dark-mode .like_button,
+body.dark-mode .Filter_button {
+  background-color: #555;
+  color: white;
+  border: 1px solid #444;
+}
+
+/* Adjust hover effects in dark mode */
+body.dark-mode .Item .Button_section button:hover,
+body.dark-mode .like_button:hover,
+body.dark-mode .Filter_button:hover {
+  background-color: #666; /* Slightly lighter background on hover */
+}
+
+body.dark-mode .Marketplace_image {
+  filter: invert(1); /* Inverts the colors of the image */
+}
+
+nav.dark-mode {
+  background-color: #444;
+}
+
+
+
 
 /* START OF NAVBAR */
 
@@ -34,32 +130,39 @@ nav {
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-#sell, #Sign_Out
-{
+#sell, #Sign_Out, #theme-toggle-button {
   cursor: pointer;
   text-decoration: none;
-  
 }
 
 a:link,
 a:visited {
-  color: inherit; 
-  text-decoration: none; 
+  color: inherit;
+  text-decoration: none;
 }
 
-#sell:hover  {
+#sell:hover {
   color: rgb(110, 110, 110);
 }
 
 #Sign_Out {
-  margin-right: 5vw;
-  background-color:#f0e5cc;
+  margin-right: 4vw;
+  background-color: #f0e5cc;
 }
-
 
 #Sign_Out:hover {
-  background-color:#f3cec3;
+  background-color: #f3cec3;
 }
+
+#theme-toggle-button {
+  margin-left: 4vw;
+  background-color: #f0e5cc;
+}
+
+#theme-toggle-button:hover {
+  background-color: #f3cec3;
+}
+
 /* END OF NAVBAR */
 .HUD {
   margin: 0 5vw;
@@ -180,16 +283,14 @@ h1 {
   margin-top: 10px;
 }
 
-.market_container
-{
-  text-align: center; 
+.market_container {
+  text-align: center;
 }
 
 .Marketplace_image {
-  width: 160px;; /* Scales image if necessary to fit the container */
-  height: 160px;    /* Maintains aspect ratio */
+  width: 160px;
+  height: 160px;
 }
-
 
 .buy_button, #contactButton {
   background-color: #64b3ff;
@@ -220,7 +321,6 @@ h1 {
   background-color: #4287f5; /* Change color on hover */
   transform: scale(1.1);
 }
-
 
 /* Overlay Styles below */
 .overlay {
