@@ -30,7 +30,7 @@ function message_to_html(messageJSON) {
     const username = messageJSON.username;
     const message = messageJSON.message;
 
-    let messageHTML = "<div> <b>" + username + "</b>: " + message + "</div>";
+    let messageHTML = "<div> <sender><b>" + username + "</b>: " + message + "</sender></div>";
 
     return messageHTML;
 }
