@@ -215,11 +215,12 @@ h1 {
   background-color: #007bff; /* Blue color */
   color: white;
   height: auto;
-  width: 94px;
+  width: 74px;
   padding: 10px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
+  box-shadow: 2px 5px 3px rgba(0, 0, 0, 0.2);
 }
 
 .submit-container {
@@ -244,7 +245,7 @@ h1 {
   gap: 10px;
   flex: 1; /* Ensures both sides take equal width */
   box-sizing: border-box; /* Ensures padding and border are considered in the width */
-  padding: 20px; /* Adjust the padding as needed */
+  padding: 0px; /* Adjust the padding as needed */
   background-color: rgb(255, 255, 255);
   border-radius: 20px;
   margin: auto;
@@ -262,11 +263,20 @@ h1 {
 #chat-messages {
   height: 85%;
   overflow: scroll;
+  padding: 15px;
 }
 
 .chat-form {
-  height: 15%;
+  padding: 15px;
+  height: 20%;
   align-items: center;
+  background-color: #adadad;
+}
+.box-form {
+  padding: 10px;
+  align-items: center;
+  border-radius: 20px;
+  background-color: #fcfbef;
 }
 
 .Right_Side label,
@@ -282,8 +292,9 @@ h1 {
   max-width: 90%;
   padding: 15px;
   margin: 7px;
-  border-radius: 4px;
+  border-radius: 15px;
   border: 1px solid #ccc;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 sender {
@@ -291,8 +302,9 @@ sender {
   max-width: 70%;
   padding: 10px 15px;
   border-radius: 20px;
-  line-height: 2.75;
+  line-height: 3;
   word-wrap: break-word;
   background-color: #2396f5;
   color: #000;
+  box-shadow: 2px 5px 3px rgba(0, 0, 0, 0.2);
 }
