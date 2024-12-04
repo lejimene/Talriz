@@ -19,15 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Remove any existing error messages
         const errorBox = document.getElementById("error-box");
-        if (errorBox) errorBox.remove();
+        //if (errorBox) errorBox.remove();
 
         if (!response.ok) {
-            const errorMessage = document.createElement("p");
-            errorMessage.id = "error-box";
-            errorMessage.textContent = result.error;
-            errorMessage.style.color = "red";
-            errorMessage.style.textAlign = "center";
-            registerContainer.insertBefore(errorMessage, form); // Insert above the form
+            //const errorMessage = document.createElement("p");
+            //errorMessage.id = "error-box";
+            errorBox.textContent = result.error;
+            errorBox.style.color = "red";
+            errorBox.style.textAlign = "center";
+            errorBox.style.display = "block";
+            //registerContainer.insertBefore(errorBox, form); // Insert above the form
         } else {
             const redirectUrl = form.getAttribute("data-redirect-url");
             window.location.href = redirectUrl; // Redirect on success

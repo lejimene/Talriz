@@ -109,15 +109,18 @@ def validation(password):
 
     # Return all requirements failed
     if upper == False:
-        reasons.append(" must have an uppercase character")
+        reasons.append(" have an uppercase character")
     if lower == False:
-        reasons.append(" must have a lowercase character")
+        reasons.append(" have a lowercase character")
     if special == False:
-        reasons.append(" must have a special character")
+        reasons.append(" have a special character")
     if num == False:
-        reasons.append(" must have a number")
+        reasons.append(" have a number")
     if length == False:
-        reasons.append(" must be atleast 8 characters long")
+        reasons.append(" be at least 8 characters long")
+
+    if len(reasons) > 0:
+        reasons.insert(0,"Password must...")
     return reasons
 
 #Register page

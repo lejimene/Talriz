@@ -44,6 +44,16 @@ body
     margin-bottom: 50px;
 }
 
+#error-box {
+    margin-bottom: 10px;
+    font-size: 14px;
+    border: 1px solid red;
+    padding: 8px;
+    background-color: #ffe6e6;
+    border-radius: 4px;
+    z-index: 30;
+}
+
 .Title_Start
 {
     padding-top: 40px;
