@@ -24,6 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const socket = new WebSocket('ws://' + window.location.host + '/ws/chat/');
+
+  socket.onmessage = function(stuff){
+    let data =  JSON.parse(stuff.data)
+    console.log('Data:',data)
+  }
   // Image navigation logic
   const imageContainers = document.querySelectorAll(".Images_section");
 

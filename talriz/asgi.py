@@ -11,17 +11,16 @@ import os
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-from django.urls import path
-from talriz.consumers import NotificationConsumer
+import talriz_app.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'talriz.settings')
 
 application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(
+    'http': get_asgi_application(),
+    'websocket': AuthMiddlewareStack(
         URLRouter(
-             path('ws/chat/', NotificationConsumer.as_asgi()),
+            talriz_app.routing.websocket_urlpatterns
         )
-    ),
+    )
 })
 

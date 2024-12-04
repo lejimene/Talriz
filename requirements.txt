@@ -5,5 +5,6 @@ mysql
 python-decouple
 Pillow
 djangorestframework
-channels
+channels==3.0.5
 channels-redis
+daphne
