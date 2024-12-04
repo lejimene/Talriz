@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talriz</title>
+
+    <link rel="stylesheet" href="{% static 'css/contact_page.css' %}">
+    <script src="{% static 'js/contact_page.js' %}" defer> </script>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    
+  </head>
+<body>
+    <nav> <!-- Navbar -->
+        <h3 id='logged_user' class="nav_item">Logged in as: {{ user.username }}</h3>
+        <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
+        <a class="nav_item" id="sell" href="{% url 'sell_page' %}">Sell</a>
+        <form action="{% url 'logout_logic' %}" method="POST" class="nav_item">
+          {% csrf_token %}
+          <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
+        </form>
+    </nav>
+
+    <div class="Item_container">
+      <div class="Item">
+          <div class="chat">
+              <div class="chat_box">
+                <div id="chat-messages">
+                </div>
+
+                <div class="chat-form">
+                      <b>Chat:</b>
+                      <input id="chat-text-box" type="text">
+                    <button class="button" id="submit_button" onclick="send_message()">Send</button>
+                </div>
+        
+                <br>
+                <!-- <form action="/media-uploads" method="post" enctype="multipart/form-data">
+                    Upload:
+                    <input type="file" name="upload">
+                    <input type="submit" value="Upload">
+                </form> -->
+            </div>
+        </div>
+      </div>
+      <!-- Hidden status field -->
+      <input type="hidden" name="status" value="active">
+    
+      <div class="submit-container">
+          <button type="submit" class="filter" id="submit_button">Submit Item</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -80,7 +80,7 @@
         </div>
 
         <div class="Button_section">
-          <button class="Filter_button" id="contactButton">Contact</button>
+          <a class="nav_item" id="contactButton" href="{% url 'contact' %}">Contact</a>
           <button class="buy_button" id="buyButton-{{ item.id }}" data-item-id="{{ item.id }}">
             Buy
         </button>
@@ -92,7 +92,7 @@
     <!-- Item_container Ends here -->
 
 
-{% comment %} OVerlay Section  {% endcomment %}
+<!-- {% comment %} OVerlay Section  {% endcomment %}
 
     <div id="auctionOverlay" class="overlay hidden">
       <div class="modal-content">
@@ -104,7 +104,7 @@
         <button id="joinAuctionButton">Join Auction</button>
       </div>
     </div>
-{% comment %} End of overly section {% endcomment %}
+{% comment %} End of overly section {% endcomment %} -->
 
 
 

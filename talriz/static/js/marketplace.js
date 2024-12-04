@@ -24,8 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const socket = new WebSocket('ws://' + window.location.host + '/ws/chat/');
-
   socket.onmessage = function(stuff){
     let data =  JSON.parse(stuff.data)
     console.log('Data:',data)

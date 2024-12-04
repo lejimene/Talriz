@@ -105,7 +105,7 @@ def marketplace_searched_item(request, item_id):
         response = logic.Market__focused_item_logic(request, item_id)
         return response
     return render(request, 'marketplace_page.html')
-
+    
 
 # Handle listing a new item to the database that user posted
 @login_required
@@ -114,3 +114,6 @@ def item_listing(request):
         response = logic.list_item(request)
         return response 
     
+@login_required
+def contact_page(request):
+    return render(request, 'contact_page.html')

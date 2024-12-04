@@ -8,10 +8,6 @@ class NotificationConsumer(WebsocketConsumer):
         if self not in Clients: 
             Clients.append(self)
         self.accept()
-        
-        self.send(text_data=json.dumps({
-            'message':'Connection established'
-        }))
 
     def disconnect(self, close_code):
         if self in Clients: 
@@ -21,9 +17,11 @@ class NotificationConsumer(WebsocketConsumer):
     def receive(self, text_data): 
         text_data_json = json.loads(text_data)
         message = text_data_json.get('message', '')
+        username = text_data_json.get('username', '')
         for users in Clients[:]: 
             users.send(text_data = json.dumps({
-                'message': message
+                'message': message,
+                'username': username
             }))
 
        
