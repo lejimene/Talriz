@@ -24,10 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  socket.onmessage = function(stuff){
-    let data =  JSON.parse(stuff.data)
-    console.log('Data:',data)
-  }
   // Image navigation logic
   const imageContainers = document.querySelectorAll(".Images_section");
 
