@@ -34,8 +34,13 @@ function add_to_chat(messageJSON) {
 
     const chatMessages = document.getElementById("chat-messages");
     // Add to live chat
-    if ((messageSeller === currentSeller && messageBuyer === currentBuyer) || (messageBuyer === currentSeller && messageSeller === currentBuyer)) {
-        chatMessages.insertAdjacentHTML("beforeend", message_to_html(messageJSON));
+    if ((messageSeller === currentSeller && messageBuyer === currentBuyer)) {
+        chatMessages.insertAdjacentHTML("beforeend", sender_to_html(messageJSON));
+        chatMessages.scrollIntoView(false);
+        chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+        console.log('Message added');
+    } else if (messageBuyer === currentSeller && messageSeller === currentBuyer) {
+        chatMessages.insertAdjacentHTML("beforeend", receiver_to_html(messageJSON));
         chatMessages.scrollIntoView(false);
         chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
         console.log('Message added');
@@ -57,11 +62,20 @@ function add_to_chat(messageJSON) {
     request.send(JSON.stringify(messageJSON));
 }
 
-function message_to_html(messageJSON) { 
+function sender_to_html(messageJSON) { 
     const username = messageJSON.buyer;
     const message = messageJSON.message;
 
-    let messageHTML = "<div> <sender><b>" + username + "</b>: " + message + "</sender></div>";
+
+    let messageHTML = "<div style='display: flex; justify-content: flex-end'>" + "<div> <sender>" + message + "</sender></div></div>"
+    
+    return messageHTML;
+}
+function receiver_to_html(messageJSON) { 
+    const username = messageJSON.buyer;
+    const message = messageJSON.message;
+
+    let messageHTML = "<div> <receiver>" + message + "</receiver></div>";
 
     return messageHTML;
 }

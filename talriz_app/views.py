@@ -162,9 +162,11 @@ def submit_messages(request):
     seller = jsonString["seller"]
     data = jsonString["message"]
     current_id = jsonString["id"]
-
-    message = Message.objects.create(buyer=buyer, seller=seller, data=data, id=current_id,)
-    message.save()
+    try :
+        message = Message.objects.create(buyer=buyer, seller=seller, data=data, id=current_id,)
+        message.save()
+    except IntegrityError :
+        print("Caught dupe message - Oop")
 
     response = redirect('contact')
     return response
