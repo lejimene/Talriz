@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from . import logic
 from django.contrib.auth.decorators import login_required
 from .forms import ItemForm, ItemImageForm
-from .models import Item, ItemImage, Message
+from .models import Item, ItemImage, Message, Conversation
 from django.contrib import messages
 from datetime import datetime
 from django.template.loader import render_to_string
@@ -122,37 +122,36 @@ def item_listing(request):
         return response 
     
 @login_required
-def contact_page(request):
-    # Message.objects.all().delete()
-    if request.method == 'POST':
-        content =  ""
-        with open('./talriz/front_end/templates/contact_page.html', 'r') as f:
-            content = f.read()
+def contact_page(request, conversation_id=None):
+    # A conversation id is passed in, meaning a conversation is selected
+    if conversation_id:
+        conversation = Conversation.objects.get(id=conversation_id)
+
+        # Filter out messages that are not from the current user
+        if request.user not in [conversation.user1, conversation.user2]:
+            return redirect('contact_page')
         
-        seller = request.POST.get("seller_name", "None")
-        buyer = request.POST.get("buyer_name", "None")
+        messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
 
-        # You cannot message yourself
-        if seller == buyer :
-            response = redirect('marketplace_page')
-            return response
+        # New message is being sent
+        if request.method == 'POST':
+            message = request.POST.get('message')
+            if message:
+                Message.objects.create(
+                    buyer=conversation.user1.username, 
+                    seller=conversation.user2.username, 
+                    data=message, 
+                    conversation=conversation
+                    )
+                return redirect('contact_page', conversation_id=conversation_id)
+    
+        return render(request, 'contact_page.html', {'conversation': conversation, 'messages': messages})
 
-        content = content.replace('seller_info_replace', seller)
-        content = content.replace('buyer_info_replace', buyer)
+    # No conversation id, meaning no conversation is selected. So return all conversations
+    conversations = Conversation.objects.filter(user1=request.user) | Conversation.objects.filter(user2=request.user)
 
-        path = "./talriz/front_end/templates/temp_file.html"
-        if os.path.exists(path):
-            with open(path, 'w') as f:
-                f.write(content)
-        else:
-            with open(path, 'x') as f:
-                f.write(content)
+    return render(request, 'contact_page.html', {'conversations': conversations})
 
-        messages =  Message.objects.filter( Q(buyer=buyer, seller=seller) | Q(buyer=seller, seller=buyer)).order_by('timestamp')
-
-        return render(request, 'temp_file.html', {'messages': messages})
-
-    return render(request, 'contact_page.html')
 
 @login_required
 def submit_messages(request):

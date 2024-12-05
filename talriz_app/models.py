@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+import uuid
 # Create your models here.
 
 class ItemImage(models.Model):
@@ -68,14 +69,24 @@ class Item(models.Model):
 
         super().save(*args, **kwargs)
 
+
+class Conversation(models.Model):
+    user1 = models.ForeignKey(User, related_name='conversation_user1', on_delete=models.CASCADE)
+    user2 = models.ForeignKey(User, related_name='conversation_user2', on_delete=models.CASCADE)
+    # Maybe relate a item to a conversation or the lastest message for display purposes
+
+    def __str__(self):
+        return f"{self.user1.username} and {self.user2.username}"
+
+
 class Message(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     buyer = models.TextField()
     seller = models.TextField()
     data = models.TextField()
-    id = models.TextField(primary_key=True)
+    conversation = models.ForeignKey('Conversation', on_delete=models.CASCADE, related_name='messages', default=None)
 
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.buyer}: {self.data}"
-    

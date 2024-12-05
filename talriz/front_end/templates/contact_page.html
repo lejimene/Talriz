@@ -31,11 +31,13 @@
             <div class="user-list">
               <h1>Chat List</h1>
               <ul>
-                <!--
-                Make dynamic and add onclick event to each user name
-                -->
-                <p class="user-name">Bob</p>
-                <p class="user-name">John</p>
+                {% for conversation in conversations %}
+                  {% if conversation.user1 == request.user %}
+                    <p class="user-name">{{ conversation.user2.username }}</p>
+                  {% elif conversation.user2 == request.user %}
+                    <p class="user-name">{{ conversation.user1.username }}</p>
+                  {% endif %}
+                {% endfor %}
               </ul>
             </div>
               <div class="chat_box">

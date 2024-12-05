@@ -25,6 +25,7 @@ urlpatterns = [
     path('items/', views.item_listing,name='item_listing'),
     path('sell_page/', views.sell_page, name="sell_page"),
     path('contact/', views.contact_page, name="contact"),
+    path('contact/<int:conversation_id>/', views.contact_page, name="contact_conversations"),
     path('submit_item/', views.submit_item, name="submit_item"),
     path('submit-messages/', views.submit_messages, name="submit_messages"),
     path('submit-likes/', views.submit_likes, name="submit_likes"),
