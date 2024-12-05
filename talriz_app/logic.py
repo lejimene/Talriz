@@ -280,6 +280,7 @@ def submit_bid(request, item_id):
 
     return JsonResponse({"error": "Invalid request method."}, status=405)
 
+
 def end_auction(request, item_id):
     if request.method == 'POST':
         try:

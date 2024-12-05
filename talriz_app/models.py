@@ -40,6 +40,7 @@ class Item(models.Model):
     status = models.CharField(max_length=10, choices=STATUS, default='active')
     #winner = models.ForeignKey(User,related_name="items_won", null=True, blank=True, on_delete=models.SET_NULL)
 
+
     def auction_end(self):
         return self.status == 'ended'
 
