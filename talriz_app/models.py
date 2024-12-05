@@ -72,6 +72,8 @@ class Message(models.Model):
     buyer = models.TextField()
     seller = models.TextField()
     data = models.TextField()
+    id = models.TextField(primary_key=True)
+
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -11,19 +11,37 @@ function send_message() {
     let buyer = document.getElementById("logged_user").value;
     const message = chatTextBox.value;
 
-    let jsonString = {'message': message, 'buyer': buyer,'seller': seller};
+    // RNG formula
+    min = BigInt(-9223372036854775808n);
+    max = BigInt(9223372036854775807n);
+    const range = max - min + 1n;
+    const ret = min + BigInt(Math.floor(Math.random() * Number(range)));
+
+    const id = String(ret)
+
+    let jsonString = {'message': message, 'buyer': buyer,'seller': seller, 'id': id};
     chatTextBox.value = "";
     socket.send(JSON.stringify(jsonString));
 }
 
 function add_to_chat(messageJSON) {
-    const chatMessages = document.getElementById("chat-messages");
+    console.log(messageJSON);
+    let messageSeller = messageJSON['seller']
+    let messageBuyer = messageJSON['buyer']
 
-    chatMessages.insertAdjacentHTML("beforeend", message_to_html(messageJSON))
-    chatMessages.scrollIntoView(false);
-    chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
-    console.log('Message added')
-    
+    let currentSeller = document.getElementById("seller_user").value;
+    let currentBuyer = document.getElementById("logged_user").value;
+
+    const chatMessages = document.getElementById("chat-messages");
+    // Add to live chat
+    if ((messageSeller === currentSeller && messageBuyer === currentBuyer) || (messageBuyer === currentSeller && messageSeller === currentBuyer)) {
+        chatMessages.insertAdjacentHTML("beforeend", message_to_html(messageJSON));
+        chatMessages.scrollIntoView(false);
+        chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+        console.log('Message added');
+    }
+
+    // Saves to database
     request = new XMLHttpRequest();
     request.open("POST", "/submit-messages/");
     

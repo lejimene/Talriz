@@ -123,6 +123,7 @@ def item_listing(request):
     
 @login_required
 def contact_page(request):
+    # Message.objects.all().delete()
     if request.method == 'POST':
         content =  ""
         with open('./talriz/front_end/templates/contact_page.html', 'r') as f:
@@ -130,6 +131,11 @@ def contact_page(request):
         
         seller = request.POST.get("seller_name", "None")
         buyer = request.POST.get("buyer_name", "None")
+
+        # You cannot message yourself
+        if seller == buyer :
+            response = redirect('marketplace_page')
+            return response
 
         content = content.replace('seller_info_replace', seller)
         content = content.replace('buyer_info_replace', buyer)
@@ -143,9 +149,9 @@ def contact_page(request):
                 f.write(content)
 
         messages =  Message.objects.filter( Q(buyer=buyer, seller=seller) | Q(buyer=seller, seller=buyer)).order_by('timestamp')
-        
+
         return render(request, 'temp_file.html', {'messages': messages})
-    
+
     return render(request, 'contact_page.html')
 
 @login_required
@@ -155,8 +161,9 @@ def submit_messages(request):
     buyer = jsonString["buyer"]
     seller = jsonString["seller"]
     data = jsonString["message"]
+    current_id = jsonString["id"]
 
-    message = Message.objects.create(buyer=buyer, seller=seller, data=data)
+    message = Message.objects.create(buyer=buyer, seller=seller, data=data, id=current_id,)
     message.save()
 
     response = redirect('contact')
