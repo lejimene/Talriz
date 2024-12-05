@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from . import logic
 from django.contrib.auth.decorators import login_required
 from .forms import ItemForm, ItemImageForm
-from .models import ItemImage, Message
+from .models import Item, ItemImage, Message
 from django.contrib import messages
 from datetime import datetime
 from django.template.loader import render_to_string
@@ -162,10 +162,29 @@ def submit_messages(request):
     seller = jsonString["seller"]
     data = jsonString["message"]
     current_id = jsonString["id"]
-
-    message = Message.objects.create(buyer=buyer, seller=seller, data=data, id=current_id,)
-    message.save()
+    try :
+        message = Message.objects.create(buyer=buyer, seller=seller, data=data, id=current_id,)
+        message.save()
+    except IntegrityError :
+        print("Caught dupe message - Oop")
 
     response = redirect('contact')
     return response
-    
+
+@login_required
+def submit_likes(request):
+    jsonString = json.loads(request.body)
+    print(jsonString)
+    Count = jsonString["Likes"]
+    item_id = jsonString["item_id"]
+
+    try :
+        item = Item.objects.get(id=item_id)
+        item.likes.add(Count)
+        item.save()
+    except Item.DoesNotExist :
+        pass
+
+    response = redirect('marketplace_page')
+    return response
+

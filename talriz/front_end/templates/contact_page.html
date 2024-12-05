@@ -41,7 +41,13 @@
               <div class="chat_box">
                 <div id="chat-messages">
                   {% for message in messages %}
-                    <div> <sender><b>{{ message.buyer }}:</b> {{ message.data }} </sender></div>
+                    {% if message.buyer == 'buyer_info_replace' %}
+                    <div style="display: flex; justify-content: flex-end">
+                      <div> <sender> {{ message.data }} </sender></div>
+                    </div>
+                    {% else %}
+                    <div> <receiver> {{ message.data }} </receiver></div>
+                    {% endif %}
                   {% endfor %}
                 </div>
 

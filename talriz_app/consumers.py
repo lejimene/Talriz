@@ -25,14 +25,25 @@ class NotificationConsumer(WebsocketConsumer):
         seller = text_data_json.get('seller', '')
         id = text_data_json.get('id', '')
 
-        for socket in Clients: 
-            user = Clients[socket]
-            if user == buyer or user == seller :
+        Likes = text_data_json.get('Likes', '')
+        item_id = text_data_json.get('item_id', '')
+
+        if Likes == "":
+            for socket in Clients: 
+                user = Clients[socket]
+                if user == buyer or user == seller :
+                    socket.send(text_data = json.dumps({
+                        'message': message,
+                        'buyer': buyer,
+                        'seller': seller,
+                        'id': id
+                    }))
+        else :
+            for socket in Clients: 
                 socket.send(text_data = json.dumps({
-                    'message': message,
-                    'buyer': buyer,
-                    'seller': seller,
-                    'id': id
+                'Likes': Likes,
+                'item_id': item_id,
+                'username':Clients[socket]
                 }))
 
        
