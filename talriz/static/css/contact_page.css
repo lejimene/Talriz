@@ -197,7 +197,6 @@ h1 {
   margin-right: 5%;
   width: calc(90%);
   height: auto;
-  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -251,35 +250,59 @@ h1 {
   margin: auto;
 }
 
+.user-list {
+  width: 20%;
+  background-color: aliceblue;
+  border-radius: 25px;
+  margin-right: 1%;
+}
+
+.user-name {
+  border-bottom-style: solid;
+  border-bottom-color: #000;
+}
+
+p.user-name {
+  padding: 5px;
+  text-align: center;
+  font-weight: bolder;
+  font-style: italic;
+  font-size: x-large;
+}
+
+p.user-name:hover{
+  color: rosybrown;
+  cursor: pointer;
+}
+
 .chat {
-  height: 90%;
+  height: 80%;
   width: 60%;
   background-color: #adadad;
   padding: 10px;
   border-radius: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  flex: auto;
+  display: flex;
+  flex-direction: row;
 }
 
 #chat-messages {
   height: 80%;
   overflow: scroll;
-  padding: 15px;
+  padding: 5px;
 }
 
 .chat-form {
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-  padding-bottom: 0px;
+  padding: 10px;
   height: 20%;
-  align-items: center;
-  background-color: #adadad;
 }
 .box-form {
+  display: flex;
   padding: 10px;
   align-items: center;
   border-radius: 20px;
-  background-color: #fcfbef;
+  background-color: coral;
 }
 
 .Right_Side label,
@@ -291,7 +314,7 @@ h1 {
 
 .chat_box input,
 .chat_box textarea{
-  width: 30vw;
+  flex-grow: 1;
   max-width: 90%;
   padding: 15px;
   margin: 7px;
@@ -301,7 +324,6 @@ h1 {
 }
 .seller_message {
   font-weight: bold;
-  color: #ffffff;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
