@@ -279,7 +279,7 @@ h1 {
 .Button_section {
   display: flex;
   justify-content: space-evenly; /* Align buttons to the right */
-  gap: 10px; /* Add some space between the buttons */
+  gap: 5px; /* Add some space between the buttons */
   margin-top: 10px;
 }
 
@@ -292,12 +292,12 @@ h1 {
   height: 160px;
 }
 
-.buy_button, #contactButton {
+.buy_button{
   background-color: #64b3ff;
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 500;
-  width: 115px;
+  width: 100px;
   margin: 5px;
   height: 45px;
   padding: 10px;
@@ -308,8 +308,21 @@ h1 {
   text-align: center;
 }
 
+
 #contactButton {
   background-color: #f2d596; /* Color for Contact button */
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100px;
+  margin: 5px;
+  height: 45px;
+  padding: 5px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  border-radius: 35px;
+  border: none;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 #contactButton:hover {
@@ -327,7 +340,7 @@ h1 {
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 500;
-  width: 115px;
+  width: 100px;
   margin: 5px;
   height: 45px;
   padding: 10px;

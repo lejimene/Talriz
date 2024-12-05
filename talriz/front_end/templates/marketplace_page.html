@@ -58,6 +58,7 @@
         <!-- Conditionally display price or bid amount -->
         {% if item.is_auction %}
           <h2 id="header-{{ item.id }}">Current Bid: ${{ item.bid_amount }}</h2>
+            <h2>Buyout Price: ${{ item.buy_out_price }}</h2>
         {% else %}
           <h2>Price: ${{ item.price }}</h2>
         {% endif %}
