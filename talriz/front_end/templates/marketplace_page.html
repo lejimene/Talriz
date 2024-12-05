@@ -62,13 +62,20 @@
         <!-- Conditionally display price or bid amount -->
         {% if item.is_auction %}
           <h2 id="header-{{ item.id }}">Current Bid: ${{ item.bid_amount }}</h2>
-            <h2>Buyout Price: ${{ item.buy_out_price }}</h2>
+            <h2 id="buyout-{{ item.id }}">Buyout Price: ${{ item.buy_out_price }}</h2>
         {% else %}
           <h2>Price: ${{ item.price }}</h2>
         {% endif %}
       
+      
         <div class="Bottom_Section">
           <div class="Left_Side">
+            {% if item.is_auction and item.status == "active" %}
+                <p>Auction Ends: <span class="auction-timer" data-item-id="{{ item.id }}" data-end-time="{{ item.auction_end_datetime|date:'Y-m-d\\TH:i:s' }}"> --d --h --m --s </span></p>
+            {% endif %}
+            {% if item.is_auction and item.status != "active" %}
+                 Auction ended. Winner: {{ item.winner|default:"nobody" }}
+            {% endif %}
             <p>Seller: {{ item.seller.username }}</p>
             {% if request.user.is_authenticated and request.user != item.seller %}
             <!-- Wrap count and button together for layout -->
@@ -93,14 +100,15 @@
             <button class="nav_item" id="contactButton">Contact</button>
             <input type="text" name="buyer_name" id="buyer_name" value="{{ user.username }}" hidden>
             <input type="text" name="seller_name" id="seller_name" value="{{ item.seller.username }}" hidden>
-          </form>
+        </form>
+        {% if item.status == "active"%}
             <button class="buy_button" id="buyButton-{{ item.id }}" data-item-id="{{ item.id }}">
-            Buy
+                Buy
             </button>
-          {% endif %}
+        {% endif %}
           <!-- Buy Button to the right -->
         <!-- Bid Button if it is an auction -->
-        {% if item.is_auction %}
+        {% if item.is_auction and item.status == "active"%}
         <button 
             class="bid_button" 
             id="bidButton-{{ item.id }}" 

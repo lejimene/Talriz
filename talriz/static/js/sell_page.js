@@ -9,6 +9,7 @@ function toggleAuctionFields() {
     // Toggle auction fields visibility
     auctionFields.style.display = isAuction ? "block" : "none";
 
+
     if (isAuction) {
         // Auction mode: Require auction fields, clear price field
         priceInput.removeAttribute("required");

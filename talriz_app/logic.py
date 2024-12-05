@@ -233,8 +233,12 @@ def buy_item(request, item_id):
     # Update the item's status to 'sold'
     if item.status == 'active':
         item.status = 'sold'
+        # item.winner = request.user
+        # item.winner_id = request.user.id
         item.save()
-        return JsonResponse({'message': 'Item purchased successfully!'})
+        response = JsonResponse({'message': 'Item purchased successfully!', 'winner': str(request.user)})
+        response['X-Content-Type-Options'] = 'nosniff'  # fixes security issue in Part One LO1
+        return response
     else:
         return JsonResponse({'error': 'Item is not available for purchase.'}, status=400)
 
@@ -253,10 +257,19 @@ def submit_bid(request, item_id):
             # Fetch the item
             item = Item.objects.get(id=item_id)
 
-            if new_bid > item.bid_amount:
+            if item.bid_amount < new_bid < item.buy_out_price:
                 item.bid_amount = new_bid
                 item.save()
-                return JsonResponse({"new_bid": item.bid_amount}, status=200)
+                response = JsonResponse({"new_bid": item.bid_amount, 'winner': str(request.user)} ,status=200)
+                response['X-Content-Type-Options'] = 'nosniff'  # fixes security issue in Part One LO1
+                return response
+            elif new_bid >= item.buy_out_price:
+                response = end_auction(request, item_id)
+                # item.status = 'sold'
+                # item.save()
+                # response = JsonResponse({'message': 'Auction won!', 'winner': str(request.user)}, status=200)
+                # response['X-Content-Type-Options'] = 'nosniff'  # fixes security issue in Part One LO1
+                return response
             else:
                 return JsonResponse({"error": "Bid must be higher than the current bid."}, status=400)
 
@@ -266,6 +279,19 @@ def submit_bid(request, item_id):
             return JsonResponse({"error": str(e)}, status=500)
 
     return JsonResponse({"error": "Invalid request method."}, status=405)
+
+
+def end_auction(request, item_id):
+    if request.method == 'POST':
+        try:
+            item = Item.objects.get(id=item_id)
+            item.status = 'sold'
+            item.save()
+            response = JsonResponse({'message': 'Auction won!', 'winner': str(request.user)}, status=200)
+            response['X-Content-Type-Options'] = 'nosniff'  # fixes security issue in Part One LO1
+            return response
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
 
 
 #Whats the point of this code actually literally doesnt effect anything if

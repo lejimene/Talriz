@@ -1,28 +1,24 @@
 const socket = new WebSocket('ws://' + window.location.host + '/ws/chat/');
-
 socket.onmessage = function (ws_message) {
-  const message = JSON.parse(ws_message.data);
-  let Likes = message["Likes"]
-  let item_id = message["item_id"]
+      const message = JSON.parse(ws_message.data);
+      let Likes = message["Likes"]
+      let item_id = message["item_id"]
+      document.getElementById(
+        `like-count-${item_id}`
+      ).innerText = `Likes: ${Likes}`
+      request = new XMLHttpRequest();
+      request.open("POST", "/submit-likes/");
 
-  document.getElementById(
-    `like-count-${item_id}`
-  ).innerText = `Likes: ${Likes}`
-
-  request = new XMLHttpRequest();
-  request.open("POST", "/submit-likes/");
-  
-  csrf_token = "";
-  for (let cookie of document.cookie.split("; ")) {
-  let [key, value] = cookie.split("=");
-      if (key === "csrftoken") {
-          csrf_token = value;
+      csrf_token = "";
+      for (let cookie of document.cookie.split("; ")) {
+      let [key, value] = cookie.split("=");
+          if (key === "csrftoken") {
+              csrf_token = value;
+          }
       }
-  }
-  request.setRequestHeader("X-CSRFToken", csrf_token);
-
-  request.send(JSON.stringify(message));
-}
+      request.setRequestHeader("X-CSRFToken", csrf_token);
+      request.send(JSON.stringify(message));
+    }
 
 document.addEventListener("DOMContentLoaded", () => {
   // Like button logic
@@ -39,13 +35,13 @@ document.addEventListener("DOMContentLoaded", () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          socket.send(JSON.stringify({"Likes": data.likes_count, "item_id": itemId }));
+            socket.send(JSON.stringify({"Likes": data.likes_count, "item_id": itemId }));
           if (!data.error) {
             this.textContent = data.liked ? "Unlike" : "Like";
             document.getElementById(
               `like-count-${itemId}`
             ).textContent = `Likes: ${data.likes_count}`;
-            
+
           }
         })
         .catch((error) => console.error("Error:", error));
@@ -161,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleDarkMode();
   });
 
-
+  let top_bidder = "Nobody";
   // Auction Bid Functionality
   document.querySelectorAll(".bid_button").forEach((button) => {
     button.addEventListener("click", function () {
@@ -200,12 +196,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then((response) => response.json())
                 .then((data) => {
                     if (!data.error) {
-                        alert("Bid successfully submitted!");
-                        // Update the UI or reload the page as needed
                         const header = document.querySelector(`#header-${itemId}`);
-                        header.textContent = `Current Bid: $${bidValue}`
-                        input.replaceWith(document.createTextNode(`Bid Placed: $${bidValue}`));
-                        submitButton.remove();
+
+                        // Update the UI or reload the page as needed
+                        alert("Bid successfully submitted!");
+                         const buyout = document.querySelector(`#buyout-${itemId}`);
+                         const buyoutText = buyout.textContent || buyout.innerText;
+                         const dollarIdx = buyoutText.indexOf('$');
+                         const buyoutAmountString = buyoutText.substring(dollarIdx + 1)
+                         const buyoutAmount = parseInt(buyoutAmountString, 10);
+                        if(bidValue >= buyoutAmount){
+                            header.textContent = `Winner: ${data['winner']}`
+                            input.replaceWith(document.createTextNode(`Final Winning Bid: $${bidValue}`));
+                            submitButton.remove();
+                            const buyButton = document.querySelector(`#buyButton-${itemId}`);
+                            buyButton.style.display = "none";
+
+                        }
+                        else{
+                            header.textContent = `Current Bid: $${bidValue}`
+                            input.replaceWith(document.createTextNode(`Bid Placed: $${bidValue}`));
+                            submitButton.remove();
+                        }
+                        top_bidder = data['winner'];
                     } else {
                         alert(data.error || "Failed to submit the bid.");
                     }
@@ -214,6 +227,58 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+
+   // Auction time calculation
+  function updateCountdown() {
+      const auctionTimers = document.querySelectorAll(".auction-timer");
+      auctionTimers.forEach((timer) => {
+          const itemId = timer.dataset.itemId;
+          const endTime = new Date(timer.dataset.endTime);
+          const now = new Date();
+          const timeLeft = endTime - now;
+
+          if (timeLeft > 0) {
+              const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+              timer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+              // Debugging log
+              console.log(`Timer updated: ${timer.innerHTML}`);
+          } else {
+              fetch(`/end-auction/${itemId}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value,
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (!data.error) {
+                            timer.innerHTML = `Auction ended.`;
+                            const header = document.querySelector(`#header-${itemId}`);
+                            const bidButton = document.querySelector(`#bidButton-${itemId}`);
+                            const buyButton = document.querySelector(`#buyButton-${itemId}`);
+                             const bidText = header.textContent || header.innerText;
+                             const dollarIdx = bidText.indexOf('$');
+                             const bidAmountString = bidText.substring(dollarIdx + 1)
+                             const bidValue = parseInt(bidAmountString, 10);
+                            bidButton.replaceWith(document.createTextNode(`Final Winning Bid: $${bidValue}`))
+                            header.textContent = ` Winner: ${data['winner']}`;
+                            buyButton.style.display = "none";
+
+
+                        }
+                    })
+                    .catch((error) => console.error("Error ending auction:", error));
+
+          }
+      });
+  }
+  setInterval(updateCountdown, 1000);
 
 
 
@@ -251,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Item purchased successfully!");
             // Update the item status visually
             this.disabled = true;
-            this.textContent = "Purchased";
+            this.textContent = `Purchased by ${data['winner']}`;
           } else {
             alert(data.error || "Failed to purchase the item.");
           }
