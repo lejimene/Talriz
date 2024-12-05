@@ -135,7 +135,10 @@ def contact_page(request, conversation_id=None):
         conversations = Conversation.objects.filter(
             Q(user1=request.user) | Q(user2=request.user)
         )
-
+        if request.user == conversation.user1:
+            currently_messaging = conversation.user2.username
+        else:
+            currently_messaging = conversation.user1.username
 
         # New message is being sent
         if request.method == 'POST':
@@ -149,7 +152,7 @@ def contact_page(request, conversation_id=None):
                     )
                 return redirect('contact_conversation_page', conversation_id=conversation_id)
 
-        return render(request, 'contact_page.html', {'conversation_id': conversation.id, 'messages': messages, 'conversations': conversations})
+        return render(request, 'contact_page.html', {'conversation_id': conversation.id, 'messages': messages, 'conversations': conversations, 'currently_messaging': currently_messaging})
 
     # No conversation id, meaning no conversation is selected.
     conversations = Conversation.objects.filter(user1=request.user) | Conversation.objects.filter(user2=request.user)
