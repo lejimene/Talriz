@@ -262,9 +262,14 @@ document.addEventListener("DOMContentLoaded", () => {
                             const header = document.querySelector(`#header-${itemId}`);
                             const bidButton = document.querySelector(`#bidButton-${itemId}`);
                             const buyButton = document.querySelector(`#buyButton-${itemId}`);
+                             const bidText = header.textContent || header.innerText;
+                             const dollarIdx = bidText.indexOf('$');
+                             const bidAmountString = bidText.substring(dollarIdx + 1)
+                             const bidValue = parseInt(bidAmountString, 10);
+                            bidButton.replaceWith(document.createTextNode(`Final Winning Bid: $${bidValue}`))
                             header.textContent = ` Winner: ${data['winner']}`;
-                            bidButton.style.display = "none";
                             buyButton.style.display = "none";
+
 
                         }
                     })
