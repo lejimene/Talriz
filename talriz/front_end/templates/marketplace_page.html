@@ -101,6 +101,7 @@
             <input type="text" name="buyer_name" id="buyer_name" value="{{ user.username }}" hidden>
             <input type="text" name="seller_name" id="seller_name" value="{{ item.seller.username }}" hidden>
         </form>
+          {% endif %}
         {% if item.status == "active"%}
             <button class="buy_button" id="buyButton-{{ item.id }}" data-item-id="{{ item.id }}">
                 Buy
