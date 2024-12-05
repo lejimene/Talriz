@@ -58,14 +58,28 @@ button.dark-mode:hover {
 body.dark-mode .Item_container {
   background-color: #222; /* Dark background for item container */
   color: white; /* White text color for items */
+  margin: 0 5vw;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 body.dark-mode .Item {
   background-color: #333; /* Dark background for individual items */
   border: 1px solid #444; /* Dark border for items */
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px; /* Rounded corners for items */
+  border-radius: 20px; /* Rounded corners for items */
+  flex-grow: 0;
+  width: 25vw;
+  min-width: 350px;
+  height: 40vh;
+  min-height: 550px;
+  margin: 2vw;
+  padding: 1vw;
+  box-shadow: 0 12px 18px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Ensure item headings and paragraphs have correct colors */
@@ -101,8 +115,9 @@ body.dark-mode .Marketplace_image {
   filter: invert(1); /* Inverts the colors of the image */
 }
 
-nav.dark-mode {
-  background-color: #444;
+body.dark-mode .nav {
+  background-color: var(--button-hover-dark);
+  border-bottom: 2px solid white;
 }
 
 
@@ -110,17 +125,31 @@ nav.dark-mode {
 
 /* START OF NAVBAR */
 
-nav {
+.nav {
   top: 0;
   width: 100%;
   height: 8vh;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
-  gap: 4vw;
-  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 2vw;
   padding: 1vh 2vw;
+  background-color: var(--button-background-light);
+  position: relative;
+  border-bottom: 2px solid #4287f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+}
+
+.nav-left {
+  display: flex; /* Ensure items are in a row if needed */
+  align-items: center;
+}
+
+.nav-right {
+  display: flex; /* Ensure items are in a row if needed */
+  align-items: center;
+  gap: 2vw;
 }
 
 .nav_item {
@@ -128,6 +157,10 @@ nav {
   font-weight: 500;
   font-size: 1.2rem; /* Using rem for responsive font size */
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  margin: 0; /* Reset any default margins */
+  padding: 0.5vh 1vw; /* Optional: Add padding for clickability */
+  text-align: center; /* Center-align text */
+  border-radius: 10px;
 }
 
 #sell, #Sign_Out, #theme-toggle-button {
@@ -242,6 +275,9 @@ h1 {
 }
 
 .Item_container {
+  background-color: #74b4e0;
+  opacity: 0.95;
+  border-radius: 20px;
   margin: 0 5vw;
   width: 90%;
   display: flex;
