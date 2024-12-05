@@ -120,6 +120,14 @@ body.dark-mode .nav {
   border-bottom: 2px solid white;
 }
 
+body.dark-mode .prev-button {
+  background-color: lightgray;
+}
+
+body.dark-mode .next-button {
+  background-color: lightgray;
+}
+
 
 
 

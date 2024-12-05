@@ -75,3 +75,27 @@ document.querySelector("form").addEventListener("submit", combineAuctionDateTime
 // Attach event listeners for auction fields visibility and form validation
 document.getElementById("is_auction").addEventListener("change", toggleAuctionFields);
 document.querySelector("form").addEventListener("submit", validateForm);
+
+document.addEventListener("DOMContentLoaded", () => {
+    const darkModeState = localStorage.getItem("darkmode");
+    if (darkModeState === "disabled") {
+        document.body.classList.add("dark-mode"); // Apply dark mode class
+    }
+    else{
+        document.body.classList.remove("dark-mode"); // Apply dark mode class
+    }
+
+    // Listen for changes to the dark mode state
+    window.addEventListener("storage", (event) => {
+        if (event.key === "darkmode_updated") {
+            const updatedDarkModeState = localStorage.getItem("darkmode");
+            if (updatedDarkModeState === "enabled") {
+                document.body.classList.add("dark-mode");
+            } else {
+                document.body.classList.remove("dark-mode");
+            }
+        }
+    });
+
+});
+

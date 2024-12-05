@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       localStorage.setItem('theme', 'light');
     }
+
   }
 
   // Check if the user has a saved theme preference in localStorage
@@ -114,9 +115,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Add the event listener to the button
   document.getElementById('theme-toggle-button').addEventListener('click', () => {
+      // Check the current dark mode state
+    const currentMode = localStorage.getItem("darkmode");
+
+    // Toggle dark mode state based on current value
+    if (currentMode === "enabled") {
+        document.body.classList.remove("dark-mode"); // Remove dark mode
+        localStorage.setItem("darkmode", "disabled"); // Save state
+    } else {
+        document.body.classList.add("dark-mode"); // Enable dark mode
+        localStorage.setItem("darkmode", "enabled"); // Save state
+    }
+
+    // Communicate the change to other pages
+    window.localStorage.setItem("darkmode_updated", Date.now());
     console.log('Button clicked');
     toggleDarkMode();
   });
+
 
   // Auction Bid Functionality
   document.querySelectorAll(".bid_button").forEach((button) => {

@@ -13,7 +13,7 @@
     
   </head>
 <body>
-    <nav> <!-- Navbar -->
+    <nav class="nav"> <!-- Navbar -->
         <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
         <form action="{% url 'logout_logic' %}" method="POST" class="nav_item">
           {% csrf_token %}
@@ -44,7 +44,7 @@
                   <input type="number" id="item_price" name="price" min="0" placeholder="Enter price">
       
                   <!-- Auction Section -->
-                  <label for="is_auction" class="auction-label">Do you wish to auction? Press box.</label>
+                  <label for="is_auction" class="auction-label">Make this item an auction?</label>
                   <label class="auction-checkbox">
                       <input type="checkbox" id="is_auction" name="is_auction" onchange="toggleAuctionFields()">
                       <span class="custom-checkbox"></span>
