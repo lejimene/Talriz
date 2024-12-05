@@ -5,6 +5,7 @@ from . import logic
 from django.http import HttpResponse
 from django.conf import settings
 from django.conf.urls.static import static
+from logic import submit_bid
 
 
 def not_found(request):
@@ -26,6 +27,7 @@ urlpatterns = [
     path('contact', views.contact_page, name="contact"),
     path('submit_item/', views.submit_item, name="submit_item"),
     path('login/', views.login_page, name="login_page"),
+    path('submit-bid/<int:item_id>/', submit_bid, name='submit_bid'),
 ]
 
 # This is for serving media files like images for development mode

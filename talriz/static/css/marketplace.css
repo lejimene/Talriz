@@ -322,6 +322,65 @@ h1 {
   transform: scale(1.1);
 }
 
+.bid_button {
+  background-color: #64b3ff;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 115px;
+  margin: 5px;
+  height: 45px;
+  padding: 10px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  border-radius: 35px;
+  border: none;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.bid_button:hover {
+  background-color: #4287f5; /* Change color on hover */
+  transform: scale(1.1);
+}
+
+.bid_input {
+    width: 100px; /* Adjust the width as needed */
+    padding: 5px; /* Add some padding for better appearance */
+    font-size: 12px; /* Adjust font size for readability */
+    border: 1px solid #ccc; /* Add a border for better visibility */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+
+.submit-bid {
+    margin-left: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.submit_button {
+    background-color: #64b3ff;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    width: 115px;
+    margin: 5px;
+    height: 45px;
+    padding: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 35px;
+    border: none;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#bid-error {
+    display: block;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
 /* Overlay Styles below */
 .overlay {
   position: fixed;
