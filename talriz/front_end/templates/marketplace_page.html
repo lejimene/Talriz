@@ -80,8 +80,13 @@
         </div>
 
         <div class="Button_section">
-          <a class="nav_item" id="contactButton" href="{% url 'contact' %}">Contact</a>
-          <button class="buy_button" id="buyButton-{{ item.id }}" data-item-id="{{ item.id }}">
+          <form method="POST" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <button class="nav_item" id="contactButton">Contact</button>
+            <input type="text" name="buyer_name" id="buyer_name" value="{{ user.username }}" hidden>
+            <input type="text" name="seller_name" id="seller_name" value="{{ item.seller.username }}" hidden>
+        </form>
+            <button class="buy_button" id="buyButton-{{ item.id }}" data-item-id="{{ item.id }}">
             Buy
         </button>
           <!-- Buy Button to the right -->

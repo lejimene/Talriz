@@ -1,4 +1,5 @@
 # myapp/views.py
+import os
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,6 +9,8 @@ from .forms import ItemForm, ItemImageForm
 from .models import ItemImage
 from django.contrib import messages
 from datetime import datetime
+from django.template.loader import render_to_string
+
 
 @login_required
 def my_view(request):
@@ -116,4 +119,15 @@ def item_listing(request):
     
 @login_required
 def contact_page(request):
+    if request.method == 'POST':
+        content =  render_to_string('contact_page.html')
+        
+        seller = request.POST.get("seller_name", "None")
+        buyer = request.POST.get("buyer_name", "None")
+
+        content = content.replace('seller_info_replace', seller)
+        content = content.replace('buyer_info_replace', buyer)
+        
+        response = HttpResponse(content)
+        return response
     return render(request, 'contact_page.html')

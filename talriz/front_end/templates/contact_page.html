@@ -14,10 +14,12 @@
   </head>
 <body>
     <nav> <!-- Navbar -->
-        <h3 id='logged_user' class="nav_item">Logged in as: {{ user.username }}</h3>
+        <input value='seller_info_replace' id="seller_user" name="seller_user" hidden>
+        <input value='buyer_info_replace' id="logged_user" name="logged_user" hidden>
+
         <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
         <a class="nav_item" id="sell" href="{% url 'sell_page' %}">Sell</a>
-        <form action="{% url 'logout_logic' %}" method="POST" class="nav_item">
+        <form action="{% url 'logout_logic' %}" method="GET" class="nav_item">
           {% csrf_token %}
           <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
         </form>
@@ -36,6 +38,7 @@
                       <input id="chat-text-box" type="text">
                     <button class="button" id="submit_button" onclick="send_message()">Done</button>
                   </div>
+                  <div class="seller_message" >Currently direct messenging : seller_info_replace</div>
                 </div>
                         <!-- <form action="/media-uploads" method="post" enctype="multipart/form-data">
                     Upload:

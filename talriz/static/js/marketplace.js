@@ -65,10 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Auction overlay logic
-  const contactButtons = document.querySelectorAll("#contactButton");
-  const auctionOverlay = document.getElementById("auctionOverlay");
-  const closeButton = document.getElementById("closeButton");
-  const joinAuctionButton = document.getElementById("joinAuctionButton");
+  // const contactButtons = document.querySelectorAll("#contactButton");
+  // const auctionOverlay = document.getElementById("auctionOverlay");
+  // const closeButton = document.getElementById("closeButton");
+  // const joinAuctionButton = document.getElementById("joinAuctionButton");
 
   // Function to open overlay
   function openOverlay() {
@@ -120,20 +120,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  // Event listeners for buttons
-  contactButtons.forEach((button) => button.addEventListener("click", openOverlay));
-  closeButton.addEventListener("click", closeOverlay);
-  joinAuctionButton.addEventListener("click", () => {
-    alert("You have joined the auction!");
-    closeOverlay();
-  });
+  // // Event listeners for buttons
+  // contactButtons.forEach((button) => button.addEventListener("click", openOverlay));
+  // closeButton.addEventListener("click", closeOverlay);
+  // joinAuctionButton.addEventListener("click", () => {
+  //   alert("You have joined the auction!");
+  //   closeOverlay();
+  // });
 
-  // Close overlay when clicking outside the modal content
-  auctionOverlay.addEventListener("click", (event) => {
-    if (event.target === auctionOverlay) {
-      closeOverlay();
-    }
-  });
+  // // Close overlay when clicking outside the modal content
+  // auctionOverlay.addEventListener("click", (event) => {
+  //   if (event.target === auctionOverlay) {
+  //     closeOverlay();
+  //   }
+  // });
 
   // Buy button logic
   document.querySelectorAll(".buy_button").forEach((button) => {

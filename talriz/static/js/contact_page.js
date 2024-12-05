@@ -7,10 +7,8 @@ socket.onmessage = function (ws_message) {
 
 function send_message() {
     const chatTextBox = document.getElementById("chat-text-box");
-
-    let username = document.getElementById("logged_user");
-    username = username.innerText;
-    username = username.split('Logged in as: ')[1];
+    
+    let username = document.getElementById("logged_user").value;
 
     const message = chatTextBox.value;
     chatTextBox.value = "";
