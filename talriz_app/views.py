@@ -12,6 +12,7 @@ from django.contrib import messages
 from datetime import datetime
 from django.template.loader import render_to_string
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 from talriz_app import models
 
@@ -125,13 +126,16 @@ def item_listing(request):
 def contact_page(request, conversation_id=None):
     # A conversation id is passed in, meaning a conversation is selected
     if conversation_id:
-        conversation = Conversation.objects.get(id=conversation_id)
-
-        # Filter out messages that are not from the current user
-        if request.user not in [conversation.user1, conversation.user2]:
+        try:
+            conversation = Conversation.objects.get(id=conversation_id)
+        except Conversation.DoesNotExist:
             return redirect('contact_page')
         
         messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
+        conversations = Conversation.objects.filter(
+            Q(user1=request.user) | Q(user2=request.user)
+        )
+
 
         # New message is being sent
         if request.method == 'POST':
@@ -143,12 +147,29 @@ def contact_page(request, conversation_id=None):
                     data=message, 
                     conversation=conversation
                     )
-                return redirect('contact_page', conversation_id=conversation_id)
-    
-        return render(request, 'contact_page.html', {'conversation': conversation, 'messages': messages})
+                return redirect('contact_conversation_page', conversation_id=conversation_id)
 
-    # No conversation id, meaning no conversation is selected. So return all conversations
+        return render(request, 'contact_page.html', {'conversation_id': conversation.id, 'messages': messages, 'conversations': conversations})
+
+    # No conversation id, meaning no conversation is selected.
     conversations = Conversation.objects.filter(user1=request.user) | Conversation.objects.filter(user2=request.user)
+    seller = request.POST.get("seller_name", None)
+
+    if seller:
+        seller_user = User.objects.get(username=seller)
+        buyer_user = request.user  # The logged-in user is the buyer
+
+        conversation = Conversation.objects.filter(
+            (Q(user1=buyer_user) & Q(user2=seller_user)) | 
+            (Q(user1=seller_user) & Q(user2=buyer_user))
+        ).first()
+
+        if not conversation:
+            # If no conversation exists, create a new one
+            conversation = Conversation.objects.create(user1=buyer_user, user2=seller_user)
+
+        # Redirect to the existing or newly created conversation
+        return redirect('contact_conversation_page', conversation_id=conversation.id)
 
     return render(request, 'contact_page.html', {'conversations': conversations})
 

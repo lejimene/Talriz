@@ -32,11 +32,18 @@
               <h1>Chat List</h1>
               <ul>
                 {% for conversation in conversations %}
-                  {% if conversation.user1 == request.user %}
-                    <p class="user-name">{{ conversation.user2.username }}</p>
-                  {% elif conversation.user2 == request.user %}
-                    <p class="user-name">{{ conversation.user1.username }}</p>
-                  {% endif %}
+                  <form method="POST" action="{% url 'contact_conversation_page' conversation_id=conversation.id %}">
+                    {% csrf_token %}
+                    {% if conversation.user1 == request.user %}
+                      <button class="user-name">{{ conversation.user2.username }}</button>
+                      <input type="text" name="buyer_name" id="buyer_name" value="{{ user.username }}" hidden>
+                      <input type="text" name="seller_name" id="seller_name" value="{{ item.seller.username }}" hidden>
+                    {% elif conversation.user2 == request.user %}
+                      <button class="user-name" id="contactButton">{{ conversation.user1.username }}</button>
+                      <input type="text" name="buyer_name" id="buyer_name" value="{{ user.username }}" hidden>
+                      <input type="text" name="seller_name" id="seller_name" value="{{ item.seller.username }}" hidden>
+                    {% endif %}
+                  </form>
                 {% endfor %}
               </ul>
             </div>

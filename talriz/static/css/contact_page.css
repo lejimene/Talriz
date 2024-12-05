@@ -258,19 +258,23 @@ h1 {
 }
 
 .user-name {
+  border: none;
+  background: none;
+  outline: none;
   border-bottom-style: solid;
   border-bottom-color: #000;
 }
 
-p.user-name {
+button.user-name {
   padding: 5px;
+  width: 100%;
   text-align: center;
   font-weight: bolder;
   font-style: italic;
-  font-size: x-large;
+  font-size: xx-large;
 }
 
-p.user-name:hover{
+button.user-name:hover{
   color: rosybrown;
   cursor: pointer;
 }
