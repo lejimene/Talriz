@@ -17,11 +17,13 @@ class NotificationConsumer(WebsocketConsumer):
     def receive(self, text_data): 
         text_data_json = json.loads(text_data)
         message = text_data_json.get('message', '')
-        username = text_data_json.get('username', '')
+        buyer = text_data_json.get('buyer', '')
+        seller = text_data_json.get('seller', '')
         for users in Clients[:]: 
             users.send(text_data = json.dumps({
                 'message': message,
-                'username': username
+                'buyer': buyer,
+                'seller': seller
             }))
 
        

@@ -67,3 +67,13 @@ class Item(models.Model):
             raise ValidationError("Non-auction items must have a price.")
 
         super().save(*args, **kwargs)
+
+class Message(models.Model):
+    buyer = models.TextField()
+    seller = models.TextField()
+    data = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.buyer}: {self.data}"
+    

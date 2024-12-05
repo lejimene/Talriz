@@ -1,4 +1,5 @@
 # myapp/views.py
+import json
 import os
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
@@ -6,10 +7,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from . import logic
 from django.contrib.auth.decorators import login_required
 from .forms import ItemForm, ItemImageForm
-from .models import ItemImage
+from .models import ItemImage, Message
 from django.contrib import messages
 from datetime import datetime
 from django.template.loader import render_to_string
+from django.db.models import Q
+
+from talriz_app import models
 
 
 @login_required
@@ -120,14 +124,41 @@ def item_listing(request):
 @login_required
 def contact_page(request):
     if request.method == 'POST':
-        content =  render_to_string('contact_page.html')
+        content =  ""
+        with open('./talriz/front_end/templates/contact_page.html', 'r') as f:
+            content = f.read()
         
         seller = request.POST.get("seller_name", "None")
         buyer = request.POST.get("buyer_name", "None")
 
         content = content.replace('seller_info_replace', seller)
         content = content.replace('buyer_info_replace', buyer)
+
+        path = "./talriz/front_end/templates/temp_file.html"
+        if os.path.exists(path):
+            with open(path, 'w') as f:
+                f.write(content)
+        else:
+            with open(path, 'x') as f:
+                f.write(content)
+
+        messages =  Message.objects.filter( Q(buyer=buyer, seller=seller) | Q(buyer=seller, seller=buyer)).order_by('timestamp')
         
-        response = HttpResponse(content)
-        return response
+        return render(request, 'temp_file.html', {'messages': messages})
+    
     return render(request, 'contact_page.html')
+
+@login_required
+def submit_messages(request):
+    jsonString = json.loads(request.body)
+    print(jsonString)
+    buyer = jsonString["buyer"]
+    seller = jsonString["seller"]
+    data = jsonString["message"]
+
+    message = Message.objects.create(buyer=buyer, seller=seller, data=data)
+    message.save()
+
+    response = redirect('contact')
+    return response
+    
