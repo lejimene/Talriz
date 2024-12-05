@@ -118,6 +118,59 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleDarkMode();
   });
 
+  // Auction Bid Functionality
+  document.querySelectorAll(".bid_button").forEach((button) => {
+    button.addEventListener("click", function () {
+        const itemId = this.dataset.itemId; // Get item ID directly from the button
+
+        // Replace the button with an input field and a submit button
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.placeholder = "Enter bid";
+        input.classList.add("bid_input");
+
+        const submitButton = document.createElement("button");
+        submitButton.textContent = "Submit";
+        submitButton.classList.add("submit_button");
+
+        // Replace the current button with the input and submit button
+        this.replaceWith(input, submitButton);
+
+        // Add functionality to the submit button
+        submitButton.addEventListener("click", function () {
+            const bidValue = parseFloat(input.value);
+            if (isNaN(bidValue) || bidValue <= 0) {
+                alert("Please enter a valid bid amount.");
+                return;
+            }
+
+            fetch(`/submit-bid/${itemId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ bid: bidValue }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (!data.error) {
+                        alert("Bid successfully submitted!");
+                        // Update the UI or reload the page as needed
+                        const header = document.querySelector(`#header-${itemId}`);
+                        header.textContent = `Current Bid: $${bidValue}`
+                        input.replaceWith(document.createTextNode(`Bid Placed: $${bidValue}`));
+                        submitButton.remove();
+                    } else {
+                        alert(data.error || "Failed to submit the bid.");
+                    }
+                })
+                .catch((error) => console.error("Error:", error));
+            });
+        });
+    });
+
 
 
   // // Event listeners for buttons

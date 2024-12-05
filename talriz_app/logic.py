@@ -238,6 +238,34 @@ def buy_item(request, item_id):
     else:
         return JsonResponse({'error': 'Item is not available for purchase.'}, status=400)
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+# Bid submitting functions
+@csrf_exempt
+def submit_bid(request, item_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            new_bid = data.get("bid")
+
+            # Fetch the item
+            item = Item.objects.get(id=item_id)
+
+            if new_bid > item.bid_amount:
+                item.bid_amount = new_bid
+                item.save()
+                return JsonResponse({"new_bid": item.bid_amount}, status=200)
+            else:
+                return JsonResponse({"error": "Bid must be higher than the current bid."}, status=400)
+
+        except Item.DoesNotExist:
+            return JsonResponse({"error": "Item not found."}, status=404)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method."}, status=405)
 
 
 #Whats the point of this code actually literally doesnt effect anything if

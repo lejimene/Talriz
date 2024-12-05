@@ -53,10 +53,12 @@
 
         <!-- Display item's name -->
         <h1>{{ item.name }}</h1>
+        <p style="text-align: center"> {{ item.description }}</p>
 
         <!-- Conditionally display price or bid amount -->
         {% if item.is_auction %}
-          <h2>Starting Bid: ${{ item.bid_amount }}</h2>
+          <h2 id="header-{{ item.id }}">Current Bid: ${{ item.bid_amount }}</h2>
+            <h2>Buyout Price: ${{ item.buy_out_price }}</h2>
         {% else %}
           <h2>Price: ${{ item.price }}</h2>
         {% endif %}
@@ -90,6 +92,15 @@
             Buy
         </button>
           <!-- Buy Button to the right -->
+        <!-- Bid Button if it is an auction -->
+        {% if item.is_auction %}
+        <button 
+            class="bid_button" 
+            id="bidButton-{{ item.id }}" 
+            data-item-id="{{ item.id }}">
+            Bid
+        </button>
+        {% endif %}
         </div>
       </div>
       {% endfor %}
