@@ -38,6 +38,7 @@ class Item(models.Model):
     auction_end_datetime = models.DateTimeField(null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='liked_items', blank=True)
     status = models.CharField(max_length=10, choices=STATUS, default='active')
+    #winner = models.ForeignKey(User,related_name="items_won", null=True, blank=True, on_delete=models.SET_NULL)
 
     def auction_end(self):
         return self.status == 'ended'

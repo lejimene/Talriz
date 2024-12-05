@@ -314,9 +314,14 @@ h1 {
   width: 100%;
 }
 
-.Right_Side,
+
 .Left_Side {
-  width: 45%;
+  width: 90%;
+  font-size: 1rem;
+}
+
+.Right_Side{
+  width: 10%;
   font-size: 1rem;
 }
 

@@ -5,7 +5,7 @@ from . import logic
 from django.http import HttpResponse
 from django.conf import settings
 from django.conf.urls.static import static
-from talriz_app.logic import submit_bid
+from talriz_app.logic import submit_bid, end_auction
 
 
 def not_found(request):
@@ -26,9 +26,11 @@ urlpatterns = [
     path('sell_page/', views.sell_page, name="sell_page"),
     path('contact/', views.contact_page, name="contact"),
     path('submit_item/', views.submit_item, name="submit_item"),
-    path('submit-messages/', views.submit_messages, name="submit_item"),
+    path('submit-messages/', views.submit_messages, name="submit_messages"),
+    path('submit-likes/', views.submit_likes, name="submit_likes"),
     path('login/', views.login_page, name="login_page"),
     path('submit-bid/<int:item_id>/', submit_bid, name='submit_bid'),
+    path('end-auction/<int:item_id>/', end_auction, name='end_auction'),
 ]
 
 # This is for serving media files like images for development mode
