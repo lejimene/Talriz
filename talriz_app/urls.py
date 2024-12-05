@@ -26,7 +26,8 @@ urlpatterns = [
     path('sell_page/', views.sell_page, name="sell_page"),
     path('contact/', views.contact_page, name="contact"),
     path('submit_item/', views.submit_item, name="submit_item"),
-    path('submit-messages/', views.submit_messages, name="submit_item"),
+    path('submit-messages/', views.submit_messages, name="submit_messages"),
+    path('submit-likes/', views.submit_likes, name="submit_likes"),
     path('login/', views.login_page, name="login_page"),
     path('submit-bid/<int:item_id>/', submit_bid, name='submit_bid'),
 ]

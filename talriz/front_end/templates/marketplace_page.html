@@ -80,7 +80,7 @@
             </div>
             {% else %}
             <!-- Display only the Like count for other cases -->
-            <p>Likes: {{ item.likes.count }}</p>
+            <p id="like-count-{{ item.id }}">Likes: {{ item.likes.count }}</p>
             {% endif %}
           </div>
         </div>

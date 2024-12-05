@@ -1,3 +1,29 @@
+const socket = new WebSocket('ws://' + window.location.host + '/ws/chat/');
+
+socket.onmessage = function (ws_message) {
+  const message = JSON.parse(ws_message.data);
+  let Likes = message["Likes"]
+  let item_id = message["item_id"]
+
+  document.getElementById(
+    `like-count-${item_id}`
+  ).innerText = `Likes: ${Likes}`
+
+  request = new XMLHttpRequest();
+  request.open("POST", "/submit-likes/");
+  
+  csrf_token = "";
+  for (let cookie of document.cookie.split("; ")) {
+  let [key, value] = cookie.split("=");
+      if (key === "csrftoken") {
+          csrf_token = value;
+      }
+  }
+  request.setRequestHeader("X-CSRFToken", csrf_token);
+
+  request.send(JSON.stringify(message));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Like button logic
   document.querySelectorAll(".like_button").forEach((button) => {
@@ -13,11 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          socket.send(JSON.stringify({"Likes": data.likes_count, "item_id": itemId }));
           if (!data.error) {
             this.textContent = data.liked ? "Unlike" : "Like";
             document.getElementById(
               `like-count-${itemId}`
             ).textContent = `Likes: ${data.likes_count}`;
+            
           }
         })
         .catch((error) => console.error("Error:", error));
