@@ -132,6 +132,11 @@ def contact_page(request, conversation_id=None):
             return redirect('contact_page')
         
         messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
+
+        # Print current coversation messages // TEST
+        # for message in messages:
+        #     print(message)
+
         conversations = Conversation.objects.filter(
             Q(user1=request.user) | Q(user2=request.user)
         )
@@ -140,8 +145,9 @@ def contact_page(request, conversation_id=None):
         else:
             currently_messaging = conversation.user1.username
 
-        # New message is being sent
+        # New message is being sent ( This doesn't work I think - Justin, submit-messages does this functionality below)
         if request.method == 'POST':
+
             message = request.POST.get('message')
             if message:
                 Message.objects.create(
@@ -151,7 +157,6 @@ def contact_page(request, conversation_id=None):
                     conversation=conversation
                     )
                 return redirect('contact_conversation_page', conversation_id=conversation_id)
-
         return render(request, 'contact_page.html', {'conversation_id': conversation.id, 'messages': messages, 'conversations': conversations, 'currently_messaging': currently_messaging})
 
     # No conversation id, meaning no conversation is selected.
@@ -170,7 +175,7 @@ def contact_page(request, conversation_id=None):
         if not conversation:
             # If no conversation exists, create a new one
             conversation = Conversation.objects.create(user1=buyer_user, user2=seller_user)
-
+        
         # Redirect to the existing or newly created conversation
         return redirect('contact_conversation_page', conversation_id=conversation.id)
 
@@ -180,18 +185,25 @@ def contact_page(request, conversation_id=None):
 @login_required
 def submit_messages(request):
     jsonString = json.loads(request.body)
-    print(jsonString)
     buyer = jsonString["buyer"]
     seller = jsonString["seller"]
     data = jsonString["message"]
-    current_id = jsonString["id"]
-    try :
-        message = Message.objects.create(buyer=buyer, seller=seller, data=data, id=current_id,)
-        message.save()
-    except IntegrityError :
-        print("Caught dupe message - Oop")
 
-    response = redirect('contact')
+    buyer_user = User.objects.get(username=buyer)
+    seller_user = User.objects.get(username=seller)
+    print("Buyer ID", buyer_user)
+    print("Seller ID", seller_user)
+
+    
+    conversation = Conversation.objects.filter(
+            (Q(user1=buyer_user) & Q(user2=seller_user)) | 
+            (Q(user1=seller_user) & Q(user2=buyer_user))
+        ).first()
+    
+    message = Message.objects.create(buyer=buyer, seller=seller, data=data, conversation_id=conversation.id)
+    message.save()
+
+    response = redirect('contact_page')
     return response
 
 @login_required

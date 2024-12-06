@@ -23,7 +23,6 @@ class NotificationConsumer(WebsocketConsumer):
         message = text_data_json.get('message', '')
         buyer = text_data_json.get('buyer', '')
         seller = text_data_json.get('seller', '')
-        id = text_data_json.get('id', '')
 
         Likes = text_data_json.get('Likes', '')
         item_id = text_data_json.get('item_id', '')
@@ -35,8 +34,7 @@ class NotificationConsumer(WebsocketConsumer):
                     socket.send(text_data = json.dumps({
                         'message': message,
                         'buyer': buyer,
-                        'seller': seller,
-                        'id': id
+                        'seller': seller
                     }))
         else :
             for socket in Clients: 

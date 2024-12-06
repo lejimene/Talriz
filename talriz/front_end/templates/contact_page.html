@@ -14,8 +14,8 @@
   </head>
 <body>
     <nav> <!-- Navbar -->
-        <input value='seller_info_replace' id="seller_user" name="seller_user" hidden>
-        <input value='buyer_info_replace' id="logged_user" name="logged_user" hidden>
+        <input value="{{currently_messaging}}" id="seller_user" name="seller_user" hidden>
+        <input value="{{ user.username }}" id="logged_user" name="logged_user" hidden>
 
         <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
         <a class="nav_item" id="sell" href="{% url 'contact_page' %}">Contact</a>
@@ -52,7 +52,7 @@
                 {% if currently_messaging %}
                 <div id="chat-messages">
                   {% for message in messages %}
-                    {% if message.buyer == 'buyer_info_replace' %}
+                    {% if message.buyer == user.username %}
                     <div style="display: flex; justify-content: flex-end">
                       <div> <sender> {{ message.data }} </sender></div>
                     </div>
