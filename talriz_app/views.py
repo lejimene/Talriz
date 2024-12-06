@@ -210,12 +210,11 @@ def submit_messages(request):
 def submit_likes(request):
     jsonString = json.loads(request.body)
     print(jsonString)
-    Count = jsonString["Likes"]
     item_id = jsonString["item_id"]
 
     try :
         item = Item.objects.get(id=item_id)
-        item.likes.add(Count)
+        item.likes.add(1)
         item.save()
     except Item.DoesNotExist :
         pass
