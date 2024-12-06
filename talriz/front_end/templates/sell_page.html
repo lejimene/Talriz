@@ -15,10 +15,10 @@
 <body>
     <nav class="nav"> <!-- Navbar -->
         <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
-        <form action="{% url 'logout_logic' %}" method="POST" class="nav_item">
-          {% csrf_token %}
-          <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
-        </form>
+        <form action="{% url 'logout_logic' %}" method="POST" style="display: inline">
+            {% csrf_token %}
+            <button type="submit" class="nav_item" id="Sign_Out">Sign out</button>
+          </form>
     </nav>
 
     <div class="Item_container">

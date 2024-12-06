@@ -26,7 +26,7 @@ function toggleAuctionFields() {
     }
 }
 
-function validateForm(event) {
+document.getElementById("Item").addEventListener("submit", function (event) {
     const priceInput = document.getElementById("item_price");
     const bidAmountInput = document.getElementById("id_bid_amount");
     const auctionEndDateInput = document.getElementById("auction_end_date");
@@ -55,7 +55,7 @@ function validateForm(event) {
     }
 
     return true; // Allow form submission
-}
+});
 
 function combineAuctionDateTime() {
     var auctionDate = document.getElementById("auction_end_date").value;
