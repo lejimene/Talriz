@@ -30,7 +30,8 @@
       <div class="Item">
           <div class="chat">
             <div class="user-list">
-              <h1>Chat List</h1>
+              <h1 style="padding-top: 10px; padding-bottom: 10px; margin-top: 0px; margin-bottom: 0px; border-bottom: solid; border-width: medium;">
+                Chat List</h1>
               <ul>
                 {% for conversation in conversations %}
                   <form method="POST" action="{% url 'contact_conversation_page' conversation_id=conversation.id %}">
