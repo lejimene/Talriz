@@ -21,7 +21,7 @@ body {
   --button-background-light: #64b3ff;
   --button-background-dark: #444;
   --button-hover-light: #4287f5;
-  --button-hover-dark: #6f6f6f;
+  --button-hover-dark: #444;
   --card-background-light: #fff;
   --card-background-dark: #333;
 }

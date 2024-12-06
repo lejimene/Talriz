@@ -28,7 +28,9 @@ docker-compose up --build
 After wards do CRTL-C to end and uncomment the command manage.py migrate and comment rest. Then do the same for makemigrations
 After completing both do comment out everything but the python manage.py runserver
 Below is the link deployment
-http://talriz.com/
+
+HTTP: http://talriz.com/
+HTTPS: https://talriz.com/
 
 ## Part 3 Objective 3 (Dark Mode)
 The Dark Mode feature allows users to toggle between a light and dark theme on the website for improved readability 

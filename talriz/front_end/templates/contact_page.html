@@ -13,12 +13,11 @@
     
   </head>
 <body>
-    <nav> <!-- Navbar -->
+    <nav class="nav"> <!-- Navbar -->
         <input value="{{currently_messaging}}" id="seller_user" name="seller_user" hidden>
         <input value="{{ user.username }}" id="logged_user" name="logged_user" hidden>
 
         <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
-        <a class="nav_item" id="sell" href="{% url 'contact_page' %}">Contact</a>
         <a class="nav_item" id="sell" href="{% url 'sell_page' %}">Sell</a>
         <form action="{% url 'logout_logic' %}" method="GET" class="nav_item">
           {% csrf_token %}
