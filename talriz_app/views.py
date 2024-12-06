@@ -131,6 +131,9 @@ def contact_page(request, conversation_id=None):
         except Conversation.DoesNotExist:
             return redirect('contact_page')
         
+        if request.user != conversation.user1 and request.user != conversation.user2:
+            return redirect('contact_page')
+            
         messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
 
         # Print current coversation messages // TEST
