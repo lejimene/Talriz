@@ -21,6 +21,11 @@ class NotificationConsumer(WebsocketConsumer):
     def receive(self, text_data): 
         text_data_json = json.loads(text_data)
         message = text_data_json.get('message', '')
+
+        message = message.replace('&', '&amp');
+        message = message.replace('<', '&lt');
+        message = message.replace('>', '&gt');
+
         buyer = text_data_json.get('buyer', '')
         seller = text_data_json.get('seller', '')
 
