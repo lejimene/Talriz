@@ -10,10 +10,12 @@ function send_message() {
     let seller = document.getElementById("seller_user").value;
     let buyer = document.getElementById("logged_user").value;
     const message = chatTextBox.value;
-
-    let jsonString = {'message': message, 'buyer': buyer,'seller': seller};
-    chatTextBox.value = "";
-    socket.send(JSON.stringify(jsonString));
+    
+    if (message !== "") {
+        let jsonString = {'message': message, 'buyer': buyer,'seller': seller};
+        chatTextBox.value = "";
+        socket.send(JSON.stringify(jsonString));
+    }
 }
 
 function add_to_chat(messageJSON) {
