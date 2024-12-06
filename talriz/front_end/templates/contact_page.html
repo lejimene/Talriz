@@ -18,6 +18,7 @@
         <input value='buyer_info_replace' id="logged_user" name="logged_user" hidden>
 
         <a class="nav_item" id="sell" href="{% url 'marketplace_page' %}">Marketplace</a>
+        <a class="nav_item" id="sell" href="{% url 'contact_page' %}">Contact</a>
         <a class="nav_item" id="sell" href="{% url 'sell_page' %}">Sell</a>
         <form action="{% url 'logout_logic' %}" method="GET" class="nav_item">
           {% csrf_token %}
@@ -48,6 +49,7 @@
               </ul>
             </div>
               <div class="chat_box">
+                {% if currently_messaging %}
                 <div id="chat-messages">
                   {% for message in messages %}
                     {% if message.buyer == 'buyer_info_replace' %}
@@ -73,6 +75,12 @@
                     <input type="file" name="upload">
                     <input type="submit" value="Upload">
                 </form> -->
+                {% else %}
+                <div id="chat-messages">
+                  <div>
+                    <h1 class="contact">Select a conversation to start messaging</h1>
+                  </div>
+                {% endif %}
             </div>
         </div>
       </div>

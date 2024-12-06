@@ -261,6 +261,8 @@ h1 {
   border: none;
   background: none;
   outline: none;
+  border-top-style: solid;
+  border-top-color: #000;
   border-bottom-style: solid;
   border-bottom-color: #000;
 }
@@ -277,6 +279,12 @@ button.user-name {
 button.user-name:hover{
   color: rosybrown;
   cursor: pointer;
+}
+
+h1.contact {
+  font-size: xx-large;
+  display: flex;
+  justify-content: center;
 }
 
 .chat {
