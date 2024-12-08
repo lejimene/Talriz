@@ -245,8 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
               timer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-              // Debugging log
-              console.log(`Timer updated: ${timer.innerHTML}`);
           } else {
               fetch(`/end-auction/${itemId}/`, {
                     method: "POST",
