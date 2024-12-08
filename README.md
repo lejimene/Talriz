@@ -44,22 +44,23 @@ a visually distinct and customizable interface.
 * Image Adjustment: Images that are typically dark (such as the main marketplace icon) are automatically adjusted, ensuring visibility and maintaining the overall design consistency in dark mode.
 * Accessibility: The dark mode feature ensures text and UI elements maintain high contrast for readability and accessibility.
 ### Testing Procedure (Dark Mode)
-1. Start your server using docker compose up
-2. Open the browser and navigate to http://localhost:8080/
-3. Create an account and login to the site
-4. Once brought to the main marketplace page, verify that the initial theme of the website is in "light mode"
-5. Locate the "Toggle Dark Mode" button at the top navigation bar
-6. Click the "Toggle Dark Mode" button once
+1. Open the browser and navigate to the public deployment at https://talriz.com
+2. Create an account and login to the site
+3. Once brought to the main marketplace page, verify that the initial theme of the website is in "light mode"
+4. Locate the "Toggle Dark Mode" button at the top navigation bar
+5. Click the "Toggle Dark Mode" button once
    1. Verify that most backgrounds are swapped to dark colors except the "Sign Out" and "Toggle Dark Mode" buttons
    2. Verify that most text is swapped to lighter colors such as white 
    3. Verify that the main website icon is swapped to white
-7. Refresh the page
+   4. Verify that the sell page and contact page are both in "dark mode" as well by clicking the "sell" and "contact" buttons
+6. Refresh the page
    1. Ensure that the current theme persists through the reload
-8. Restart the server with "docker compose restart"
-9. Refresh the page 
+7. Restart the server with "docker compose restart"
+8. Refresh the page 
    1. Verify that the current theme persists through the restart and reload
-10. Click the "Toggle Dark Mode" button again
+9. Click the "Toggle Dark Mode" button again
     1. Verify that the backgrounds are swapped back to the initial "Light Mode" state colors
     2. Verify that the text is swapped back to the initial "Light Mode" state colors (black)
     3. Verify that the main website icon is swapped back to black
+   4. Verify that both the sell page and the contact page are swapped back to their light mode 
 
