@@ -71,6 +71,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,6 +80,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'talriz.rate_limit_middleware.RateLimitMiddleware',
 ]
 
 ROOT_URLCONF = 'talriz.urls'
